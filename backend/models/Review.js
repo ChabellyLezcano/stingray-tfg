@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema({
   boardGameId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "BoardGame",
+    ref: "Boardgame",
     required: true,
   },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
