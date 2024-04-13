@@ -6,7 +6,7 @@ const recommendationSchema = new mongoose.Schema({
     {
       boardGameId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "BoardGame",
+        ref: "Boardgame",
         required: true,
       },
       affinityScore: { type: Number, required: true },

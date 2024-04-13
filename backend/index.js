@@ -40,7 +40,9 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/profile", require("./routes/profile"));
 app.use("/api/game", require("./routes/boardgame"));
 app.use("/api/favorite", require("./routes/favorite"));
+app.use("/api/reservation", require("./routes/reservation"));
 app.use("/api/review", require("./routes/review"));
+app.use("/api/recommendation", require("./routes/recommendation"));
 
 // Start server
 const PORT = process.env.PORT || 3000;

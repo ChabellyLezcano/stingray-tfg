@@ -205,13 +205,4 @@ const mainAsyncFunction = async () => {
   }
 };
 
-// Function to execute the main function 20 times sequentially
-const executeMainAsyncFunctionSequentially = async () => {
-  for (let i = 0; i < 100; i++) {
-    await mainAsyncFunction(); // Await ensures that each call completes before the next begins
-    console.log(`Iteration ${i + 1} completed.`);
-  }
-};
-
-// Call the function to start the process
-executeMainAsyncFunctionSequentially();
+mainAsyncFunction(); // Await ensures that each call completes before the next begins
