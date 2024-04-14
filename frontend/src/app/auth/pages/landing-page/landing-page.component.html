@@ -1,3 +1,74 @@
-<h1 class="text-3xl font-bold underline text-color-indigo-500">
-    Hello world!
-  </h1>
+<body class="flex flex-col min-h-screen text-gray-900 font-sans">
+    <!-- Header -->
+    <header class="text-slate-700 p-4 mb-0 sm:mb-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center text-2xl font-semibold text-gray-900">
+                <img src="assets/logo.png" class="h-14 mr-3 sm:h-20" alt="Logo">
+                <h1>Stingray Board Games</h1>
+            </a>
+            <a routerLink="/login" class="text-xl font-semibold text-cyan-800">Login</a>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col w-full px-4 pb-4">
+        <h1 class="text-2xl md:text-2xl lg:text-3xl font-bold text-center md:mb-4 lg:mb-14 italic text-teal-800 mt-4 md:mt-0">
+            ¡Bienvenido a Stingray Board Games!
+        </h1>
+        
+    
+        <!-- Contenedor para centrar los elementos restantes en el espacio disponible -->
+        <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 flex-grow mx-16 mt-4">
+            <!-- Text Section - takes up 50% of the width on large screens -->
+            <div class="flex-1 flex items-center ">
+                <div class="text-center lg:text-left w-full">
+                    <h2 class="text-2xl font-bold mb-3 hidden md:block">¡Descubre tu nuevo juego de mesa favorito!</h2>
+                    <p class="text-teal-800 text-lg">
+                        ¡Sumérgete en el universo de Stingray Board Games! Desde clásicos de estrategia hasta juegos familiares, nuestra colección es perfecta para quien busca un juego competitivo o una divertida noche con amigos. Reserva tu juego favorito y juega completamente gratis. ¡Explora hoy mismo nuestra emocionante variedad de juegos!
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Image Section - also takes up 50% of the width on large screens -->
+            <div class="flex-1 flex items-center justify-center p-2">
+                <img src="assets/landing-image.jpeg" alt="Board Game Image" class="max-w-xs md:max-w-md lg:max-w-lg xl:max-w-lg w-full rounded-lg">
+            </div>
+        </div>
+    </main>
+    
+    
+    
+    <!-- Footer -->
+    <footer class="bg-cyan-800 text-white-700 p-4">
+        <div class="container mx-auto text-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center mx-auto justify-center mb-5 text-2xl font-semibold text-white">
+                <h1>Stingray Board Games</h1>
+            </a>
+            
+            <!-- Links -->
+            <ul class="flex justify-center mb-5 space-x-8">
+                <li>
+                    <a href="#" class="text-white hover:underline">
+                        <fa-icon [icon]="faInfoCircle" class="mr-2"></fa-icon> About
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="text-white hover:underline">
+                        <fa-icon [icon]="faEnvelope" class="mr-2"></fa-icon> Contact
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="text-white hover:underline">
+                        <fa-icon [icon]="faGavel" class="mr-2"></fa-icon> Politics
+                    </a>
+                </li>
+            </ul>
+            
+            
+    
+            <!-- Copyright -->
+            <p class="text-sm text-center text-white">© 2024 Stingray Boardgames. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
