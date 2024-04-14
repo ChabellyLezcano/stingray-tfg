@@ -8,7 +8,7 @@ const {
 
 // Controller to generate or update recommendations
 const generateRecommendations = async (req, res) => {
-  const userId = req.id; 
+  const userId = req.id;
 
   try {
     const favoriteTags = await getUserFavoriteTags(userId);
@@ -28,6 +28,7 @@ const generateRecommendations = async (req, res) => {
     const selectedGames = recommendedGames.slice(0, 5);
 
     let recommendation = await Recommendation.findOne({ userId });
+
     if (!recommendation) {
       recommendation = new Recommendation({
         userId,
@@ -35,13 +36,20 @@ const generateRecommendations = async (req, res) => {
       });
     }
 
-    // Save or update the recommendations with the selected games
+    // Update the recommendations with the selected games
     recommendation.recommendations = selectedGames.map(({ game }) => ({
       boardGameId: game._id,
       affinityScore: calculateAffinityScore(game, favoriteTags),
     }));
 
     await recommendation.save();
+
+    // Populate the boardGame details for each recommendation after saving
+    recommendation = await Recommendation.findOne({ userId }).populate({
+      path: "recommendations.boardGameId",
+      model: "Boardgame",
+    });
+
     res.json(recommendation);
   } catch (error) {
     console.error("Error generating recommendations:", error);

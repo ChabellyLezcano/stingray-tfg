@@ -14,7 +14,11 @@ async function getUserFavoriteTags(userId) {
   const reservationIds = await Reservation.find({ userId }).distinct(
     "boardGameId",
   );
-  const reviewIds = await Review.find({ userId }).distinct("boardGameId");
+  // Fetch only review IDs for games where the user's rating was greater than 3
+  const reviewIds = await Review.find({
+    userId,
+    rating: { $gt: 3 }, // Condition to check the review's rating
+  }).distinct("boardGameId");
   const favoriteIds = await Favorite.find({ userId }).distinct("boardGameId");
   const allGameIds = [
     ...new Set([...reservationIds, ...reviewIds, ...favoriteIds]),
