@@ -5,30 +5,30 @@
   "projects": {
     "frontend-new": {
       "projectType": "application",
-      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.config.js"
+            },
             "outputPath": "dist/frontend-new",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+                "src/favicon.ico",
+                "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+                "src/styles.css"
             ],
             "scripts": []
-          },
+        },
           "configurations": {
             "production": {
               "budgets": [
