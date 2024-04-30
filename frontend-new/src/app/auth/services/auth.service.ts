@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 
 import { AuthResponse, User } from '../interface/authInterface';
 import { environment } from 'src/environments/environment';
-import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +57,6 @@ export class AuthService {
         if (resp.ok) {
           localStorage.setItem('token', resp.token);
           this._user = resp.user;
-          console.log(response)
         }
       }),
       map(resp => resp.ok),
