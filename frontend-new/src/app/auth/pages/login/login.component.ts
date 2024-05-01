@@ -24,7 +24,6 @@ export class LoginComponent {
 
   // Method to handle login form submission
   login() {
-    console.log('Método login invocado');
     const { emailOrUsername, password } = this.loginForm.value;
 
     this.authService.login(emailOrUsername, password).subscribe((response) => {
@@ -35,7 +34,7 @@ export class LoginComponent {
           title: '¡Inicio de sesión exitoso!',
           text: '¡Bienvenido de nuevo!',
         });
-        //this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard']);
       }
     });
   }

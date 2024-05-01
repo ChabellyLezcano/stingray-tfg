@@ -6,6 +6,11 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'private',
+    loadChildren: () =>
+      import('./private/private.module').then((m) => m.PrivateModule),
+  },
 ];
 
 @NgModule({
