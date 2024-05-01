@@ -1,0 +1,12 @@
+.logout-button .pi {
+  color: red !important; /* Red icon color */
+}
+
+.logout-button {
+  background-color: red !important; /* Red background color */
+  color: white !important; /* White text color for better contrast */
+}
+
+.logout-button:hover {
+  background-color: darkred !important; /* Darker red on hover for a better user experience */
+}

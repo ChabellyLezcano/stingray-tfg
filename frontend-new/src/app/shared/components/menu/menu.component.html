@@ -1,0 +1,39 @@
+<p-menubar [model]="items">
+  <ng-template pTemplate="end">
+    <div class="flex flex-end items-center">
+      <img
+        *ngIf="user?.photo"
+        [src]="user?.photo"
+        class="user-photo rounded-full h-8 w-8 mx-4"
+        alt="User Photo"
+      />
+      <span *ngIf="user" class="user-name">{{ user.username }}</span>
+      <p-menu #menu [model]="dropdownItems" [popup]="true" class="custom-menu">
+        <ng-template let-item pTemplate="item">
+          <div
+            *ngIf="item.icon === 'pi pi-sign-out'"
+            class="w-full h-px bg-gray-300"
+          ></div>
+
+          <li
+            [ngClass]="
+              item.icon === 'pi pi-sign-out' ? 'text-red-500' : 'text-black'
+            "
+            class="flex items-center gap-2 hover:bg-transparent"
+          >
+            <i [ngClass]="item.icon" class="p-3"></i>
+            {{ item.label }}
+          </li>
+        </ng-template>
+      </p-menu>
+
+      <button
+        pButton
+        type="button"
+        (click)="menu.toggle($event)"
+        icon="pi pi-ellipsis-v"
+        class="bg-transparent border-none text-black"
+      ></button>
+    </div>
+  </ng-template>
+</p-menubar>

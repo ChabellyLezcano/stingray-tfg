@@ -10,6 +10,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { AuthResponse, User } from '../interface/authInterface';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,10 @@ export class AuthService {
     return { ...this._user };
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   // Method to handle login
   login(
@@ -197,5 +201,10 @@ export class AuthService {
 
       return of(serverError);
     }
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }

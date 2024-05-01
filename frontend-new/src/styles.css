@@ -1,9 +1,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/themes/lara-light-indigo/theme.css";
 @import "primeng/resources/primeng.css";
+
+@import "primeicons/primeicons.css";
 
 body {
   margin: 0;
+}
+
+.custom-menu .p-menuitem-link:not(:hover) {
+  background-color: transparent;
 }

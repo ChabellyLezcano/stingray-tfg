@@ -11,6 +11,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
   declarations: [],
@@ -26,6 +27,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextModule,
     PasswordModule,
     ProgressSpinnerModule,
+    DropdownModule,
+    MenuModule,
   ],
   exports: [
     DialogModule,
@@ -39,6 +42,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextModule,
     PasswordModule,
     ProgressSpinnerModule,
+    DropdownModule,
+    MenuModule,
   ],
 })
 export class PrimeNgModule {}
