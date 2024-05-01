@@ -1,1 +1,28 @@
-<p>confirm-account works!</p>
+<div class="container mx-auto flex justify-center items-center h-screen">
+  <div *ngIf="loading; else content" class="text-center">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  <ng-template #content>
+    <div
+      *ngIf="confirmSuccess; else confirmError"
+      class="bg-green-200 p-6 rounded-lg"
+    >
+      <h2 class="text-2xl font-bold mb-4">¡Cuenta confirmada exitosamente!</h2>
+      <p class="text-lg">Ahora puedes iniciar sesión.</p>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+        routerLink="/login"
+      >
+        Ir a Iniciar sesión
+      </button>
+    </div>
+    <ng-template #confirmError>
+      <div class="bg-red-200 p-6 rounded-lg">
+        <h2 class="text-2xl font-bold mb-4">
+          ¡Ha ocurrido un error al confirmar la cuenta!
+        </h2>
+        <p class="text-lg">Por favor, inténtalo de nuevo más tarde.</p>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

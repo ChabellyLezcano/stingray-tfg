@@ -34,21 +34,11 @@ router.post(
       "password",
       "La contraseña debe contener al menos una mayúscula",
     ).matches(/[A-Z]/),
-    check(
-      "validatePassword",
-      "El campo para validar la contraseña es obligatorio",
-    )
-      .not()
-      .isEmpty(),
     check("sex", 'El sexo es obligatorio y debe ser "M", "F", u "Otro"').isIn([
       "M",
       "F",
       "Otro",
     ]),
-    check(
-      "birthDate",
-      "La fecha de nacimiento debe tener formato dd/mm/yyyy",
-    ).matches(/^\d{2}\/\d{2}\/\d{4}$/),
     validateFields,
   ],
   registerUser,

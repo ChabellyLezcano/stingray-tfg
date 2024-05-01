@@ -1,24 +1,99 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-    <!-- Login Form Section -->
-    <div class="text-center px-4 py-8">
-      <h1 class="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">Iniciar Sesión</h1>
-      <p class="mt-4 text-lg">Ingresa tus credenciales para acceder a tu cuenta</p>
-    </div>
-    <div class="mt-8 px-4 w-full max-w-md">
-      <form class="space-y-4">
-        <div>
-          <label for="emailOrUsername" class="block text-lg">Nombre de Usuario</label>
-          <input type="text" id="emailOrUsername" name="emailOrUsername" class="input-field" placeholder="Ingresa tu nombre de usuario" required>
-        </div>
-        <div>
-          <label for="password" class="block text-lg">Contraseña</label>
-          <input type="password" id="password" name="password" class="input-field" placeholder="Ingresa tu contraseña" required>
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn-primary py-3 px-8 rounded-lg bg-blue-500 hover:bg-blue-700 text-white">Iniciar Sesión</button>
-        </div>
-      </form>
-      <p class="mt-4 text-sm">¿Olvidaste tu contraseña? <a href="#" class="text-blue-300 hover:underline">Restablecer aquí</a></p>
-    </div>
+<div
+  class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white"
+>
+  <!-- Login Form Section -->
+  <div class="text-center px-4 py-8">
+    <h1 class="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+      Iniciar Sesión
+    </h1>
+    <p class="mt-4 text-lg">
+      Ingresa tus credenciales para acceder a tu cuenta
+    </p>
   </div>
-  
+  <div class="mt-8 px-4 w-full max-w-md">
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-4">
+      <h2 class="text-center text-3xl font-extrabold text-gray-900">
+        Iniciar sesión
+      </h2>
+      <div>
+        <label
+          for="emailOrUsername"
+          class="block text-sm font-medium text-gray-700"
+          >Correo electrónico</label
+        >
+        <input
+          type="emailOrUsername"
+          formControlName="emailOrUsername"
+          id="emailOrUsername"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+          autocomplete="emailOrUsername"
+        />
+        <div
+          *ngIf="
+            loginForm.get('emailOrUsername')?.errors &&
+            (loginForm.get('emailOrUsername')?.touched ||
+              loginForm.get('emailOrUsername')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="loginForm.get('emailOrUsername')?.errors?.['required']"
+            >El correo electrónico es requerido.</span
+          >
+          <span
+            *ngIf="
+              loginForm.get('emailOrUsername')?.errors?.['emailOrUsername']
+            "
+            >Ingrese un correo electrónico válido.</span
+          >
+        </div>
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700"
+          >Contraseña</label
+        >
+        <input
+          type="password"
+          formControlName="password"
+          id="password"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        />
+        <div
+          *ngIf="
+            loginForm.get('password')?.errors &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="loginForm.get('password')?.errors?.['required']"
+            >La contraseña es requerida.</span
+          >
+          <span *ngIf="loginForm.get('password')?.errors?.['minlength']"
+            >La contraseña debe tener al menos 8 caracteres.</span
+          >
+        </div>
+      </div>
+      <button
+        type="submit"
+        [disabled]="!loginForm.valid"
+        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Iniciar sesión
+      </button>
+    </form>
+    <p class="mt-4 text-sm">
+      ¿Olvidaste tu contraseña?
+      <a routerLink="/forgot-password" class="text-blue-300 hover:underline"
+        >Restablecer aquí</a
+      >
+    </p>
+    <p class="text-sm mt-4">
+      ¿No tienes una cuenta?
+      <a routerLink="/register" class="text-blue-300 hover:underline"
+        >Regístrate aquí</a
+      >
+    </p>
+  </div>
+</div>

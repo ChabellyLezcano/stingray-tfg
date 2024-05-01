@@ -12,7 +12,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-
 @NgModule({
   declarations: [
     LoginComponent,
@@ -21,14 +20,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ConfirmAccountComponent,
     LandingPageComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
     PrimeNgModule,
-    FontAwesomeModule
-  ]
+    FontAwesomeModule,
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

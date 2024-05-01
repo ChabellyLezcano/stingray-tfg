@@ -1,1 +1,187 @@
-<p>register works!</p>
+<div
+  class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white"
+>
+  <div class="text-center px-4 py-8">
+    <h1 class="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+      Registrarse
+    </h1>
+    <p class="mt-4 text-lg">
+      Crea una cuenta para acceder a todos nuestros servicios
+    </p>
+  </div>
+  <div class="mt-8 px-4 w-full max-w-md">
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-6">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-200"
+          >Correo electrónico</label
+        >
+        <input
+          type="email"
+          formControlName="email"
+          id="email"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        />
+        <div
+          *ngIf="
+            registerForm.get('email')?.errors &&
+            (registerForm.get('email')?.touched ||
+              registerForm.get('email')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="registerForm.get('email')?.errors?.['required']"
+            >El correo electrónico es requerido.</span
+          >
+          <span *ngIf="registerForm.get('email')?.errors?.['email']"
+            >Ingrese un correo electrónico válido.</span
+          >
+        </div>
+      </div>
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-200"
+          >Nombre de usuario</label
+        >
+        <input
+          type="text"
+          formControlName="username"
+          id="username"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        />
+        <div
+          *ngIf="
+            registerForm.get('username')?.errors &&
+            (registerForm.get('username')?.touched ||
+              registerForm.get('username')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="registerForm.get('username')?.errors?.['required']"
+            >El nombre de usuario es requerido.</span
+          >
+          <span *ngIf="registerForm.get('username')?.errors?.['minlength']"
+            >El nombre de usuario debe tener al menos 5 caracteres.</span
+          >
+        </div>
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-200"
+          >Contraseña</label
+        >
+        <input
+          type="password"
+          formControlName="password"
+          id="password"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        />
+        <div
+          *ngIf="
+            registerForm.get('password')?.errors &&
+            (registerForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="registerForm.get('password')?.errors?.['required']"
+            >La contraseña es requerida.</span
+          >
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']"
+            >La contraseña debe tener al menos 8 caracteres.</span
+          >
+          <span *ngIf="registerForm.get('password')?.errors?.['pattern']"
+            >La contraseña debe contener al menos una letra mayúscula.</span
+          >
+        </div>
+      </div>
+      <div>
+        <label
+          for="validatePassword"
+          class="block text-sm font-medium text-gray-200"
+          >Confirmar Contraseña</label
+        >
+        <input
+          type="password"
+          formControlName="validatePassword"
+          id="validatePassword"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        />
+        <div
+          *ngIf="
+            registerForm.hasError('passwordMismatch') &&
+            registerForm.get('validatePassword')?.touched
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span>Las contraseñas no coinciden.</span>
+        </div>
+      </div>
+      <div>
+        <label for="birthDate" class="block text-sm font-medium text-gray-200"
+          >Fecha de nacimiento</label
+        >
+        <input
+          type="date"
+          formControlName="birthDate"
+          id="birthDate"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        />
+        <div
+          *ngIf="
+            registerForm.get('birthDate')?.errors &&
+            (registerForm.get('birthDate')?.touched ||
+              registerForm.get('birthDate')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="registerForm.get('birthDate')?.errors?.['required']"
+            >La fecha de nacimiento es requerida.</span
+          >
+        </div>
+      </div>
+      <div>
+        <label for="sex" class="block text-sm font-medium text-gray-200"
+          >Sexo</label
+        >
+        <select
+          formControlName="sex"
+          id="sex"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          required
+        >
+          <option value="" disabled>Seleccione una opción</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <div
+          *ngIf="
+            registerForm.get('sex')?.errors &&
+            (registerForm.get('sex')?.touched || registerForm.get('sex')?.dirty)
+          "
+          class="text-red-500 text-xs mt-1"
+        >
+          <span *ngIf="registerForm.get('sex')?.errors?.['required']"
+            >El sexo es requerido.</span
+          >
+        </div>
+      </div>
+      <button
+        type="submit"
+        [disabled]="!registerForm.valid"
+        class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Registrarse
+      </button>
+    </form>
+    <p class="mt-4 text-sm text-center">
+      ¿Ya tienes una cuenta?
+      <a routerLink="/login" class="text-blue-300 hover:underline"
+        >Iniciar sesión</a
+      >
+    </p>
+  </div>
+</div>

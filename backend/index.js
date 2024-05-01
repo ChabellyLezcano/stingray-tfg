@@ -11,7 +11,7 @@ const { Reservation } = require("./models/Reservation");
 const { User } = require("./models/User");
 
 //Enviroment variables
-process.loadEnvFile();
+require("dotenv").config();
 
 // Crear la aplicación de express
 const app = express();

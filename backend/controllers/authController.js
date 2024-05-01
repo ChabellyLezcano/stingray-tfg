@@ -12,37 +12,19 @@ const formatDateToMongoDB = require("../helpers/formatDate.js");
 
 // Registration
 const registerUser = async (req, res) => {
-  const { username, email, password, validatePassword, role, sex, birthDate } =
+  const { username, email, password, role, sex, birthDate } =
     req.body;
 
   try {
     // Check if the user exists with the entered email
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ $or: [{ email: email }, { username: username }] });
 
     if (user) {
       return res.status(400).json({
         ok: false,
-        msg: "A user already exists with that email",
+        msg: "Ya existe un usuario con esas credenciales",
       });
-    }
-
-    // Verify that the username is unique
-    const userByUsername = await User.findOne({ username });
-
-    if (userByUsername) {
-      return res.status(400).json({
-        ok: false,
-        msg: "A user already exists with that username",
-      });
-    }
-
-    // Check if password and validatePassword match
-    if (password !== validatePassword) {
-      return res.status(400).json({
-        ok: false,
-        msg: "Las contraseñas no coinciden",
-      });
-    }
+    }    
 
     // Obtain a random image
     const image = randomImage();

@@ -10,6 +10,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { PasswordModule } from 'primeng/password';
     DropdownModule,
     InputTextModule,
     PasswordModule,
+    ProgressSpinnerModule,
   ],
   exports: [
     DialogModule,
@@ -36,6 +38,7 @@ import { PasswordModule } from 'primeng/password';
     DropdownModule,
     InputTextModule,
     PasswordModule,
+    ProgressSpinnerModule,
   ],
 })
 export class PrimeNgModule {}

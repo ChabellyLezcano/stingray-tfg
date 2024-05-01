@@ -1,44 +1,42 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  // Initialize the login form with emailOrUsername and password fields
+  loginForm: FormGroup = this.fb.group({
+    emailOrUsername: ['giles45', [Validators.required]],
+    password: ['Password123', [Validators.required, Validators.minLength(8)]],
+  });
 
-  loginForm: FormGroup;
-  errorMessage: string = '';
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+  ) {}
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+  // Method to handle login form submission
+  login() {
+    console.log('Método login invocado');
+    const { emailOrUsername, password } = this.loginForm.value;
+
+    this.authService.login(emailOrUsername, password).subscribe((response) => {
+      if (response === true) {
+        console.log('Inicio de sesión exitoso');
+        Swal.fire({
+          icon: 'success',
+          title: '¡Inicio de sesión exitoso!',
+          text: '¡Bienvenido de nuevo!',
+        });
+        //this.router.navigate(['/dashboard']);
+      }
     });
-  }
-
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')!.value;
-      const password = this.loginForm.get('password')!.value;
-      
-      // Llama al método de inicio de sesión del servicio de autenticación
-      this.authService.login(email, password)
-        .subscribe(
-          success => {
-            // Maneja el inicio de sesión exitoso
-            console.log('Inicio de sesión exitoso');
-            // Redirige a la página deseada después del inicio de sesión
-          },
-          error => {
-            // Maneja el error de inicio de sesión
-            this.errorMessage = 'Error en el inicio de sesión: ' + error;
-            console.error('Error en el inicio de sesión', error);
-            // Muestra un mensaje de error al usuario
-          }
-        );
-    }
   }
 }
