@@ -65,6 +65,15 @@ export class DashboardComponent implements OnInit {
     this.paginate({ first: 0, rows: this.pageSize });
   }
 
+  handleFilter(criteria: string): void {
+    if (criteria === 'latest') {
+      this.filteredBoardgames.sort((a, b) => (a._id > b._id ? -1 : 1)); // Assuming _id is in order of creation
+    } else if (criteria === 'alphabetical') {
+      this.filteredBoardgames.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    this.paginate({ first: 0, rows: this.pageSize });
+  }
+
   paginate(event: any) {
     this.paginatedBoardgames = this.filteredBoardgames.slice(
       event.first,

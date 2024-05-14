@@ -4,7 +4,9 @@
   <div class="flex flex-col flex-grow w-full gap-8">
     <div class="flex justify-between w-full px-8 mt-4">
       <h1>Juegos de mesa</h1>
-      <div class="flex items-center">
+      <div class="flex items-center gap-4">
+        <app-filter (filter)="handleFilter($event)"></app-filter>
+
         <app-search-bar
           (search)="handleSearch($event)"
           searchField="title"

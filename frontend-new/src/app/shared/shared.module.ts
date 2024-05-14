@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './components/menu/menu.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
-  declarations: [MenuComponent, SearchBarComponent],
+  declarations: [MenuComponent, SearchBarComponent, FilterComponent],
   imports: [CommonModule, PrimeNgModule],
-  exports: [MenuComponent, SearchBarComponent],
+  exports: [MenuComponent, SearchBarComponent, FilterComponent],
 })
 export class SharedModule {}
