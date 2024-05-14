@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 
 @Component({
@@ -6,12 +6,15 @@ import { GameService } from '../../services/game.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   boardgames: any[] = [];
   filteredBoardgames: any[] = [];
-  isLoading: boolean = true; // Controla el estado de carga
-  noResults: boolean = false; // Indica si no hay resultados
+  paginatedBoardgames: any[] = [];
+  isLoading: boolean = true;
+  noResults: boolean = false;
   error: string | null = null;
+  pageSize: number = 20;
+  totalRecords: number = 0;
 
   constructor(private gameService: GameService) {}
 
@@ -20,19 +23,22 @@ export class DashboardComponent {
   }
 
   private loadGames(): void {
-    this.isLoading = true; // Comienza la carga
+    this.isLoading = true;
     this.gameService.getGames().subscribe({
       next: (response) => {
-        this.isLoading = false; // Carga completada
+        this.isLoading = false;
         if (response.ok) {
           this.boardgames = response.boardgames;
           this.filteredBoardgames = [...this.boardgames];
+          this.totalRecords = this.filteredBoardgames.length;
+          this.paginate({ first: 0, rows: this.pageSize });
+          console.info(this.boardgames);
         } else {
           this.error = response.msg || 'Failed to load games';
         }
       },
       error: (error) => {
-        this.isLoading = false; // Carga completada
+        this.isLoading = false;
         console.error('Error fetching games:', error);
         this.error = 'Failed to load games';
       },
@@ -42,12 +48,27 @@ export class DashboardComponent {
   handleSearch(searchText: string): void {
     if (!searchText) {
       this.filteredBoardgames = this.boardgames;
-      this.noResults = false; // No se muestra "No results" cuando no hay texto de búsqueda
+      this.noResults = false;
     } else {
-      this.filteredBoardgames = this.boardgames.filter((bg) =>
-        bg.title.toLowerCase().includes(searchText.toLowerCase()),
+      const searchTextLower = searchText.toLowerCase();
+      this.filteredBoardgames = this.boardgames.filter(
+        (bg) =>
+          bg.title.toLowerCase().includes(searchTextLower) ||
+          (bg.tags &&
+            bg.tags.some((tag: string) =>
+              tag.toLowerCase().includes(searchTextLower),
+            )),
       );
-      this.noResults = this.filteredBoardgames.length === 0; // Verificar si hay resultados
+      this.noResults = this.filteredBoardgames.length === 0;
     }
+    this.totalRecords = this.filteredBoardgames.length;
+    this.paginate({ first: 0, rows: this.pageSize });
+  }
+
+  paginate(event: any) {
+    this.paginatedBoardgames = this.filteredBoardgames.slice(
+      event.first,
+      event.first + event.rows,
+    );
   }
 }
