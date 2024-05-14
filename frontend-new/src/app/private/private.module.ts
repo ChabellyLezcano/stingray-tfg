@@ -5,9 +5,10 @@ import { PrivateRoutingModule } from './private-routing.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LayoutComponent } from './layout/layout/layout.component';
 import { SharedModule } from '../shared/shared.module';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 
 @NgModule({
   declarations: [DashboardComponent, LayoutComponent],
-  imports: [CommonModule, PrivateRoutingModule, SharedModule],
+  imports: [CommonModule, PrivateRoutingModule, SharedModule, PrimeNgModule],
 })
 export class PrivateModule {}

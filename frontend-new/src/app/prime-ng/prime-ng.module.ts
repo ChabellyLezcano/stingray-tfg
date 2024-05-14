@@ -29,6 +29,7 @@ import { MenuModule } from 'primeng/menu';
     ProgressSpinnerModule,
     DropdownModule,
     MenuModule,
+    ProgressSpinnerModule,
   ],
   exports: [
     DialogModule,
@@ -44,6 +45,7 @@ import { MenuModule } from 'primeng/menu';
     ProgressSpinnerModule,
     DropdownModule,
     MenuModule,
+    ProgressSpinnerModule,
   ],
 })
 export class PrimeNgModule {}

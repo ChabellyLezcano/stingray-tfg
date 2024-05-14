@@ -1,2 +1,51 @@
-<p>dashboard works!</p>
-<app-layout></app-layout>
+<app-layout> </app-layout>
+
+<div class="flex flex-col items-center justify-center gap-8 w-full">
+  <div class="flex justify-between w-full px-8">
+    <h1>Juegos de mesa</h1>
+    <div class="flex items-center">
+      <app-search-bar
+        (search)="handleSearch($event)"
+        searchField="title"
+      ></app-search-bar>
+    </div>
+  </div>
+
+  <!-- Revisa si hay juegos de mesa disponibles -->
+  <div
+    *ngIf="!isLoading && filteredBoardgames.length > 0; else noResultsOrLoading"
+    class="flex flex-col px-8 items-center justify-center w-full"
+  >
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 w-full"
+    >
+      <div
+        *ngFor="let boardgame of filteredBoardgames"
+        class="bg-white shadow rounded flex flex-col items-center justify-center w-full"
+      >
+        <div
+          class="w-full h-54 flex justify-center items-center overflow-hidden rounded"
+        >
+          <img
+            src="{{ boardgame.mainPhoto }}"
+            alt="Boardgame image"
+            class="w-32 h-32 pt-4 object-cover rounded"
+          />
+        </div>
+        <h3 class="mt-4 font-bold">{{ boardgame.title }}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noResultsOrLoading>
+  <div
+    *ngIf="isLoading; else showNoResults"
+    class="flex justify-center items-center"
+  >
+    <p-progressSpinner ariaLabel="loading" />
+  </div>
+  <ng-template #showNoResults>
+    <div *ngIf="noResults" class="text-center">No results found.</div>
+  </ng-template>
+</ng-template>

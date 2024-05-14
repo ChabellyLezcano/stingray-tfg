@@ -1,0 +1,18 @@
+<div class="search-bar-container">
+  <span class="p-input-icon-left">
+    <i class="pi pi-search" (click)="onSearch()"></i>
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="searchText"
+      placeholder="Buscar..."
+      (keyup.enter)="onSearch()"
+    />
+    <i
+      class="pi pi-times absolute right-3 cursor-pointer"
+      *ngIf="searchText"
+      (click)="clearSearch()"
+      style="top: 65%; transform: translateY(-50%)"
+    ></i>
+  </span>
+</div>

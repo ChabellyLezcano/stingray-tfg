@@ -7,7 +7,32 @@ import { faUsers, faStar, faBrain } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./landing-page.component.css'],
 })
 export class LandingPageComponent {
-  faUsers = faUsers;
-  faStar = faStar;
-  faBrain = faBrain;
+  images: any[];
+
+  responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
+
+  constructor() {
+    this.images = [
+      { src: '../../../../assets/images/landing-1.jpg' },
+      { src: '../../../../assets/images/landing-2.jpg' },
+      { src: '../../../../assets/images/landing-3.jpg' },
+      { src: '../../../../assets/images/landing-4.jpg' },
+    ];
+  }
 }

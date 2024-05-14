@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prettier": "prettier --write \"src/**/*.{ts,html,css}\""
+    "prettier": "prettier --write \"src/**/*.{ts,html,css}\" && npm run lint",
+    "lint": "eslint \"src/**/*.{ts,js}\" --fix"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +43,7 @@
     "@types/jasmine": "~4.3.0",
     "autoprefixer": "^10.4.19",
     "crypto-browserify": "^3.12.0",
+    "eslint": "^9.2.0",
     "https-browserify": "^1.0.0",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",

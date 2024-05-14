@@ -1,42 +1,53 @@
-<div
-  class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white"
->
-  <!-- Hero Section -->
-  <div class="text-center px-4 py-12">
-    <h1 class="text-4xl font-bold sm:text-6xl md:text-7xl lg:text-8xl">
-      Stingray Board Games
-    </h1>
-    <p class="mt-4 text-xl sm:text-2xl">
-      Revive las noches de juego con estilo.
-    </p>
-    <a routerLink="/login" class="bg-blue-500 p-2">Iniciar sesión</a>
-  </div>
-  <!-- Features in the same Hero section -->
-  <div class="mt-8 px-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-    <div
-      class="p-4 bg-white bg-opacity-50 rounded-lg shadow-lg backdrop-filter backdrop-blur-xl text-center text-gray-800"
+<body class="flex flex-col min-h-screen">
+  <header
+    class="bg-berkeley-blue text-white flex justify-between items-center p-4"
+  >
+    <h1 class="text-lg font-bold">JuegosDeMesa</h1>
+    <button
+      class="bg-tangelo text-white px-4 py-2 rounded hover:bg-selective-yellow transition duration-300"
+      routerLink="/login"
     >
-      <i class="fas fa-users fa-3x"></i>
-      <h2 class="text-xl font-semibold">Diversión para todos</h2>
-      <p class="text-sm">
-        Juegos que unen a las personas y crean recuerdos inolvidables.
+      Login
+    </button>
+  </header>
+
+  <!-- Sección Principal con Imagen y Descripción en Columna -->
+  <section class="flex flex-col items-center justify-center mb-10 flex-grow">
+    <div class="w-full max-w-4xl mx-auto">
+      <h2 class="text-4xl text-picton-blue font-bold mb-3 text-center">
+        Descubre Nuevos Juegos Cada Mes
+      </h2>
+      <p class="text-berkeley-blue mb-6 text-center">
+        Únete a nuestra comunidad y disfruta de los mejores juegos de mesa
+        seleccionados especialmente para ti.
       </p>
+
+      <!-- Cards de características una al lado de otra -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-apple-green text-berkeley-blue p-4 rounded">
+          <h3 class="font-bold">Diversión Garantizada</h3>
+          <p>
+            Juegos que te harán pasar horas de entretenimiento con familia y
+            amigos.
+          </p>
+        </div>
+        <div class="bg-selective-yellow text-berkeley-blue p-4 rounded">
+          <h3 class="font-bold">Para Todas las Edades</h3>
+          <p>Encuentra juegos perfectos para cualquier grupo de edad.</p>
+        </div>
+        <div class="bg-picton-blue text-white p-4 rounded">
+          <h3 class="font-bold">Calidad Premium</h3>
+          <p>
+            Juegos fabricados con los mejores materiales para una mayor
+            durabilidad.
+          </p>
+        </div>
+      </div>
     </div>
-    <div
-      class="p-4 bg-white bg-opacity-50 rounded-lg shadow-lg backdrop-filter backdrop-blur-xl text-center text-gray-800"
-    >
-      <i class="fas fa-star fa-3x"></i>
-      <h2 class="text-xl font-semibold">Calidad Premium</h2>
-      <p class="text-sm">
-        Componentes de alta calidad que resisten el paso del tiempo.
-      </p>
-    </div>
-    <div
-      class="p-4 bg-white bg-opacity-50 rounded-lg shadow-lg backdrop-filter backdrop-blur-xl text-center text-gray-800"
-    >
-      <i class="fas fa-brain fa-3x"></i>
-      <h2 class="text-xl font-semibold">Estratégico y Divertido</h2>
-      <p class="text-sm">Desafía tu mente mientras te diviertes.</p>
-    </div>
-  </div>
-</div>
+  </section>
+
+  <!-- Footer siempre al final -->
+  <footer class="bg-berkeley-blue text-white text-center p-4 w-full">
+    © 2024 JuegosDeMesa - Todos los derechos reservados.
+  </footer>
+</body>
