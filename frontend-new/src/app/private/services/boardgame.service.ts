@@ -44,4 +44,19 @@ export class BoardgameService {
       }),
     );
   }
+
+  deleteGame(id: string): Observable<any> {
+    const url = `${this.baseUrl}/game/${id}`;
+    const headers = new HttpHeaders().set(
+      'token',
+      localStorage.getItem('token') ?? '',
+    );
+
+    return this.http.delete(url, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error in deleteGame:', error);
+        return throwError(() => new Error('Error deleting game'));
+      }),
+    );
+  }
 }

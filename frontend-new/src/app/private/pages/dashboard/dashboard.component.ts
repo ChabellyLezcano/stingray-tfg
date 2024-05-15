@@ -4,6 +4,7 @@ import { Boardgame } from '../../interfaces/games.interface';
 import { Router } from '@angular/router';
 import { User } from 'src/app/auth/interface/authInterface';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -102,8 +103,32 @@ export class DashboardComponent implements OnInit {
     // Lógica para editar el juego de mesa
   }
 
-  deleteBoardgame(id: string) {
-    console.log(`Delete boardgame with ID: ${id}`);
-    // Lógica para eliminar el juego de mesa
+  deleteBoardgame(id: string): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esta acción',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      confirmButtonColor: '#4f46e5',
+      confirmButtonText: 'Sí, eliminarlo',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.gameService.deleteGame(id).subscribe({
+          next: () => {
+            Swal.fire('¡Eliminado!', 'El juego ha sido eliminado.', 'success');
+            this.loadGames();
+          },
+          error: (error) => {
+            console.error('Error deleting game:', error);
+            Swal.fire(
+              'Error',
+              'Hubo un problema al eliminar el juego. Inténtalo de nuevo más tarde.',
+              'error',
+            );
+          },
+        });
+      }
+    });
   }
 }
