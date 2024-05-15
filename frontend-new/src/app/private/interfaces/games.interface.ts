@@ -1,10 +1,11 @@
-export interface GameResponse {
+export interface BoardgameResponse {
   ok: boolean;
   msg: string;
-  boardgames: Game[];
+  boardgames: Boardgame[];
+  boardgame: Boardgame[];
 }
 
-export interface Game {
+export interface Boardgame {
   _id: string;
   code: string;
   title: string;

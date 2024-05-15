@@ -6,7 +6,6 @@
       <h1>Juegos de mesa</h1>
       <div class="flex items-center gap-4">
         <app-filter (filter)="handleFilter($event)"></app-filter>
-
         <app-search-bar
           (search)="handleSearch($event)"
           searchField="title"
@@ -29,7 +28,8 @@
         <!-- Itera sobre cada juego de mesa -->
         <div
           *ngFor="let boardgame of paginatedBoardgames"
-          class="flex flex-col items-center justify-center w-full bg-white rounded shadow"
+          (click)="navigateToGameDetails(boardgame._id)"
+          class="flex flex-col items-center justify-center w-full text-black no-underline bg-white rounded shadow cursor-pointer"
         >
           <!-- Contenedor para la foto con altura fija -->
           <div

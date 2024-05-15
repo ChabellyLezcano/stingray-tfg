@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from '../../services/game.service';
+import { BoardgameService } from '../../services/boardgame.service';
+import { Boardgame } from '../../interfaces/games.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +9,7 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  boardgames: any[] = [];
+  boardgames: Boardgame[] = [];
   filteredBoardgames: any[] = [];
   paginatedBoardgames: any[] = [];
   isLoading: boolean = true;
@@ -16,7 +18,10 @@ export class DashboardComponent implements OnInit {
   pageSize: number = 20;
   totalRecords: number = 0;
 
-  constructor(private gameService: GameService) {}
+  constructor(
+    private gameService: BoardgameService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loadGames();
@@ -79,5 +84,10 @@ export class DashboardComponent implements OnInit {
       event.first,
       event.first + event.rows,
     );
+  }
+
+  navigateToGameDetails(gameId: string): void {
+    console.log(`Navigating to game details with ID: ${gameId}`);
+    this.router.navigate(['/game', gameId]);
   }
 }
