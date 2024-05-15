@@ -1,51 +1,60 @@
 import { NgModule } from '@angular/core';
 
-import { DialogModule } from 'primeng/dialog';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
-import { SidebarModule } from 'primeng/sidebar';
-import { MenubarModule } from 'primeng/menubar';
-import { TableModule } from 'primeng/table';
-import { PaginatorModule } from 'primeng/paginator';
+import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
+import { ChipModule } from 'primeng/chip';
+import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
+import { MenuModule } from 'primeng/menu';
+import { PaginatorModule } from 'primeng/paginator';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { MenuModule } from 'primeng/menu';
+import { SidebarModule } from 'primeng/sidebar';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [],
   imports: [
-    DialogModule,
+    BreadcrumbModule,
     ButtonModule,
-    SidebarModule,
-    MenubarModule,
-    TableModule,
-    PaginatorModule,
+    CardModule,
     CarouselModule,
+    ChipModule,
+    DialogModule,
+    DropdownModule,
     DropdownModule,
     InputTextModule,
+    MenubarModule,
+    MenuModule,
+    PaginatorModule,
     PasswordModule,
     ProgressSpinnerModule,
-    DropdownModule,
-    MenuModule,
     ProgressSpinnerModule,
+    SidebarModule,
+    TableModule,
   ],
   exports: [
-    DialogModule,
+    BreadcrumbModule,
     ButtonModule,
-    SidebarModule,
-    MenubarModule,
-    TableModule,
-    PaginatorModule,
+    CardModule,
     CarouselModule,
+    ChipModule,
+    DialogModule,
+    DropdownModule,
     DropdownModule,
     InputTextModule,
+    MenubarModule,
+    MenuModule,
+    PaginatorModule,
     PasswordModule,
     ProgressSpinnerModule,
-    DropdownModule,
-    MenuModule,
     ProgressSpinnerModule,
+    SidebarModule,
+    TableModule,
   ],
 })
 export class PrimeNgModule {}

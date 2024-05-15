@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardgameService } from '../../services/boardgame.service';
-import { Boardgame } from '../../interfaces/games.interface';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-game-details',
@@ -13,10 +13,15 @@ export class GameDetailsComponent implements OnInit {
   boardgame: any;
   isLoading: boolean = true;
   error: string | null = null;
+  additionalRoutes: { [key: string]: string } = {
+    '/dashboard': 'Dashboard',
+    '/games': 'Games',
+  };
 
   constructor(
     private route: ActivatedRoute,
     private boardgameService: BoardgameService,
+    public location: Location,
   ) {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
   }
