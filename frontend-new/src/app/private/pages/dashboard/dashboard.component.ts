@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BoardgameService } from '../../services/boardgame.service';
 import { Boardgame } from '../../interfaces/games.interface';
 import { Router } from '@angular/router';
+import { User } from 'src/app/auth/interface/authInterface';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,11 +19,15 @@ export class DashboardComponent implements OnInit {
   error: string | null = null;
   pageSize: number = 20;
   totalRecords: number = 0;
+  user!: User | null;
 
   constructor(
     private gameService: BoardgameService,
     private router: Router,
-  ) {}
+    private authService: AuthService,
+  ) {
+    this.user = this.authService.user;
+  }
 
   ngOnInit(): void {
     this.loadGames();
@@ -89,5 +95,15 @@ export class DashboardComponent implements OnInit {
   navigateToGameDetails(gameId: string): void {
     console.log(`Navigating to game details with ID: ${gameId}`);
     this.router.navigate(['/game', gameId]);
+  }
+
+  editBoardgame(id: string) {
+    console.log(`Edit boardgame with ID: ${id}`);
+    // Lógica para editar el juego de mesa
+  }
+
+  deleteBoardgame(id: string) {
+    console.log(`Delete boardgame with ID: ${id}`);
+    // Lógica para eliminar el juego de mesa
   }
 }

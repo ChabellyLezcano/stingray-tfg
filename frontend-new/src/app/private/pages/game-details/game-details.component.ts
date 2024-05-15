@@ -15,10 +15,6 @@ export class GameDetailsComponent implements OnInit {
   boardgame: any;
   isLoading: boolean = true;
   error: string | null = null;
-  additionalRoutes: { [key: string]: string } = {
-    '/dashboard': 'Dashboard',
-    '/games': 'Games',
-  };
 
   responsiveOptions: any[] = [
     {

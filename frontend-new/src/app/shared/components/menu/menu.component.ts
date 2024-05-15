@@ -73,20 +73,6 @@ export class MenuComponent implements OnInit {
             routerLink: ['/favorites'],
           },
         );
-      } else {
-        this.items.push({
-          label: 'Reservations',
-          icon: 'pi pi-fw pi-star',
-          routerLink: ['/admin-reservations'],
-        });
-      }
-
-      if (this.user.role === 'Admin') {
-        this.items.push({
-          label: 'Games',
-          icon: 'pi pi-fw pi-desktop',
-          routerLink: ['/games'],
-        });
       }
     }
   }

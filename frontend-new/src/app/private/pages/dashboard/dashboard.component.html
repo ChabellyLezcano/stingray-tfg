@@ -13,7 +13,10 @@
       <div
         class="flex flex-wrap items-center justify-center w-full gap-2 md:justify-end md:w-auto"
       >
-        <app-filter (filter)="handleFilter($event)"></app-filter>
+        <app-filter
+          (filter)="handleFilter($event)"
+          *ngIf="user?.role === 'User'"
+        ></app-filter>
         <app-search-bar
           (search)="handleSearch($event)"
           searchField="title"
@@ -29,34 +32,105 @@
       "
       class="flex flex-col justify-start flex-grow w-full px-8"
     >
-      <!-- Contenedor de la cuadrícula -->
-      <div class="grid w-full grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
-        <!-- Itera sobre cada juego de mesa -->
+      <!-- Si el usuario tiene rol 'User', mostrar en formato de cuadrícula -->
+      <div *ngIf="user?.role === 'User'; else tableView">
         <div
-          *ngFor="let boardgame of paginatedBoardgames"
-          (click)="navigateToGameDetails(boardgame._id)"
-          class="flex flex-col items-center justify-center w-full text-black no-underline bg-gray-100 rounded shadow-lg cursor-pointer"
+          class="grid w-full grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5"
         >
-          <!-- Contenedor para la foto con altura fija -->
+          <!-- Itera sobre cada juego de mesa -->
           <div
-            class="flex items-center justify-center w-full overflow-hidden rounded h-54"
+            *ngFor="let boardgame of paginatedBoardgames"
+            (click)="navigateToGameDetails(boardgame._id)"
+            class="flex flex-col items-center justify-center w-full text-black no-underline bg-gray-100 rounded shadow-lg cursor-pointer"
           >
-            <img
-              src="{{ boardgame.mainPhoto }}"
-              alt="Boardgame image"
-              class="object-cover w-32 h-32 pt-4 rounded"
-            />
+            <!-- Contenedor para la foto con altura fija -->
+            <div
+              class="flex items-center justify-center w-full overflow-hidden rounded h-54"
+            >
+              <img
+                src="{{ boardgame.mainPhoto }}"
+                alt="Boardgame image"
+                class="object-cover w-32 h-32 pt-4 rounded"
+              />
+            </div>
+            <h3 class="m-4 font-bold text-center">{{ boardgame.title }}</h3>
           </div>
-          <h3 class="m-4 font-bold text-center">{{ boardgame.title }}</h3>
         </div>
       </div>
+
+      <!-- Plantilla para mostrar los juegos en formato de tabla -->
+      <ng-template #tableView>
+        <p-table [value]="paginatedBoardgames" class="p-datatable-gridlines">
+          <ng-template pTemplate="header" class="text-center">
+            <tr>
+              <th class="hidden text-center md:table-cell">Imagen</th>
+              <th>Título</th>
+              <th class="text-center">Estado</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-boardgame>
+            <tr>
+              <td class="hidden text-center align-middle md:table-cell">
+                <img
+                  [src]="boardgame.mainPhoto"
+                  alt="Boardgame image"
+                  class="object-cover w-16 h-16 rounded"
+                />
+              </td>
+              <td class="align-start text-slate-600">{{ boardgame.title }}</td>
+              <td class="text-center align-middle">
+                <span
+                  *ngIf="boardgame.status === 'Available'"
+                  class="p-2 font-semibold text-green-600 bg-green-100 rounded-md"
+                >
+                  <i class="pi pi-check"></i>
+                  <span class="hidden ml-2 lg:inline">Disponible</span>
+                </span>
+                <span
+                  *ngIf="boardgame.status !== 'Available'"
+                  class="p-2 font-semibold text-red-500 bg-red-100 rounded-md"
+                >
+                  <i class="pi pi-times"></i>
+                  <span class="hidden ml-2 lg:inline">No disponible</span>
+                </span>
+              </td>
+              <td
+                class="flex flex-col items-center justify-center gap-2 pt-8 md:flex-row pb-7"
+              >
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-eye"
+                  class="p-button-text"
+                  (click)="navigateToGameDetails(boardgame._id)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="text-green-500 p-button-text"
+                  (click)="editBoardgame(boardgame._id)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-trash"
+                  class="text-red-500 p-button-text"
+                  (click)="deleteBoardgame(boardgame._id)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-template>
     </div>
 
     <!-- Espacio flexible para empujar el paginador al final -->
     <div class="flex-grow"></div>
 
     <!-- Paginador al final de la página -->
-    <div class="flex justify-center w-full">
+    <div class="flex justify-center w-full pb-4">
       <p-paginator
         [rows]="pageSize"
         [totalRecords]="totalRecords"
@@ -64,17 +138,17 @@
         class="mt-4 transparent-paginator"
       ></p-paginator>
     </div>
+
+    <ng-template #noResultsOrLoading>
+      <div
+        *ngIf="isLoading; else showNoResults"
+        class="flex items-center justify-center w-full h-full"
+      >
+        <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+      </div>
+      <ng-template #showNoResults>
+        <div *ngIf="noResults" class="text-center">No results found.</div>
+      </ng-template>
+    </ng-template>
   </div>
 </div>
-
-<ng-template #noResultsOrLoading>
-  <div
-    *ngIf="isLoading; else showNoResults"
-    class="flex items-center justify-center w-full h-full"
-  >
-    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
-  </div>
-  <ng-template #showNoResults>
-    <div *ngIf="noResults" class="text-center">No results found.</div>
-  </ng-template>
-</ng-template>
