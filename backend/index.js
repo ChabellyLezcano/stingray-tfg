@@ -49,6 +49,27 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
+
+/*
+// Función para actualizar el estado de todos los boardgames a "Available"
+async function updateGameStatus() {
+  try {
+    // Conectar a MongoDB si aún no está conectado
+    await dbConnection();
+
+    // Encontrar todos los juegos y actualizarlos a 'Available'
+    const result = await Boardgame.updateMany({}, { $set: { status: "Available" } });
+
+    console.log(result); // Muestra el resultado de la operación
+  } catch (error) {
+    console.error("Error al actualizar el estado de los juegos:", error);
+  }
+}
+
+// Llamar a la función para actualizar el estado de los juegos
+updateGameStatus();
+*/
+  
 /*
 app.get("/api/reservations/average", async (req, res) => {
   try {

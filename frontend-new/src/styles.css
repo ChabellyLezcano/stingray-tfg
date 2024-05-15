@@ -6,6 +6,11 @@
 
 @import "primeicons/primeicons.css";
 
+:root {
+  --light-color: #6366f1;
+  --primary-text-color: #ffffff;
+}
+
 body {
   margin: 0;
   background-color: #f9fafb;
@@ -26,4 +31,10 @@ body {
 .transparent-paginator .p-paginator .p-paginator-pages .p-paginator-page,
 .transparent-paginator .p-paginator .p-paginator-current {
   background-color: transparent !important;
+}
+
+.primary-chip {
+  background-color: var(--light-color) !important;
+  color: var(--primary-text-color) !important;
+  font-weight: 500 !important;
 }
