@@ -11,12 +11,21 @@
         Juegos de mesa
       </h1>
       <div
-        class="flex flex-wrap items-center justify-center w-full gap-2 md:justify-end md:w-auto"
+        class="flex flex-wrap items-center justify-center w-full gap-4 md:justify-end md:w-auto"
       >
         <app-filter
           (filter)="handleFilter($event)"
           *ngIf="user?.role === 'User'"
         ></app-filter>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-plus"
+          label="Agregar juego"
+          class="font-semibold p-button-primary"
+          (click)="addBoardgame()"
+          *ngIf="user?.role !== 'User'"
+        ></button>
         <app-search-bar
           (search)="handleSearch($event)"
           searchField="title"
@@ -84,7 +93,7 @@
                   *ngIf="boardgame.status === 'Available'"
                   class="p-2 font-semibold text-green-600 bg-green-100 rounded-md"
                 >
-                  <i class="pi pi-check"></i>
+                  <i class="font-semibold pi pi-check"></i>
                   <span class="hidden ml-2 lg:inline">Disponible</span>
                 </span>
                 <span
@@ -144,7 +153,12 @@
         *ngIf="isLoading; else showNoResults"
         class="flex items-center justify-center w-full h-full"
       >
-        <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+        <p-progressSpinner
+          styleClass="w-4rem h-4rem"
+          strokeWidth="8"
+          fill="white"
+          animationDuration=".5s"
+        />
       </div>
       <ng-template #showNoResults>
         <div *ngIf="noResults" class="text-center">No results found.</div>

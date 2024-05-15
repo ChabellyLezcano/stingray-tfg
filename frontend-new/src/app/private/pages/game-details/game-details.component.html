@@ -1,8 +1,4 @@
-<app-layout></app-layout>
-
-<div *ngIf="isLoading" class="flex items-center justify-center w-full h-full">
-  <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
-</div>
+<app-detail-layout></app-detail-layout>
 
 <div class="flex flex-col items-center w-full p-4">
   <div
@@ -12,11 +8,11 @@
     <!-- Container para la foto y el título -->
     <div class="relative w-full mx-auto lg:w-1/4">
       <!-- Contenedor para centrar la imagen verticalmente -->
-      <div class="flex items-center justify-center h-full">
+      <div class="flex items-end justify-center mt-4">
         <img
           [src]="boardgame.mainPhoto"
           alt="Boardgame image"
-          class="px-8 rounded-lg lg:h-full lg:w-full"
+          class="px-8 rounded-lg lg:h-64 lg:w-full"
         />
       </div>
     </div>

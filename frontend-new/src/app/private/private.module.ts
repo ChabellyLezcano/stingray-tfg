@@ -1,15 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PrivateRoutingModule } from './private-routing.module';
+import { CreateGameComponent } from './pages/create-game/create-game.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { LayoutComponent } from './layout/layout/layout.component';
-import { SharedModule } from '../shared/shared.module';
-import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { DetailLayoutComponent } from './layout/detail-layout/detail-layout.component';
 import { GameDetailsComponent } from './pages/game-details/game-details.component';
+import { LayoutComponent } from './layout/layout/layout.component';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { PrivateRoutingModule } from './private-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { EditGameComponent } from './pages/edit-game/edit-game.component';
 
 @NgModule({
-  declarations: [DashboardComponent, LayoutComponent, GameDetailsComponent],
-  imports: [CommonModule, PrivateRoutingModule, SharedModule, PrimeNgModule],
+  declarations: [
+    CreateGameComponent,
+    DashboardComponent,
+    DetailLayoutComponent,
+    GameDetailsComponent,
+    LayoutComponent,
+    EditGameComponent,
+  ],
+  imports: [CommonModule, PrimeNgModule, PrivateRoutingModule, SharedModule],
 })
 export class PrivateModule {}

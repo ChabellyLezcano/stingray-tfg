@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BoardgameService } from '../../services/boardgame.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-game-details',
@@ -38,6 +39,7 @@ export class GameDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private boardgameService: BoardgameService,
     private authService: AuthService,
+    public location: Location,
   ) {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
   }

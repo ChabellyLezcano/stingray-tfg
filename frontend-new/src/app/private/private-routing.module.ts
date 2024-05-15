@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { isAuthenticatedGuard } from '../guards/is-authenticated.guard';
 import { GameDetailsComponent } from './pages/game-details/game-details.component';
+import { CreateGameComponent } from './pages/create-game/create-game.component';
+import { AdminGuard } from '../guards/is-admin.guard';
+import { EditGameComponent } from './pages/edit-game/edit-game.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -16,7 +19,17 @@ const routes: Routes = [
     component: GameDetailsComponent,
     canActivate: [isAuthenticatedGuard],
   },
-  { path: '**', redirectTo: 'dashboard' }, // Ruta de redirección por defecto
+  {
+    path: 'create-game',
+    component: CreateGameComponent,
+    canActivate: [isAuthenticatedGuard, AdminGuard],
+  },
+  {
+    path: 'edit-game/:id',
+    component: EditGameComponent,
+    canActivate: [isAuthenticatedGuard, AdminGuard],
+  },
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({

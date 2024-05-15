@@ -98,9 +98,12 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/game', gameId]);
   }
 
-  editBoardgame(id: string) {
-    console.log(`Edit boardgame with ID: ${id}`);
-    // Lógica para editar el juego de mesa
+  editBoardgame(gameId: string) {
+    this.router.navigate(['/edit-game', gameId]);
+  }
+
+  addBoardgame() {
+    this.router.navigate(['/create-game']);
   }
 
   deleteBoardgame(id: string): void {
@@ -109,8 +112,8 @@ export class DashboardComponent implements OnInit {
       text: 'No podrás revertir esta acción',
       icon: 'warning',
       showCancelButton: true,
-      cancelButtonColor: '#d33',
       confirmButtonColor: '#4f46e5',
+      cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, eliminarlo',
     }).then((result) => {
       if (result.isConfirmed) {
