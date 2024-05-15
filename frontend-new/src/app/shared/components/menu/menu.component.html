@@ -1,10 +1,10 @@
 <p-menubar [model]="items">
   <ng-template pTemplate="end">
-    <div class="flex flex-end items-center">
+    <div class="flex items-center flex-end">
       <img
         *ngIf="user?.photo"
         [src]="user?.photo"
-        class="user-photo rounded-full h-8 w-8 mx-4"
+        class="w-8 h-8 mx-4 rounded-full user-photo"
         alt="User Photo"
       />
       <span *ngIf="user" class="user-name">{{ user.username }}</span>
@@ -32,7 +32,7 @@
         type="button"
         (click)="menu.toggle($event)"
         icon="pi pi-ellipsis-v"
-        class="bg-transparent border-none text-black"
+        class="text-black bg-transparent border-none"
       ></button>
     </div>
   </ng-template>

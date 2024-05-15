@@ -33,8 +33,12 @@ export class LoginComponent {
           icon: 'success',
           title: '¡Inicio de sesión exitoso!',
           text: '¡Bienvenido de nuevo!',
+          showConfirmButton: false,
+          timer: 800,
+        }).then(() => {
+          // Navegar después de que la alerta se cierre
+          this.router.navigate(['/dashboard']);
         });
-        this.router.navigate(['/dashboard']);
       }
     });
   }

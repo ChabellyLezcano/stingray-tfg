@@ -35,7 +35,6 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.user;
-
     this.buildCommonMenuItems();
     this.buildRoleSpecificMenuItems();
   }

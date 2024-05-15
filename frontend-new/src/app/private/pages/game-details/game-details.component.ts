@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BoardgameService } from '../../services/boardgame.service';
-import { Location } from '@angular/common';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { User } from 'src/app/auth/interface/authInterface';
 
 @Component({
   selector: 'app-game-details',
@@ -10,6 +11,7 @@ import { Location } from '@angular/common';
 })
 export class GameDetailsComponent implements OnInit {
   gameId: string;
+  user!: User | null;
   boardgame: any;
   isLoading: boolean = true;
   error: string | null = null;
@@ -39,12 +41,13 @@ export class GameDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private boardgameService: BoardgameService,
-    public location: Location,
+    private authService: AuthService,
   ) {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
   }
 
   ngOnInit(): void {
+    this.user = this.authService.user;
     this.loadGameDetails();
   }
 
