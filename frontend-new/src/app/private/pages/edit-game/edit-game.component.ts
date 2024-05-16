@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BoardgameService } from '../../services/boardgame.service';
 import { MessageService } from 'primeng/api';
-import { Boardgame } from '../../interfaces/games.interface';
 
 @Component({
   selector: 'app-edit-game',
@@ -22,7 +21,7 @@ export class EditGameComponent implements OnInit {
   photoGalleryFiles: File[] = [];
   photoGalleryPreviews: { url: string; name: string }[] = [];
   gameId: string;
-  boardgame!: any;
+  boardgame: any; // Asegúrate de que esto esté inicializado
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +34,7 @@ export class EditGameComponent implements OnInit {
     this.gameForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      mainPhoto: ['', Validators.required],
+      mainPhoto: [''],
       status: ['Available', Validators.required],
       tags: [''],
       photoGallery: [''],
@@ -50,13 +49,15 @@ export class EditGameComponent implements OnInit {
     this.gameService.getGameById(this.gameId).subscribe({
       next: (response) => {
         if (response.ok) {
-          const game: any = response.boardgame;
-          this.gameForm.patchValue(game);
-          this.mainPhotoPreview = game.mainPhoto;
-          this.photoGalleryPreviews = game.photoGallery.map((url: string) => ({
-            url,
-            name: url.split('/').pop()!,
-          }));
+          this.boardgame = response.boardgame; // Asegúrate de que `boardgame` está definido aquí
+          this.gameForm.patchValue(this.boardgame);
+          this.mainPhotoPreview = this.boardgame.mainPhoto;
+          this.photoGalleryPreviews = this.boardgame.photoGallery.map(
+            (url: string) => ({
+              url,
+              name: url.split('/').pop()!,
+            }),
+          );
         } else {
           this.messageService.add({
             severity: 'error',
@@ -118,7 +119,7 @@ export class EditGameComponent implements OnInit {
       formData.append('description', updatedGame.description);
       if (this.mainPhotoFile) {
         formData.append('mainPhoto', this.mainPhotoFile);
-      } else {
+      } else if (this.boardgame && this.boardgame.mainPhoto) {
         formData.append('mainPhoto', this.boardgame.mainPhoto);
       }
       formData.append('status', updatedGame.status);

@@ -73,11 +73,22 @@
         class="flex justify-center gap-4 py-2 lg:justify-end"
       >
         <button
+          *ngIf="!isFavorite"
           pButton
           type="button"
           icon="pi pi-star-fill"
-          label="Añadir a Favoritos"
           class="p-button-warning"
+          label="Añadir a Favoritos"
+          (click)="addToFavorites()"
+        ></button>
+        <button
+          *ngIf="isFavorite"
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-danger"
+          label="Eliminar de Favoritos"
+          (click)="removeFromFavorites()"
         ></button>
         <button
           *ngIf="boardgame.status === 'Available'"
@@ -95,7 +106,7 @@
 <div class="px-8 py-4">
   <h2 class="text-center uppercase text-slate-700">Galería de Imágenes</h2>
   <p-carousel
-    [value]="boardgame.photoGallery"
+    [value]="boardgame?.photoGallery"
     [numVisible]="3"
     [responsiveOptions]="responsiveOptions"
     [showIndicators]="false"
@@ -121,6 +132,8 @@
     </ng-template>
   </p-carousel>
 </div>
+
+<p-toast></p-toast>
 
 <div *ngIf="error" class="text-center text-red-500">
   {{ error }}

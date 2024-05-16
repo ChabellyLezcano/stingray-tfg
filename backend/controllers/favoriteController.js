@@ -127,4 +127,31 @@ const listFavorites = async (req, res) => {
   }
 };
 
-module.exports = { addGameToFavorites, removeGameFromFavorites, listFavorites };
+// Comprobar si un juego está en favoritos
+const isGameFavorite = async (req, res) => {
+  const { gameId } = req.params;
+  const userId = req.id;
+
+  try {
+    const favorite = await Favorite.findOne({ userId });
+    if (!favorite || !favorite.boardGames.includes(gameId)) {
+      return res.json({
+        ok: false,
+        msg: "El juego no está en tus favoritos",
+      });
+    }
+
+    res.json({
+      ok: true,
+      msg: "El juego está en tus favoritos",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error al comprobar si el juego está en favoritos",
+    });
+  }
+};
+
+module.exports = { addGameToFavorites, removeGameFromFavorites, listFavorites, isGameFavorite };

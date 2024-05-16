@@ -7,11 +7,16 @@ const {
   addGameToFavorites,
   removeGameFromFavorites,
   listFavorites,
+  isGameFavorite,
 } = require("../controllers/favoriteController");
 
 const router = express.Router();
 
 router.use(validateJWT, validateFields);
+
+router.get("/", listFavorites);
+
+router.get("/check/:gameId", isGameFavorite);
 
 router.post(
   "/:gameId",
@@ -34,6 +39,5 @@ router.delete(
   removeGameFromFavorites,
 );
 
-router.get("/", listFavorites);
 
 module.exports = router;

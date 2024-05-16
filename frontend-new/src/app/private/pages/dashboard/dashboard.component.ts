@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardgameService } from '../../services/boardgame.service';
-import { Boardgame } from '../../interfaces/games.interface';
+import { Boardgame } from '../../interfaces/interfaces.interface';
 import { Router } from '@angular/router';
 import { User } from 'src/app/auth/interface/authInterface';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -93,7 +93,6 @@ export class DashboardComponent implements OnInit {
   }
 
   navigateToGameDetails(gameId: string): void {
-    console.log(`Navigating to game details with ID: ${gameId}`);
     this.router.navigate(['/game', gameId]);
   }
 

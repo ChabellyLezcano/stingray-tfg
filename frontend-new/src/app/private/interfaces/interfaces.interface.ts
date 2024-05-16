@@ -5,6 +5,13 @@ export interface BoardgameResponse {
   boardgame: Boardgame[];
 }
 
+export interface FavoriteResponse {
+  ok: boolean;
+  msg: string;
+  boardgames: Boardgame[];
+  boardgame: Boardgame[];
+}
+
 export interface Boardgame {
   _id: string;
   code: string;
