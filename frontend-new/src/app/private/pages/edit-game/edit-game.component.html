@@ -1,1 +1,148 @@
-<p>edit-game works!</p>
+<app-detail-layout></app-detail-layout>
+
+<div class="max-w-2xl mx-auto p-10 bg-white rounded-lg">
+  <h2 class="text-2xl font-bold mb-6 text-center">Editar Juego</h2>
+  <form [formGroup]="gameForm" (ngSubmit)="updateGame()">
+    <div class="mb-4">
+      <label for="title" class="block text-sm font-medium text-gray-700"
+        >Título</label
+      >
+      <input
+        id="title"
+        pInputText
+        formControlName="title"
+        placeholder="Título del juego"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+      <div
+        *ngIf="gameForm.get('title')?.invalid && gameForm.get('title')?.touched"
+        class="text-red-600 mt-1 text-sm"
+      >
+        El título es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="description" class="block text-sm font-medium text-gray-700"
+        >Descripción</label
+      >
+      <textarea
+        id="description"
+        pInputTextarea
+        formControlName="description"
+        placeholder="Descripción del juego"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      ></textarea>
+      <div
+        *ngIf="
+          gameForm.get('description')?.invalid &&
+          gameForm.get('description')?.touched
+        "
+        class="text-red-600 mt-1 text-sm"
+      >
+        La descripción es requerida.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="mainPhoto" class="block text-sm font-medium text-gray-700"
+        >Foto Principal (solo formatos .jpg, .jpeg y .png)</label
+      >
+      <div *ngIf="mainPhotoPreview" class="mb-4">
+        <img
+          [src]="mainPhotoPreview"
+          alt="Previsualización de la foto principal"
+          class="w-24 h-24 object-cover rounded-md flex mx-auto m-4"
+        />
+      </div>
+      <p-fileUpload
+        name="mainPhoto"
+        accept="image/*"
+        (onSelect)="onSelectMainPhoto($event)"
+        [customUpload]="true"
+        chooseLabel="Seleccionar Foto Principal"
+      ></p-fileUpload>
+      <div
+        *ngIf="
+          gameForm.get('mainPhoto')?.invalid &&
+          gameForm.get('mainPhoto')?.touched
+        "
+        class="text-red-600 mt-1 text-sm"
+      >
+        La foto principal es requerida.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="status" class="block text-sm font-medium text-gray-700"
+        >Estado</label
+      >
+      <p-dropdown
+        id="status"
+        [options]="statusOptions"
+        formControlName="status"
+        [style]="{ width: '100%' }"
+        class="mt-1 block w-full"
+      ></p-dropdown>
+    </div>
+
+    <div class="mb-4">
+      <label for="tags" class="block text-sm font-medium text-gray-700"
+        >Etiquetas</label
+      >
+      <input
+        id="tags"
+        pInputText
+        formControlName="tags"
+        placeholder="Etiquetas separadas por comas"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="photoGallery" class="block text-sm font-medium text-gray-700"
+        >Galería de Fotos (solo formatos .jpg, .jpeg y .png)</label
+      >
+      <div
+        *ngIf="photoGalleryPreviews.length > 0"
+        class="mb-4 grid grid-cols-3 gap-2"
+      >
+        <div
+          *ngFor="let photo of photoGalleryPreviews"
+          class="flex flex-col items-center"
+        >
+          <img
+            [src]="photo.url"
+            alt="Previsualización de la galería de fotos"
+            class="w-24 h-24 object-cover rounded-md m-4"
+          />
+        </div>
+      </div>
+      <p-fileUpload
+        name="photoGallery"
+        accept="image/*"
+        (onSelect)="onSelectPhotoGallery($event)"
+        [customUpload]="true"
+        [multiple]="true"
+        chooseLabel="Seleccionar Fotos"
+      ></p-fileUpload>
+    </div>
+
+    <div class="flex mt-6 gap-4 justify-center">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        routerLink="/dashboard"
+        class="p-button-secondary"
+      ></button>
+      <button
+        pButton
+        type="submit"
+        label="Actualizar Juego"
+        [disabled]="gameForm.invalid"
+      ></button>
+    </div>
+  </form>
+  <p-toast></p-toast>
+</div>

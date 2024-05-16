@@ -73,7 +73,9 @@
           <ng-template pTemplate="header" class="text-center">
             <tr>
               <th class="hidden text-center md:table-cell">Imagen</th>
+              <th>Code</th>
               <th>Título</th>
+              <th class="hidden text-center md:table-cell">Rating</th>
               <th class="text-center">Estado</th>
               <th class="text-center">Acciones</th>
             </tr>
@@ -87,7 +89,17 @@
                   class="object-cover w-16 h-16 rounded"
                 />
               </td>
+              <td class="align-start">
+                <span
+                  class="text-indigo-600 bg-indigo-100 p-2 font-semibold rounded-md"
+                  >{{ boardgame.code }}</span
+                >
+              </td>
               <td class="align-start text-slate-600">{{ boardgame.title }}</td>
+              <td class="hidden text-center align-middle md:table-cell">
+                <i class="pi pi-star-fill text-yellow-500 mr-2"></i>
+                {{ boardgame.averageRating }}
+              </td>
               <td class="text-center align-middle">
                 <span
                   *ngIf="boardgame.status === 'Available'"

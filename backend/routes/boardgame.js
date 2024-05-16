@@ -8,7 +8,7 @@ const {
   updateBoardGame,
   listBoardGames,
   viewBoardGameDetails,
-} = require("../controllers/boardGameController");
+} = require("../controllers/boardgameController");
 const { validateJWT } = require("../middlewares/validate-jwt");
 
 const router = express.Router();

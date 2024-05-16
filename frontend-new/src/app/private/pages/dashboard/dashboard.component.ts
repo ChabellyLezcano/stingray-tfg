@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit {
           this.filteredBoardgames = [...this.boardgames];
           this.totalRecords = this.filteredBoardgames.length;
           this.paginate({ first: 0, rows: this.pageSize });
-          console.info(this.boardgames);
         } else {
           this.error = response.msg || 'Failed to load games';
         }

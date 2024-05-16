@@ -7,8 +7,8 @@ const boardGameSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["Avaible", "Occupied"],
-    default: "Avaible",
+    enum: ["Available", "Unavailable"],
+    default: "Available",
   },
   mainPhoto: String,
   photoGallery: [String],

@@ -18,8 +18,21 @@
     </div>
 
     <div class="flex flex-col w-full mx-4 lg:w-3/4">
-      <div class="flex flex-col items-center justify-between mb-4 lg:flex-row">
-        <h1 class="text-3xl font-bold text-slate-700">{{ boardgame.title }}</h1>
+      <div
+        class="flex flex-col items-center justify-between mb-8 lg:mb-2 lg:flex-row"
+      >
+        <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+          <h1 class="text-3xl font-bold text-slate-700">
+            {{ boardgame.title }}
+          </h1>
+          <p
+            *ngIf="user?.role === 'Admin'"
+            class="text-indigo-600 bg-indigo-100 p-2 font-semibold rounded-md text-center"
+          >
+            {{ boardgame.code }}
+          </p>
+        </div>
+
         <div
           *ngIf="boardgame.status === 'Available'"
           class="flex items-center p-2 mt-2 font-semibold text-green-600 bg-green-200 rounded-md lg:mt-0"

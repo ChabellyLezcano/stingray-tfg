@@ -10,6 +10,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { PrivateRoutingModule } from './private-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { EditGameComponent } from './pages/edit-game/edit-game.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,12 @@ import { EditGameComponent } from './pages/edit-game/edit-game.component';
     LayoutComponent,
     EditGameComponent,
   ],
-  imports: [CommonModule, PrimeNgModule, PrivateRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    PrimeNgModule,
+    PrivateRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+  ],
 })
 export class PrivateModule {}
