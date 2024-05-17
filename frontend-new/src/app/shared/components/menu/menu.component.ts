@@ -14,12 +14,10 @@ export class MenuComponent implements OnInit {
   items: MenuItem[] = [];
   dropdownItems: MenuItem[] = [];
 
-  constructor(private authService: AuthService) {
-    this.dropdownItems = this.dropdownItems.map((item) => ({
-      ...item,
-      styleClass: item.label === 'Logout' ? 'logout-item' : '',
-    }));
-
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {
     this.dropdownItems = [
       { label: 'Configuración', icon: 'pi pi-cog', routerLink: '/settings' },
       { label: 'About', icon: 'pi pi-info', routerLink: '/about' },
@@ -28,7 +26,7 @@ export class MenuComponent implements OnInit {
         label: 'Logout',
         icon: 'pi pi-sign-out',
         command: () => this.authService.logout(),
-        style: { color: 'red' },
+        styleClass: 'text-red-500',
       },
     ];
   }
@@ -39,17 +37,9 @@ export class MenuComponent implements OnInit {
     this.buildRoleSpecificMenuItems();
   }
 
-  getStyleClass(label: string): string {
-    return label === 'Logout' ? 'text-red-500' : '';
-  }
-
   private buildCommonMenuItems(): void {
     this.items.push(
-      {
-        label: 'Home',
-        icon: 'pi pi-fw pi-home',
-        routerLink: ['/dashboard'],
-      },
+      { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard'] },
       {
         label: 'Reservations',
         icon: 'pi pi-fw pi-calendar',
@@ -75,5 +65,13 @@ export class MenuComponent implements OnInit {
         );
       }
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  showBackButton(): boolean {
+    return this.router.url !== '/dashboard';
   }
 }

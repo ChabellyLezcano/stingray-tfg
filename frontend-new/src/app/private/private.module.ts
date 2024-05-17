@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { CreateGameComponent } from './pages/create-game/create-game.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { DetailLayoutComponent } from './layout/detail-layout/detail-layout.component';
 import { GameDetailsComponent } from './pages/game-details/game-details.component';
 import { LayoutComponent } from './layout/layout/layout.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
@@ -17,7 +16,6 @@ import { FavoritesComponent } from './pages/favorites/favorites.component';
   declarations: [
     CreateGameComponent,
     DashboardComponent,
-    DetailLayoutComponent,
     GameDetailsComponent,
     LayoutComponent,
     EditGameComponent,

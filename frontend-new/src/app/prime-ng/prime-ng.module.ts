@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
@@ -14,7 +13,6 @@ import { MenuModule } from 'primeng/menu';
 import { PaginatorModule } from 'primeng/paginator';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { SidebarModule } from 'primeng/sidebar';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -22,7 +20,6 @@ import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [],
   imports: [
-    BreadcrumbModule,
     ButtonModule,
     CardModule,
     CarouselModule,
@@ -37,12 +34,10 @@ import { MessageService } from 'primeng/api';
     PasswordModule,
     ProgressSpinnerModule,
     ProgressSpinnerModule,
-    SidebarModule,
     TableModule,
     ToastModule,
   ],
   exports: [
-    BreadcrumbModule,
     ButtonModule,
     CardModule,
     CarouselModule,
@@ -57,7 +52,6 @@ import { MessageService } from 'primeng/api';
     PasswordModule,
     ProgressSpinnerModule,
     ProgressSpinnerModule,
-    SidebarModule,
     TableModule,
     ToastModule,
   ],
