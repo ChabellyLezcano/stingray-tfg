@@ -41,7 +41,7 @@ export class MenuComponent implements OnInit {
     this.items.push(
       { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard'] },
       {
-        label: 'Reservations',
+        label: 'Reservaciones',
         icon: 'pi pi-fw pi-calendar',
         routerLink: ['/reservations'],
       },
@@ -53,12 +53,12 @@ export class MenuComponent implements OnInit {
       if (this.user.role !== 'Admin') {
         this.items.push(
           {
-            label: 'Recommendations',
+            label: 'Recomendaciones',
             icon: 'pi pi-fw pi-star',
             routerLink: ['/recommendations'],
           },
           {
-            label: 'Favorites',
+            label: 'Favoritos',
             icon: 'pi pi-fw pi-heart',
             routerLink: ['/favorites'],
           },
