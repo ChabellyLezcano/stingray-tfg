@@ -15,23 +15,6 @@ body {
   margin: 0;
 }
 
-.custom-menu .p-menuitem-link:not(:hover) {
-  background-color: transparent;
-}
-
-.transparent-paginator .p-paginator {
-  background-color: transparent !important;
-}
-
-.transparent-paginator .p-paginator .p-paginator-first,
-.transparent-paginator .p-paginator .p-paginator-prev,
-.transparent-paginator .p-paginator .p-paginator-next,
-.transparent-paginator .p-paginator .p-paginator-last,
-.transparent-paginator .p-paginator .p-paginator-pages .p-paginator-page,
-.transparent-paginator .p-paginator .p-paginator-current {
-  background-color: transparent !important;
-}
-
 .primary-chip {
   background-color: var(--light-color) !important;
   color: var(--primary-text-color) !important;

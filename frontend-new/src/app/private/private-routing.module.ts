@@ -6,6 +6,7 @@ import { GameDetailsComponent } from './pages/game-details/game-details.componen
 import { CreateGameComponent } from './pages/create-game/create-game.component';
 import { AdminGuard } from '../guards/is-admin.guard';
 import { EditGameComponent } from './pages/edit-game/edit-game.component';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -28,6 +29,11 @@ const routes: Routes = [
     path: 'edit-game/:id',
     component: EditGameComponent,
     canActivate: [isAuthenticatedGuard, AdminGuard],
+  },
+  {
+    path: 'favorites',
+    component: FavoritesComponent,
+    canActivate: [isAuthenticatedGuard],
   },
   { path: '**', redirectTo: 'dashboard' },
 ];

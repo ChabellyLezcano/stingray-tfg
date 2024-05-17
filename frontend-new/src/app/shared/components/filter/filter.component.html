@@ -9,15 +9,16 @@
     <!-- Template para las opciones del dropdown -->
     <ng-template let-option pTemplate="item">
       <div class="flex items-center">
-        <span>{{ option?.label }}</span>
+        <i [class]="option.icon"></i>
+        <span class="ml-2">{{ option?.label }}</span>
       </div>
     </ng-template>
 
     <!-- Template para el elemento seleccionado -->
     <ng-template let-selectedOption pTemplate="selectedItem">
       <div class="flex items-center">
-        <span class="mr-2 pi pi-filter"></span>
-        <span>{{ selectedOption?.label }}</span>
+        <i [class]="selectedOption?.icon"></i>
+        <span class="ml-2">{{ selectedOption?.label }}</span>
       </div>
     </ng-template>
   </p-dropdown>

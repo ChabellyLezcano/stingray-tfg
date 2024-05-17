@@ -8,8 +8,12 @@ export interface BoardgameResponse {
 export interface FavoriteResponse {
   ok: boolean;
   msg: string;
-  boardgames: Boardgame[];
-  boardgame: Boardgame[];
+  favorites: Boardgame[];
+}
+
+export interface IsFavorite {
+  ok: boolean;
+  msg: string;
 }
 
 export interface Boardgame {

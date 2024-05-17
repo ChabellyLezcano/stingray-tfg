@@ -3,7 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { FavoriteResponse } from '../interfaces/interfaces.interface';
+import {
+  FavoriteResponse,
+  IsFavorite,
+} from '../interfaces/interfaces.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +34,11 @@ export class FavoriteService {
   }
 
   // Comprobar si un juego está en favoritos
-  isGameFavorite(gameId: string): Observable<any> {
+  isGameFavorite(gameId: string): Observable<IsFavorite> {
     const url = `${this.baseUrl}/favorite/check/${gameId}`;
     const headers = this.getHeaders();
 
-    return this.http.get(url, { headers }).pipe(
+    return this.http.get<IsFavorite>(url, { headers }).pipe(
       catchError((error) => {
         console.error('Error in isGameFavorite:', error);
         return throwError(
@@ -46,11 +49,11 @@ export class FavoriteService {
   }
 
   // Añadir juego a favoritos
-  addGameToFavorites(gameId: string): Observable<any> {
+  addGameToFavorites(gameId: string): Observable<FavoriteResponse> {
     const url = `${this.baseUrl}/favorite/${gameId}`;
     const headers = this.getHeaders();
 
-    return this.http.post(url, {}, { headers }).pipe(
+    return this.http.post<FavoriteResponse>(url, {}, { headers }).pipe(
       catchError((error) => {
         console.error('Error in addGameToFavorites:', error);
         return throwError(() => new Error('Error adding game to favorites'));
@@ -59,11 +62,11 @@ export class FavoriteService {
   }
 
   // Eliminar juego de favoritos
-  removeGameFromFavorites(gameId: string): Observable<any> {
+  removeGameFromFavorites(gameId: string): Observable<FavoriteResponse> {
     const url = `${this.baseUrl}/favorite/${gameId}`;
     const headers = this.getHeaders();
 
-    return this.http.delete(url, { headers }).pipe(
+    return this.http.delete<FavoriteResponse>(url, { headers }).pipe(
       catchError((error) => {
         console.error('Error in removeGameFromFavorites:', error);
         return throwError(

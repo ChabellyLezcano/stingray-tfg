@@ -77,7 +77,7 @@ export class GameDetailsComponent implements OnInit {
     this.favoriteService.isGameFavorite(this.gameId).subscribe({
       next: (response) => {
         if (response.ok) {
-          this.isFavorite = response.isFavorite;
+          this.isFavorite = response.ok;
         }
       },
       error: (error) => {

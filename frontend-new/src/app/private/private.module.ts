@@ -11,6 +11,7 @@ import { PrivateRoutingModule } from './private-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { EditGameComponent } from './pages/edit-game/edit-game.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     GameDetailsComponent,
     LayoutComponent,
     EditGameComponent,
+    FavoritesComponent,
   ],
   imports: [
     CommonModule,

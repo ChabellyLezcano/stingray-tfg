@@ -1,0 +1,65 @@
+<app-detail-layout></app-detail-layout>
+
+<div class="container mx-auto">
+  <h2 class="text-2xl font-bold mb-6 text-center">Mis Favoritos</h2>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <div *ngIf="!isLoading && error" class="text-red-500 text-center">
+    {{ error }}
+  </div>
+
+  <div
+    *ngIf="!isLoading && !error && favorites.length === 0"
+    class="text-center"
+  >
+    No tienes juegos favoritos.
+  </div>
+
+  <div
+    *ngIf="!isLoading && !error && paginatedFavorites.length > 0"
+    class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-6"
+  >
+    <div
+      *ngFor="let game of paginatedFavorites"
+      class="flex flex-col items-center bg-gray-100 p-4 rounded-md shadow"
+    >
+      <img
+        [src]="game.mainPhoto"
+        alt="Imagen del juego"
+        class="w-full h-32 object-cover rounded-md mb-2"
+      />
+      <h3 class="text-lg font-semibold text-gray-700 text-center">
+        {{ game.title }}
+      </h3>
+      <div class="flex gap-4">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-eye"
+          class="p-button rounded-full"
+          [routerLink]="['/game', game._id]"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-danger rounded-full"
+          (click)="removeFromFavorites(game._id, $event)"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-8">
+  <p-paginator
+    [rows]="pageSize"
+    [totalRecords]="totalRecords"
+    (onPageChange)="paginate($event)"
+    [rowsPerPageOptions]="[20, 50, 100]"
+    class="mt-4"
+  ></p-paginator>
+</div>

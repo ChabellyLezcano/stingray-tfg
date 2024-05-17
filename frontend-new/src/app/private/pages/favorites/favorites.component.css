@@ -1,0 +1,12 @@
+/* favorites.component.css */
+ul {
+  list-style-type: none; /* Eliminar puntos de lista */
+  padding: 0; /* Eliminar padding */
+  margin: 0; /* Eliminar margen */
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

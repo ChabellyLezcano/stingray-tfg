@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
 })
 export class DashboardComponent implements OnInit {
   boardgames: Boardgame[] = [];
-  filteredBoardgames: any[] = [];
-  paginatedBoardgames: any[] = [];
+  filteredBoardgames: Boardgame[] = [];
+  paginatedBoardgames: Boardgame[] = [];
   isLoading: boolean = true;
   noResults: boolean = false;
   error: string | null = null;
@@ -81,26 +81,26 @@ export class DashboardComponent implements OnInit {
       this.filteredBoardgames.sort((a, b) => (a._id > b._id ? -1 : 1)); // Assuming _id is in order of creation
     } else if (criteria === 'alphabetical') {
       this.filteredBoardgames.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (criteria === 'available') {
+      this.filteredBoardgames = this.boardgames.filter(
+        (game) => game.status === 'Available',
+      );
     }
+    this.totalRecords = this.filteredBoardgames.length;
     this.paginate({ first: 0, rows: this.pageSize });
   }
 
-  paginate(event: any) {
-    this.paginatedBoardgames = this.filteredBoardgames.slice(
-      event.first,
-      event.first + event.rows,
-    );
+  paginate(event: any): void {
+    const start = event.first;
+    const end = event.first + event.rows;
+    this.paginatedBoardgames = this.filteredBoardgames.slice(start, end);
   }
 
-  navigateToGameDetails(gameId: string): void {
-    this.router.navigate(['/game', gameId]);
-  }
-
-  editBoardgame(gameId: string) {
+  editBoardgame(gameId: string): void {
     this.router.navigate(['/edit-game', gameId]);
   }
 
-  addBoardgame() {
+  addBoardgame(): void {
     this.router.navigate(['/create-game']);
   }
 

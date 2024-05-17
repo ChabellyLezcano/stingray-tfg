@@ -9,8 +9,13 @@ export class FilterComponent {
   @Output() filter = new EventEmitter<string>();
 
   filterOptions = [
-    { label: 'Orden alfabético', value: 'alphabetical' },
-    { label: 'Últimos agregados', value: 'latest' },
+    {
+      label: 'Orden alfabético',
+      value: 'alphabetical',
+      icon: 'pi pi-sort-alpha-down',
+    },
+    { label: 'Últimos agregados', value: 'latest', icon: 'pi pi-clock' },
+    { label: 'Disponibles', value: 'available', icon: 'pi pi-check' },
   ];
 
   selectedFilter: string = 'alphabetical';
