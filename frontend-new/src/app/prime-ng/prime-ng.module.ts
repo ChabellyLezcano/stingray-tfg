@@ -7,6 +7,7 @@ import { ChipModule } from 'primeng/chip';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
@@ -28,6 +29,7 @@ import { MessageService } from 'primeng/api';
     DropdownModule,
     FileUploadModule,
     InputTextModule,
+    InputTextareaModule,
     MenubarModule,
     MenuModule,
     PaginatorModule,
@@ -46,6 +48,7 @@ import { MessageService } from 'primeng/api';
     DropdownModule,
     FileUploadModule,
     InputTextModule,
+    InputTextareaModule,
     MenubarModule,
     MenuModule,
     PaginatorModule,

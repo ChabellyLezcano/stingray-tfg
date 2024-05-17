@@ -1,10 +1,10 @@
-<body class="flex flex-col min-h-screen">
+<body class="flex min-h-screen flex-col">
   <header
-    class="bg-berkeley-blue text-white flex justify-between items-center p-4"
+    class="bg-berkeley-blue flex items-center justify-between p-4 text-white"
   >
     <h1 class="text-lg font-bold">JuegosDeMesa</h1>
     <button
-      class="bg-tangelo text-white px-4 py-2 rounded hover:bg-selective-yellow transition duration-300"
+      class="bg-tangelo hover:bg-selective-yellow rounded px-4 py-2 text-white transition duration-300"
       routerLink="/login"
     >
       Login
@@ -12,9 +12,9 @@
   </header>
 
   <!-- Sección Principal con Imagen y Descripción en Columna -->
-  <section class="flex flex-col items-center justify-center mb-10 flex-grow">
-    <div class="w-full max-w-4xl mx-auto">
-      <h2 class="text-4xl text-picton-blue font-bold mb-3 text-center">
+  <section class="mb-10 flex flex-grow flex-col items-center justify-center">
+    <div class="mx-auto w-full max-w-4xl">
+      <h2 class="text-picton-blue mb-3 text-center text-4xl font-bold">
         Descubre Nuevos Juegos Cada Mes
       </h2>
       <p class="text-berkeley-blue mb-6 text-center">
@@ -23,19 +23,19 @@
       </p>
 
       <!-- Cards de características una al lado de otra -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-apple-green text-berkeley-blue p-4 rounded">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div class="bg-apple-green text-berkeley-blue rounded p-4">
           <h3 class="font-bold">Diversión Garantizada</h3>
           <p>
             Juegos que te harán pasar horas de entretenimiento con familia y
             amigos.
           </p>
         </div>
-        <div class="bg-selective-yellow text-berkeley-blue p-4 rounded">
+        <div class="bg-selective-yellow text-berkeley-blue rounded p-4">
           <h3 class="font-bold">Para Todas las Edades</h3>
           <p>Encuentra juegos perfectos para cualquier grupo de edad.</p>
         </div>
-        <div class="bg-picton-blue text-white p-4 rounded">
+        <div class="bg-picton-blue rounded p-4 text-white">
           <h3 class="font-bold">Calidad Premium</h3>
           <p>
             Juegos fabricados con los mejores materiales para una mayor
@@ -47,7 +47,7 @@
   </section>
 
   <!-- Footer siempre al final -->
-  <footer class="bg-berkeley-blue text-white text-center p-4 w-full">
+  <footer class="bg-berkeley-blue w-full p-4 text-center text-white">
     © 2024 JuegosDeMesa - Todos los derechos reservados.
   </footer>
 </body>

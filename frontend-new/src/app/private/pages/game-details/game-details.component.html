@@ -2,31 +2,31 @@
 <div class="container mx-auto">
   <div
     *ngIf="!isLoading && boardgame"
-    class="flex flex-col items-center w-full space-y-4 lg:flex-row lg:gap-8 lg:space-y-0"
+    class="flex w-full flex-col items-center space-y-4 lg:flex-row lg:gap-8 lg:space-y-0"
   >
     <!-- Container para la foto y el título -->
-    <div class="relative w-full mx-auto lg:w-1/4">
+    <div class="relative mx-auto w-full lg:w-1/4">
       <!-- Contenedor para centrar la imagen verticalmente -->
-      <div class="flex items-end justify-center mt-4">
+      <div class="mt-4 flex items-end justify-center">
         <img
           [src]="boardgame.mainPhoto"
           alt="Boardgame image"
-          class="px-8 rounded-lg lg:h-64 lg:w-full"
+          class="rounded-lg px-8 lg:h-64 lg:w-full"
         />
       </div>
     </div>
 
-    <div class="flex flex-col w-full mx-4 lg:w-3/4">
+    <div class="mx-4 flex w-full flex-col lg:w-3/4">
       <div
-        class="flex flex-col items-center justify-between mb-8 lg:mb-2 lg:flex-row"
+        class="mb-8 flex flex-col items-center justify-between lg:mb-2 lg:flex-row"
       >
-        <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
           <h1 class="text-3xl font-bold text-slate-700">
             {{ boardgame.title }}
           </h1>
           <p
             *ngIf="user?.role === 'Admin'"
-            class="text-indigo-600 bg-indigo-100 p-2 font-semibold rounded-md text-center"
+            class="rounded-md bg-indigo-100 p-2 text-center font-semibold text-indigo-600"
           >
             {{ boardgame.code }}
           </p>
@@ -34,21 +34,21 @@
 
         <div
           *ngIf="boardgame.status === 'Available'"
-          class="flex items-center p-2 mt-2 font-semibold text-green-600 bg-green-200 rounded-md lg:mt-0"
+          class="mt-2 flex items-center rounded-md bg-green-200 p-2 font-semibold text-green-600 lg:mt-0"
         >
-          <i class="mr-2 font-semibold pi pi-check"></i>
+          <i class="pi pi-check mr-2 font-semibold"></i>
           <span>Disponible</span>
         </div>
         <div
           *ngIf="boardgame.status !== 'Available'"
-          class="flex items-center p-2 mt-2 font-semibold text-red-500 bg-red-200 rounded-md lg:mt-0"
+          class="mt-2 flex items-center rounded-md bg-red-200 p-2 font-semibold text-red-500 lg:mt-0"
         >
-          <i class="mr-2 pi pi-times"></i>
+          <i class="pi pi-times mr-2"></i>
           <span>No disponible</span>
         </div>
       </div>
       <div
-        class="flex flex-wrap justify-center gap-2 mt-2 md:mt-0 lg:justify-between"
+        class="mt-2 flex flex-wrap justify-center gap-2 md:mt-0 lg:justify-between"
       >
         <p-chip
           *ngFor="let tag of boardgame.tags"
@@ -57,13 +57,13 @@
           styleClass="primary-chip"
         ></p-chip>
       </div>
-      <div class="px-4 py-2 my-8 text-justify bg-gray-100 rounded-lg shadow-lg">
+      <div class="my-8 rounded-lg bg-gray-100 px-4 py-2 text-justify shadow-lg">
         <h2
-          class="text-xl font-semibold text-center lg:text-start text-slate-700"
+          class="text-center text-xl font-semibold text-slate-700 lg:text-start"
         >
           Descripción
         </h2>
-        <p class="leading-relaxed text-slate-600 font-14">
+        <p class="font-14 leading-relaxed text-slate-600">
           {{ boardgame.description }}
         </p>
       </div>
@@ -111,23 +111,23 @@
     [showIndicators]="false"
   >
     <ng-template pTemplate="item" let-photo>
-      <div class="flex justify-center p-2 mx-auto">
+      <div class="mx-auto flex justify-center p-2">
         <img
           [src]="photo"
           alt="Gallery image"
-          class="object-cover w-full h-64 rounded-lg"
+          class="h-64 w-full rounded-lg object-cover"
         />
       </div>
     </ng-template>
 
     <!-- Plantilla para ocultar el icono de 'previous' en pantallas grandes -->
     <ng-template pTemplate="previousicon">
-      <i class="block pi pi-chevron-left md:hidden"></i>
+      <i class="pi pi-chevron-left block md:hidden"></i>
     </ng-template>
 
     <!-- Plantilla para ocultar el icono de 'next' en pantallas grandes -->
     <ng-template pTemplate="nexticon">
-      <i class="block pi pi-chevron-right md:hidden"></i>
+      <i class="pi pi-chevron-right block md:hidden"></i>
     </ng-template>
   </p-carousel>
 </div>

@@ -1,13 +1,13 @@
 <app-layout></app-layout>
 
 <div class="container mx-auto">
-  <h2 class="text-2xl font-bold mb-6 text-center">Mis Favoritos</h2>
+  <h2 class="mb-6 text-center text-2xl font-bold">Mis Favoritos</h2>
 
-  <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+  <div *ngIf="isLoading" class="flex h-64 items-center justify-center">
     <p-progressSpinner></p-progressSpinner>
   </div>
 
-  <div *ngIf="!isLoading && error" class="text-red-500 text-center">
+  <div *ngIf="!isLoading && error" class="text-center text-red-500">
     {{ error }}
   </div>
 
@@ -20,18 +20,18 @@
 
   <div
     *ngIf="!isLoading && !error && paginatedFavorites.length > 0"
-    class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 px-6"
+    class="grid grid-cols-2 gap-8 px-6 md:grid-cols-3 lg:grid-cols-5"
   >
     <div
       *ngFor="let game of paginatedFavorites"
-      class="flex flex-col items-center bg-gray-100 p-4 rounded-md shadow"
+      class="flex flex-col items-center rounded-md bg-gray-100 p-4 shadow"
     >
       <img
         [src]="game.mainPhoto"
         alt="Imagen del juego"
-        class="w-full h-32 object-cover rounded-md mb-2"
+        class="mb-2 h-32 w-full rounded-md object-cover"
       />
-      <h3 class="text-lg font-semibold text-gray-700 text-center">
+      <h3 class="text-center text-lg font-semibold text-gray-700">
         {{ game.title }}
       </h3>
       <div class="flex gap-4">

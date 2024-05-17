@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BoardgameService } from '../../services/boardgame.service';
+import { GameService } from '../../services/game.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -21,7 +21,7 @@ export class CreateGameComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private gameService: BoardgameService,
+    private gameService: GameService,
     private messageService: MessageService,
     private router: Router,
   ) {
@@ -30,7 +30,7 @@ export class CreateGameComponent implements OnInit {
       description: ['', Validators.required],
       mainPhoto: ['', Validators.required],
       status: ['Available', Validators.required],
-      tags: [''],
+      tags: ['', Validators.required],
       photoGallery: [''],
     });
   }

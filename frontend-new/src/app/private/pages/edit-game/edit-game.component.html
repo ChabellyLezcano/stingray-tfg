@@ -1,58 +1,66 @@
 <app-layout></app-layout>
 
 <div class="container mx-auto">
-  <h2 class="text-2xl font-bold mb-6 text-center">Editar Juego</h2>
-  <form [formGroup]="gameForm" (ngSubmit)="updateGame()">
-    <div class="mb-4">
-      <label for="title" class="block text-sm font-medium text-gray-700"
-        >Título</label
-      >
+  <h2 class="mb-6 text-center text-2xl font-bold">Editar Juego</h2>
+  <form
+    class="mx-auto mb-8 flex w-1/2 flex-col gap-8"
+    [formGroup]="gameForm"
+    (ngSubmit)="updateGame()"
+  >
+    <div class="flex flex-col gap-1">
+      <label for="title" class="block text-sm font-medium text-gray-700">
+        Título <span class="text-red-500">*</span>
+      </label>
       <input
         id="title"
         pInputText
         formControlName="title"
         placeholder="Título del juego"
-        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        class="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       />
       <div
         *ngIf="gameForm.get('title')?.invalid && gameForm.get('title')?.touched"
-        class="text-red-600 mt-1 text-sm"
+        class="text-sm text-red-600"
       >
         El título es requerido.
       </div>
     </div>
 
-    <div class="mb-4">
-      <label for="description" class="block text-sm font-medium text-gray-700"
-        >Descripción</label
-      >
+    <div class="flex flex-col gap-1">
+      <label for="description" class="block text-sm font-medium text-gray-700">
+        Descripción <span class="text-red-500">*</span>
+      </label>
       <textarea
         id="description"
         pInputTextarea
         formControlName="description"
         placeholder="Descripción del juego"
-        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        rows="8"
+        class="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       ></textarea>
       <div
         *ngIf="
           gameForm.get('description')?.invalid &&
           gameForm.get('description')?.touched
         "
-        class="text-red-600 mt-1 text-sm"
+        class="text-sm text-red-600"
       >
         La descripción es requerida.
       </div>
     </div>
 
-    <div class="mb-4">
-      <label for="mainPhoto" class="block text-sm font-medium text-gray-700"
-        >Foto Principal (solo formatos .jpg, .jpeg y .png)</label
+    <div class="flex flex-col gap-1">
+      <label
+        for="mainPhoto"
+        class="mb-1 block text-sm font-medium text-gray-700"
       >
-      <div *ngIf="mainPhotoPreview" class="mb-4">
+        Foto Principal (solo formatos .jpg, .jpeg y .png)
+        <span class="text-red-500">*</span>
+      </label>
+      <div *ngIf="mainPhotoPreview" class="mx-auto mb-4">
         <img
           [src]="mainPhotoPreview"
-          alt="Previsualización de la foto principal"
-          class="w-24 h-24 object-cover rounded-md flex mx-auto m-4"
+          class="mx-auto h-32 w-32 rounded-md object-cover"
         />
       </div>
       <p-fileUpload
@@ -67,55 +75,51 @@
           gameForm.get('mainPhoto')?.invalid &&
           gameForm.get('mainPhoto')?.touched
         "
-        class="text-red-600 mt-1 text-sm"
+        class="text-sm text-red-600"
       >
         La foto principal es requerida.
       </div>
     </div>
 
-    <div class="mb-4">
-      <label for="status" class="block text-sm font-medium text-gray-700"
-        >Estado</label
-      >
+    <div class="flex flex-col gap-1">
+      <label for="status" class="block text-sm font-medium text-gray-700">
+        Estado <span class="text-red-500">*</span>
+      </label>
       <p-dropdown
         id="status"
         [options]="statusOptions"
         formControlName="status"
         [style]="{ width: '100%' }"
-        class="mt-1 block w-full"
+        class="block w-full"
       ></p-dropdown>
     </div>
 
-    <div class="mb-4">
-      <label for="tags" class="block text-sm font-medium text-gray-700"
-        >Etiquetas</label
-      >
+    <div class="flex flex-col gap-1">
+      <label for="tags" class="block text-sm font-medium text-gray-700">
+        Etiquetas <span class="text-red-500">*</span>
+      </label>
       <input
         id="tags"
         pInputText
         formControlName="tags"
         placeholder="Etiquetas separadas por comas"
-        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        class="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       />
     </div>
 
-    <div class="mb-4">
-      <label for="photoGallery" class="block text-sm font-medium text-gray-700"
-        >Galería de Fotos (solo formatos .jpg, .jpeg y .png)</label
-      >
+    <div class="flex flex-col gap-1">
+      <label for="photoGallery" class="block text-sm font-medium text-gray-700">
+        Galería de Fotos (solo formatos .jpg, .jpeg y .png)
+      </label>
       <div
         *ngIf="photoGalleryPreviews.length > 0"
-        class="mb-4 grid grid-cols-3 gap-2"
+        class="grid grid-cols-3 gap-2"
       >
         <div
           *ngFor="let photo of photoGalleryPreviews"
-          class="flex flex-col items-center"
+          class="my-2 flex flex-col items-center"
         >
-          <img
-            [src]="photo.url"
-            alt="Previsualización de la galería de fotos"
-            class="w-24 h-24 object-cover rounded-md m-4"
-          />
+          <img [src]="photo.url" class="h-24 w-24 rounded-md object-cover" />
         </div>
       </div>
       <p-fileUpload
@@ -128,7 +132,7 @@
       ></p-fileUpload>
     </div>
 
-    <div class="flex mt-6 gap-4 justify-center">
+    <div class="mt-6 flex justify-center gap-4">
       <button
         pButton
         type="button"

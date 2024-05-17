@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BoardgameService } from '../../services/boardgame.service';
+import { GameService } from '../../services/game.service';
 import { FavoriteService } from '../../services/favorite.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
@@ -40,7 +40,7 @@ export class GameDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private boardgameService: BoardgameService,
+    private gameService: GameService,
     private favoriteService: FavoriteService,
     private authService: AuthService,
     private messageService: MessageService, // Inyecta el servicio de mensajes
@@ -56,7 +56,7 @@ export class GameDetailsComponent implements OnInit {
 
   private loadGameDetails(): void {
     this.isLoading = true;
-    this.boardgameService.getGameById(this.gameId).subscribe({
+    this.gameService.getGameById(this.gameId).subscribe({
       next: (response) => {
         this.isLoading = false;
         if (response.ok) {

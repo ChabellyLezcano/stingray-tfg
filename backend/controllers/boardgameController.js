@@ -6,7 +6,7 @@ const cloudinary = require("cloudinary").v2;
 
 // Create Boardgame
 const createBoardGame = async (req, res) => {
-  const { title, description, tags } = req.body;
+  const { title, description, tags,status } = req.body;
   const userId = req.id;
 
   try {
@@ -48,6 +48,7 @@ const createBoardGame = async (req, res) => {
       code: code,
       title: title,
       description,
+      status,
       mainPhoto,
       photoGallery,
       tags: tagsArray,
@@ -123,7 +124,7 @@ const deleteBoardGame = async (req, res) => {
 // Update Boardgame
 const updateBoardGame = async (req, res) => {
   const { id } = req.params; // Assumes the ID of the boardgame is passed as a URL parameter
-  const { title, description, tags } = req.body;
+  const { title, description, tags, status } = req.body;
   const userId = req.id;
 
   try {
@@ -169,6 +170,7 @@ const updateBoardGame = async (req, res) => {
     if (title) boardgame.title = title;
     if (description) boardgame.description = description;
     if (tags) boardgame.tags = tags.split(",").map((tag) => tag.trim());
+    if(status) boardgame.status = status;
 
     // Save the updated boardgame in the database
     const updatedBoardGame = await boardgame.save();

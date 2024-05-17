@@ -1,14 +1,14 @@
-export interface BoardgameResponse {
+export interface GameResponse {
   ok: boolean;
   msg: string;
-  boardgames: Boardgame[];
-  boardgame: Boardgame[];
+  boardgames: Game[];
+  boardgame: Game[];
 }
 
 export interface FavoriteResponse {
   ok: boolean;
   msg: string;
-  favorites: Boardgame[];
+  favorites: Game[];
 }
 
 export interface IsFavorite {
@@ -16,7 +16,7 @@ export interface IsFavorite {
   msg: string;
 }
 
-export interface Boardgame {
+export interface Game {
   _id: string;
   code: string;
   title: string;

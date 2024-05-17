@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FavoriteService } from '../../services/favorite.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
-import { Boardgame } from '../../interfaces/interfaces.interface';
+import { Game } from '../../interfaces/interfaces.interface';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,11 +12,11 @@ import Swal from 'sweetalert2';
 })
 export class FavoritesComponent implements OnInit {
   user!: User | null;
-  favorites: Boardgame[] = [];
-  paginatedFavorites: Boardgame[] = [];
+  favorites: Game[] = [];
+  paginatedFavorites: Game[] = [];
   isLoading: boolean = true;
   error: string | null = null;
-  pageSize: number = 20; // Puedes ajustar este valor según tus necesidades
+  pageSize: number = 20;
   totalRecords: number = 0;
 
   constructor(

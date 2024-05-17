@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BoardgameService } from '../../services/boardgame.service';
+import { GameService } from '../../services/game.service';
 import { MessageService } from 'primeng/api';
+import { Game } from '../../interfaces/interfaces.interface';
 
 @Component({
   selector: 'app-edit-game',
@@ -21,11 +22,11 @@ export class EditGameComponent implements OnInit {
   photoGalleryFiles: File[] = [];
   photoGalleryPreviews: { url: string; name: string }[] = [];
   gameId: string;
-  boardgame: any; // Asegúrate de que esto esté inicializado
+  game!: Game; // No need to initialize here
 
   constructor(
     private fb: FormBuilder,
-    private gameService: BoardgameService,
+    private gameService: GameService,
     private messageService: MessageService,
     private router: Router,
     private route: ActivatedRoute,
@@ -49,10 +50,10 @@ export class EditGameComponent implements OnInit {
     this.gameService.getGameById(this.gameId).subscribe({
       next: (response) => {
         if (response.ok) {
-          this.boardgame = response.boardgame; // Asegúrate de que `boardgame` está definido aquí
-          this.gameForm.patchValue(this.boardgame);
-          this.mainPhotoPreview = this.boardgame.mainPhoto;
-          this.photoGalleryPreviews = this.boardgame.photoGallery.map(
+          this.game = response.boardgame[0];
+          this.gameForm.patchValue(this.game);
+          this.mainPhotoPreview = this.game.mainPhoto;
+          this.photoGalleryPreviews = this.game.photoGallery.map(
             (url: string) => ({
               url,
               name: url.split('/').pop()!,
@@ -119,8 +120,8 @@ export class EditGameComponent implements OnInit {
       formData.append('description', updatedGame.description);
       if (this.mainPhotoFile) {
         formData.append('mainPhoto', this.mainPhotoFile);
-      } else if (this.boardgame && this.boardgame.mainPhoto) {
-        formData.append('mainPhoto', this.boardgame.mainPhoto);
+      } else if (this.game && this.game.mainPhoto) {
+        formData.append('mainPhoto', this.game.mainPhoto);
       }
       formData.append('status', updatedGame.status);
       formData.append('tags', updatedGame.tags);
