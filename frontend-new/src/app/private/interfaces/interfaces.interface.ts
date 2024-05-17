@@ -2,7 +2,7 @@ export interface GameResponse {
   ok: boolean;
   msg: string;
   boardgames: Game[];
-  boardgame: Game[];
+  boardgame: Game;
 }
 
 export interface FavoriteResponse {

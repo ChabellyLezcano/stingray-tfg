@@ -13,19 +13,18 @@
       <div
         class="flex w-full flex-wrap items-center justify-center gap-4 md:w-auto md:justify-end"
       >
-        <app-filter
-          (filter)="handleFilter($event)"
-          *ngIf="user?.role === 'User'"
-        ></app-filter>
         <button
           pButton
           type="button"
           icon="pi pi-plus"
-          label="Agregar juego"
           class="p-button-primary font-semibold"
           (click)="addBoardgame()"
-          *ngIf="user?.role !== 'User'"
-        ></button>
+          *ngIf="user?.role === 'Admin'"
+        >
+          <span class="ml-2 hidden lg:inline">Agregar Juego</span>
+        </button>
+        <app-filter (filter)="handleFilter($event)"></app-filter>
+
         <app-search-bar
           (search)="handleSearch($event)"
           searchField="title"

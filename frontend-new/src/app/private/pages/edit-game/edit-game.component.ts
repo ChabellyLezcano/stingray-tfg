@@ -49,8 +49,9 @@ export class EditGameComponent implements OnInit {
   loadGameDetails(): void {
     this.gameService.getGameById(this.gameId).subscribe({
       next: (response) => {
+        ('');
         if (response.ok) {
-          this.game = response.boardgame[0];
+          this.game = response.boardgame;
           this.gameForm.patchValue(this.game);
           this.mainPhotoPreview = this.game.mainPhoto;
           this.photoGalleryPreviews = this.game.photoGallery.map(

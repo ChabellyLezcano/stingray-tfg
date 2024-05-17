@@ -18,7 +18,7 @@
     <ng-template let-selectedOption pTemplate="selectedItem">
       <div class="flex items-center">
         <i [class]="selectedOption?.icon"></i>
-        <span class="ml-2">{{ selectedOption?.label }}</span>
+        <span class="ml-2 hidden lg:inline">{{ selectedOption?.label }}</span>
       </div>
     </ng-template>
   </p-dropdown>
