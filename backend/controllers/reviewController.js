@@ -53,10 +53,11 @@ const getReviews = async (req, res) => {
     // Find all reviews for the specified game and populate user details
     const reviews = await Review.find({ boardGameId: gameId }).populate(
       "userId",
-      "username",
+      "username photo"
     );
     res.json({
       ok: true,
+      msg:"Reseñas obtenidas con éxito",
       reviews,
     });
   } catch (error) {

@@ -11,6 +11,9 @@ import { SharedModule } from '../shared/shared.module';
 import { EditGameComponent } from './pages/edit-game/edit-game.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { RecommendationsComponent } from './pages/recommendations/recommendations.component';
+import { EditReviewComponent } from './pages/edit-review/edit-review.component';
+import { CreateReviewComponent } from './pages/create-review/create-review.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { FavoritesComponent } from './pages/favorites/favorites.component';
     LayoutComponent,
     EditGameComponent,
     FavoritesComponent,
+    RecommendationsComponent,
+    EditReviewComponent,
+    CreateReviewComponent,
   ],
   imports: [
     CommonModule,

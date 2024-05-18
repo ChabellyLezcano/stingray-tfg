@@ -3,7 +3,7 @@
 <div class="container mx-auto min-h-screen">
   <div class="flex w-full flex-grow flex-col gap-8">
     <div
-      class="flex w-full flex-wrap items-center justify-between space-y-2 px-4 py-2 md:flex-nowrap md:space-y-0 md:px-8"
+      class="mt-4 flex w-full flex-wrap items-center justify-between gap-4 md:flex-nowrap md:space-y-0 md:px-8"
     >
       <h1
         class="w-full text-center text-2xl font-bold uppercase text-slate-700 md:w-auto md:text-left"
@@ -18,7 +18,7 @@
           type="button"
           icon="pi pi-plus"
           class="p-button-primary font-semibold"
-          (click)="addBoardgame()"
+          [routerLink]="['/create-game']"
           *ngIf="user?.role === 'Admin'"
         >
           <span class="ml-2 hidden lg:inline">Agregar Juego</span>
@@ -127,7 +127,7 @@
                   type="button"
                   icon="pi pi-pencil"
                   class="p-button-text text-green-500"
-                  (click)="editBoardgame(boardgame._id)"
+                  [routerLink]="['/edit-game', boardgame._id]"
                 ></button>
                 <button
                   pButton

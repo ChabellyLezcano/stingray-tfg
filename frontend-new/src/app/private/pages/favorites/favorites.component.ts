@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
 import { Game } from '../../interfaces/interfaces.interface';
 import Swal from 'sweetalert2';
+import { response } from 'express';
 
 @Component({
   selector: 'app-favorites',
@@ -57,7 +58,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   removeFromFavorites(gameId: string, event: Event): void {
-    event.stopPropagation(); // Prevenir la navegación cuando se hace clic en el botón
+    event.stopPropagation();
 
     Swal.fire({
       title: '¿Estás seguro?',
@@ -77,20 +78,12 @@ export class FavoritesComponent implements OnInit {
               );
               this.totalRecords = this.favorites.length;
               this.paginate({ first: 0, rows: this.pageSize });
-              Swal.fire(
-                'Eliminado!',
-                'El juego ha sido eliminado de tus favoritos.',
-                'success',
-              );
+              Swal.fire('¡Eliminado!', response.msg, 'success');
             }
           },
           error: (error) => {
             console.error('Error removing game from favorites:', error);
-            Swal.fire(
-              'Error',
-              'Hubo un problema al eliminar el juego de tus favoritos.',
-              'error',
-            );
+            Swal.fire('Error', error, 'error');
           },
         });
       }

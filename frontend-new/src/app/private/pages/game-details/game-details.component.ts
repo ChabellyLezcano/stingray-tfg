@@ -4,13 +4,15 @@ import { GameService } from '../../services/game.service';
 import { FavoriteService } from '../../services/favorite.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
-import { MessageService } from 'primeng/api'; // Importa el servicio de mensajes
+import { MessageService } from 'primeng/api';
+import { ReviewService } from '../../services/review.service';
+import { Review } from '../../interfaces/interfaces.interface';
 
 @Component({
   selector: 'app-game-details',
   templateUrl: './game-details.component.html',
   styleUrls: ['./game-details.component.css'],
-  providers: [MessageService], // Añade el servicio de mensajes a los proveedores
+  providers: [MessageService],
 })
 export class GameDetailsComponent implements OnInit {
   gameId: string;
@@ -19,6 +21,12 @@ export class GameDetailsComponent implements OnInit {
   isLoading: boolean = true;
   error: string | null = null;
   isFavorite: boolean = false;
+  reviews: Review[] = [];
+  isLoadingReviews: boolean = true;
+  reviewError: string | null = null;
+  currentPage: number = 0;
+  pageSize: number = 3;
+  paginatedReviews: Review[] = [];
 
   responsiveOptions: any[] = [
     {
@@ -43,7 +51,8 @@ export class GameDetailsComponent implements OnInit {
     private gameService: GameService,
     private favoriteService: FavoriteService,
     private authService: AuthService,
-    private messageService: MessageService, // Inyecta el servicio de mensajes
+    private messageService: MessageService,
+    private reviewService: ReviewService,
   ) {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
   }
@@ -52,6 +61,7 @@ export class GameDetailsComponent implements OnInit {
     this.user = this.authService.user;
     this.loadGameDetails();
     this.checkIfFavorite();
+    this.loadReviews();
   }
 
   private loadGameDetails(): void {
@@ -94,7 +104,7 @@ export class GameDetailsComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: '¡Juego añadido a favoritos!',
-            detail: 'El juego ha sido añadido a favoritos exitosamente',
+            detail: response.msg,
           });
         }
       },
@@ -103,7 +113,8 @@ export class GameDetailsComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Hubo un problema al añadir el juego a tus favoritos.',
+          detail:
+            error || 'Hubo un problema al añadir el juego a tus favoritos.',
         });
       },
     });
@@ -130,5 +141,59 @@ export class GameDetailsComponent implements OnInit {
         });
       },
     });
+  }
+
+  showMoreReviews(): void {
+    const nextIndex = this.paginatedReviews.length + this.pageSize;
+    this.paginatedReviews = this.reviews.slice(0, nextIndex);
+  }
+
+  private updatePaginatedReviews(): void {
+    const start = this.currentPage * this.pageSize;
+    const end = start + this.pageSize;
+    this.paginatedReviews = this.reviews.slice(start, end);
+  }
+
+  private loadReviews(): void {
+    this.isLoadingReviews = true;
+    this.reviewService.getReviews(this.gameId).subscribe({
+      next: (response) => {
+        this.isLoadingReviews = false;
+        this.reviews = response.reviews;
+        this.updatePaginatedReviews();
+      },
+      error: (error) => {
+        this.isLoadingReviews = false;
+        this.reviewError = 'Error al cargar las reseñas';
+        console.error('Error fetching reviews:', error);
+      },
+    });
+  }
+
+  deleteReview(reviewId: string): void {
+    this.reviewService.deleteReview(reviewId).subscribe({
+      next: () => {
+        this.reviews = this.reviews.filter((r) => r._id !== reviewId);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Reseña eliminada',
+          detail: 'La reseña ha sido eliminada con éxito',
+        });
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail:
+            'Hubo un problema al eliminar la reseña. Inténtalo de nuevo más tarde.',
+        });
+        console.error('Error deleting review:', error);
+      },
+    });
+  }
+  getStarArray(rating: number): string[] {
+    return Array.from({ length: 5 }, (_, i) =>
+      i < rating ? 'text-yellow-500' : 'text-gray-500',
+    );
   }
 }

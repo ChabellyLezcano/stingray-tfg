@@ -1,12 +1,11 @@
 <app-layout></app-layout>
-<div class="container mx-auto">
+<div class="container mx-auto px-4 lg:px-0">
   <div
     *ngIf="!isLoading && boardgame"
-    class="flex w-full flex-col items-center space-y-4 lg:flex-row lg:gap-8 lg:space-y-0"
+    class="flex w-full flex-col items-center pb-12 lg:flex-row lg:gap-8"
   >
     <!-- Container para la foto y el título -->
-    <div class="relative mx-auto w-full lg:w-1/4">
-      <!-- Contenedor para centrar la imagen verticalmente -->
+    <div class="relative w-full lg:w-1/4">
       <div class="mt-4 flex items-end justify-center">
         <img
           [src]="boardgame.mainPhoto"
@@ -16,11 +15,13 @@
       </div>
     </div>
 
-    <div class="mx-4 flex w-full flex-col lg:w-3/4">
+    <div class="flex w-full flex-col gap-4 lg:w-3/4">
       <div
-        class="mb-8 flex flex-col items-center justify-between lg:mb-2 lg:flex-row"
+        class="flex flex-col items-center gap-4 lg:flex-row lg:justify-between"
       >
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
+        <div
+          class="flex flex-col items-center gap-4 lg:flex-row lg:items-center"
+        >
           <h1 class="text-3xl font-bold text-slate-700">
             {{ boardgame.title }}
           </h1>
@@ -34,22 +35,21 @@
 
         <div
           *ngIf="boardgame.status === 'Available'"
-          class="mt-2 flex items-center rounded-md bg-green-200 p-2 font-semibold text-green-600 lg:mt-0"
+          class="flex items-center rounded-md bg-green-200 p-2 font-semibold text-green-600"
         >
           <i class="pi pi-check mr-2 font-semibold"></i>
           <span>Disponible</span>
         </div>
         <div
           *ngIf="boardgame.status !== 'Available'"
-          class="mt-2 flex items-center rounded-md bg-red-200 p-2 font-semibold text-red-500 lg:mt-0"
+          class="flex items-center rounded-md bg-red-200 p-2 font-semibold text-red-500"
         >
           <i class="pi pi-times mr-2"></i>
           <span>No disponible</span>
         </div>
       </div>
-      <div
-        class="mt-2 flex flex-wrap justify-center gap-2 md:mt-0 lg:justify-between"
-      >
+
+      <div class="flex flex-wrap justify-center gap-2 lg:justify-between">
         <p-chip
           *ngFor="let tag of boardgame.tags"
           [label]="tag"
@@ -57,7 +57,8 @@
           styleClass="primary-chip"
         ></p-chip>
       </div>
-      <div class="my-8 rounded-lg bg-gray-100 px-4 py-2 text-justify shadow-lg">
+
+      <div class="rounded-lg bg-gray-100 px-4 py-2 text-justify shadow-lg">
         <h2
           class="text-center text-xl font-semibold text-slate-700 lg:text-start"
         >
@@ -67,6 +68,7 @@
           {{ boardgame.description }}
         </p>
       </div>
+
       <div
         *ngIf="user?.role === 'User'"
         class="flex justify-center gap-4 py-2 lg:justify-end"
@@ -100,40 +102,116 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="px-8 py-4">
-  <h2 class="text-center uppercase text-slate-700">Galería de Imágenes</h2>
-  <p-carousel
-    [value]="boardgame?.photoGallery"
-    [numVisible]="3"
-    [responsiveOptions]="responsiveOptions"
-    [showIndicators]="false"
-  >
-    <ng-template pTemplate="item" let-photo>
-      <div class="mx-auto flex justify-center p-2">
-        <img
-          [src]="photo"
-          alt="Gallery image"
-          class="h-64 w-full rounded-lg object-cover"
-        />
+  <div class="pb-12">
+    <h2 class="text-center uppercase text-slate-700">Galería de Imágenes</h2>
+    <p-carousel
+      [value]="boardgame?.photoGallery"
+      [numVisible]="3"
+      [responsiveOptions]="responsiveOptions"
+      [showIndicators]="false"
+    >
+      <ng-template pTemplate="item" let-photo>
+        <div class="mx-auto flex justify-center p-2">
+          <img
+            [src]="photo"
+            alt="Gallery image"
+            class="h-64 w-full rounded-lg object-cover"
+          />
+        </div>
+      </ng-template>
+
+      <!-- Plantilla para ocultar el icono de 'previous' en pantallas grandes -->
+      <ng-template pTemplate="previousicon">
+        <i class="pi pi-chevron-left block md:hidden"></i>
+      </ng-template>
+
+      <!-- Plantilla para ocultar el icono de 'next' en pantallas grandes -->
+      <ng-template pTemplate="nexticon">
+        <i class="pi pi-chevron-right block md:hidden"></i>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <div *ngIf="!isLoadingReviews && reviews.length > 0">
+    <h2 class="text-center uppercase text-slate-700">Reseñas</h2>
+    <div class="grid grid-cols-1 gap-8">
+      <div
+        *ngFor="let review of paginatedReviews"
+        class="card-review rounded-md bg-indigo-50 p-4 shadow-md"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <img
+              [src]="review.userId.photo"
+              alt="User Photo"
+              class="h-10 w-10 rounded-full object-cover"
+            />
+            <div class="flex-col items-center">
+              <h3 class="m-0 font-bold text-slate-700">{{ review.title }}</h3>
+              <span class="text-sm italic text-gray-600"
+                >Publicado por {{ review.userId.username }}</span
+              >
+            </div>
+          </div>
+          <div class="flex items-center gap-1">
+            <i
+              *ngFor="let starClass of getStarArray(review.rating)"
+              class="pi pi-star-fill"
+              [ngClass]="starClass"
+            ></i>
+          </div>
+        </div>
+        <p class="text-md font-medium text-gray-600">
+          {{ review.description }}
+        </p>
+        <div class="flex items-center justify-between">
+          <span class="mt-2 text-sm">{{
+            review.reviewDate | date: "dd/MM/yyyy"
+          }}</span>
+          <div class="flex items-center gap-2">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-text text-green-600"
+            ></button>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-trash"
+              (click)="deleteReview(review._id)"
+              class="p-button-text text-red-600"
+            ></button>
+          </div>
+        </div>
       </div>
-    </ng-template>
+    </div>
+    <div class="flex justify-center p-8">
+      <button
+        pButton
+        type="button"
+        label="Mostrar más"
+        (click)="showMoreReviews()"
+        *ngIf="paginatedReviews.length < reviews.length"
+      ></button>
+    </div>
+  </div>
 
-    <!-- Plantilla para ocultar el icono de 'previous' en pantallas grandes -->
-    <ng-template pTemplate="previousicon">
-      <i class="pi pi-chevron-left block md:hidden"></i>
-    </ng-template>
+  <div *ngIf="isLoadingReviews" class="flex h-64 items-center justify-center">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
 
-    <!-- Plantilla para ocultar el icono de 'next' en pantallas grandes -->
-    <ng-template pTemplate="nexticon">
-      <i class="pi pi-chevron-right block md:hidden"></i>
-    </ng-template>
-  </p-carousel>
-</div>
+  <div
+    *ngIf="!isLoadingReviews && reviewError"
+    class="text-center text-red-500"
+  >
+    {{ reviewError }}
+  </div>
 
-<p-toast></p-toast>
+  <div *ngIf="!isLoadingReviews && reviews.length === 0" class="text-center">
+    No hay reseñas para este juego.
+  </div>
 
-<div *ngIf="error" class="text-center text-red-500">
-  {{ error }}
+  <p-toast></p-toast>
 </div>

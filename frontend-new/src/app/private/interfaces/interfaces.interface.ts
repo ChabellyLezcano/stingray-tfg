@@ -28,3 +28,51 @@ export interface Game {
   averageRating: number;
   __v: number;
 }
+
+export interface RecommendationResponse {
+  _id: string;
+  userId: string;
+  recommendations: Recommendation[];
+  __v: number;
+}
+
+export interface Recommendation {
+  boardGameId: BoardGameID;
+  affinityScore: number;
+  _id: string;
+}
+
+export interface BoardGameID {
+  _id: string;
+  code: string;
+  title: string;
+  description: string;
+  status: string;
+  mainPhoto: string;
+  photoGallery: string[];
+  tags: string[];
+  averageRating: number;
+  __v: number;
+}
+
+export interface ReviewResponse {
+  ok: boolean;
+  reviews: Review[];
+}
+
+export interface Review {
+  _id: string;
+  boardGameId: BoardGameID;
+  userId: UserID;
+  title: string;
+  description: string;
+  rating: number;
+  reviewDate: Date;
+  __v: number;
+}
+
+export interface UserID {
+  _id: string;
+  username: string;
+  photo: string;
+}

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { Game } from '../../interfaces/interfaces.interface';
-import { Router } from '@angular/router';
 import { User } from 'src/app/auth/interface/authInterface';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import Swal from 'sweetalert2';
@@ -24,7 +23,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private router: Router,
     private authService: AuthService,
   ) {
     this.user = this.authService.user;
@@ -96,14 +94,6 @@ export class DashboardComponent implements OnInit {
     this.paginatedGames = this.filteredGames.slice(start, end);
   }
 
-  editBoardgame(gameId: string): void {
-    this.router.navigate(['/edit-game', gameId]);
-  }
-
-  addBoardgame(): void {
-    this.router.navigate(['/create-game']);
-  }
-
   deleteBoardgame(id: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -124,7 +114,8 @@ export class DashboardComponent implements OnInit {
             console.error('Error deleting game:', error);
             Swal.fire(
               'Error',
-              'Hubo un problema al eliminar el juego. Inténtalo de nuevo más tarde.',
+              error ||
+                'Hubo un problema al eliminar el juego. Inténtalo de nuevo más tarde.',
               'error',
             );
           },

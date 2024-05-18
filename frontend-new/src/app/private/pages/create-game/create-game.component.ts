@@ -72,7 +72,7 @@ export class CreateGameComponent implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: '¡Juego creado!',
-              detail: 'El juego ha sido creado con éxito.',
+              detail: response.msg,
             });
             this.gameForm.reset();
             setTimeout(() => {
@@ -92,6 +92,7 @@ export class CreateGameComponent implements OnInit {
             severity: 'error',
             summary: 'Error',
             detail:
+              error ||
               'Hubo un problema al crear el juego. Inténtalo de nuevo más tarde.',
           });
         },

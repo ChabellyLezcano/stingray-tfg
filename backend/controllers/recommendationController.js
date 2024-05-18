@@ -1,16 +1,26 @@
 const { Recommendation } = require("../models/Recommendation");
+const { Review } = require("../models/Review"); // Asumiendo que tienes un modelo Review
 const {
   shuffleArray,
   getUserFavoriteTags,
   getGamesByTags,
-  calculateAffinityScore,
+  calculateAffinityScore
 } = require("../helpers/recommendationUtils");
+const { User } = require("../models/User");
 
 // Controller to generate or update recommendations
 const generateRecommendations = async (req, res) => {
   const userId = req.id;
 
   try {
+    const user = await User.findById(userId);
+    if (!user || user.role !== "User") {
+      return res.status(401).json({
+        ok: false,
+        msg: "No estás autorizado para ver recomendaciones",
+      });
+    }
+
     const favoriteTags = await getUserFavoriteTags(userId);
     let recommendedGames = await getGamesByTags(favoriteTags);
 
@@ -45,17 +55,16 @@ const generateRecommendations = async (req, res) => {
     await recommendation.save();
 
     // Populate the boardGame details for each recommendation after saving
-    recommendation = await Recommendation.findOne({ userId }).populate({
-      path: "recommendations.boardGameId",
-      model: "Boardgame",
-    });
+    recommendation = await Recommendation.findOne({ userId })
+      .populate({
+        path: 'recommendations.boardGameId',
+        model: 'Boardgame'
+      });
 
     res.json(recommendation);
   } catch (error) {
     console.error("Error generating recommendations:", error);
-    res
-      .status(500)
-      .send({ error: "Error retrieving or updating recommendations" });
+    res.status(500).send({ error: "Error retrieving or updating recommendations" });
   }
 };
 

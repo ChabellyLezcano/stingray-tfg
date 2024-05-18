@@ -136,7 +136,7 @@ export class EditGameComponent implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: '¡Juego actualizado!',
-              detail: 'El juego ha sido actualizado con éxito.',
+              detail: response.msg,
             });
             setTimeout(() => {
               this.router.navigate(['/dashboard']);
@@ -155,6 +155,7 @@ export class EditGameComponent implements OnInit {
             severity: 'error',
             summary: 'Error',
             detail:
+              error ||
               'Hubo un problema al actualizar el juego. Inténtalo de nuevo más tarde.',
           });
         },
