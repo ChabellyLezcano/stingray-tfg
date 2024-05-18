@@ -19,7 +19,7 @@ export class ReviewComponent {
   isLoadingReviews: boolean = true;
   paginatedReviews: Review[] = [];
   pageSize: number = 3;
-  averageRating: number | null = null;
+  averageRating: number = 0;
 
   constructor(
     private reviewService: ReviewService,
