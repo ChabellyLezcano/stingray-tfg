@@ -38,7 +38,9 @@ export class DashboardComponent implements OnInit {
       next: (response) => {
         this.isLoading = false;
         if (response.ok) {
-          this.games = response.boardgames;
+          this.games = response.boardgames.sort((a, b) =>
+            a.title.localeCompare(b.title),
+          );
           this.filteredGames = [...this.games];
           this.totalRecords = this.filteredGames.length;
           this.paginate({ first: 0, rows: this.pageSize });

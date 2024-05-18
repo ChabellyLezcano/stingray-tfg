@@ -88,8 +88,9 @@
               <td class="align-start">
                 <span
                   class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
-                  >{{ boardgame.code }}</span
                 >
+                  {{ boardgame.code }}
+                </span>
               </td>
               <td class="align-start text-slate-600">{{ boardgame.title }}</td>
               <td class="hidden text-center align-middle md:table-cell">
@@ -144,7 +145,7 @@
     </div>
 
     <!-- Espacio flexible para empujar el paginador al final -->
-    <div class="flex-grow"></div>
+    <div class="m-0 flex-grow"></div>
 
     <!-- Paginador al final de la página -->
     <div class="flex w-full justify-center pb-4">

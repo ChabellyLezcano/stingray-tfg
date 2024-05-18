@@ -12,9 +12,9 @@
   <div class="mt-8 w-full max-w-md px-4">
     <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-6">
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-200"
-          >Correo electrónico</label
-        >
+        <label for="email" class="block text-sm font-medium text-gray-200">
+          Correo electrónico
+        </label>
         <input
           type="email"
           formControlName="email"
@@ -30,18 +30,18 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="registerForm.get('email')?.errors?.['required']"
-            >El correo electrónico es requerido.</span
-          >
-          <span *ngIf="registerForm.get('email')?.errors?.['email']"
-            >Ingrese un correo electrónico válido.</span
-          >
+          <span *ngIf="registerForm.get('email')?.errors?.['required']">
+            El correo electrónico es requerido.
+          </span>
+          <span *ngIf="registerForm.get('email')?.errors?.['email']">
+            Ingrese un correo electrónico válido.
+          </span>
         </div>
       </div>
       <div>
-        <label for="username" class="block text-sm font-medium text-gray-200"
-          >Nombre de usuario</label
-        >
+        <label for="username" class="block text-sm font-medium text-gray-200">
+          Nombre de usuario
+        </label>
         <input
           type="text"
           formControlName="username"
@@ -57,18 +57,18 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="registerForm.get('username')?.errors?.['required']"
-            >El nombre de usuario es requerido.</span
-          >
-          <span *ngIf="registerForm.get('username')?.errors?.['minlength']"
-            >El nombre de usuario debe tener al menos 5 caracteres.</span
-          >
+          <span *ngIf="registerForm.get('username')?.errors?.['required']">
+            El nombre de usuario es requerido.
+          </span>
+          <span *ngIf="registerForm.get('username')?.errors?.['minlength']">
+            El nombre de usuario debe tener al menos 5 caracteres.
+          </span>
         </div>
       </div>
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-200"
-          >Contraseña</label
-        >
+        <label for="password" class="block text-sm font-medium text-gray-200">
+          Contraseña
+        </label>
         <input
           type="password"
           formControlName="password"
@@ -84,23 +84,24 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="registerForm.get('password')?.errors?.['required']"
-            >La contraseña es requerida.</span
-          >
-          <span *ngIf="registerForm.get('password')?.errors?.['minlength']"
-            >La contraseña debe tener al menos 8 caracteres.</span
-          >
-          <span *ngIf="registerForm.get('password')?.errors?.['pattern']"
-            >La contraseña debe contener al menos una letra mayúscula.</span
-          >
+          <span *ngIf="registerForm.get('password')?.errors?.['required']">
+            La contraseña es requerida.
+          </span>
+          <span *ngIf="registerForm.get('password')?.errors?.['minlength']">
+            La contraseña debe tener al menos 8 caracteres.
+          </span>
+          <span *ngIf="registerForm.get('password')?.errors?.['pattern']">
+            La contraseña debe contener al menos una letra mayúscula.
+          </span>
         </div>
       </div>
       <div>
         <label
           for="validatePassword"
           class="block text-sm font-medium text-gray-200"
-          >Confirmar Contraseña</label
         >
+          Confirmar Contraseña
+        </label>
         <input
           type="password"
           formControlName="validatePassword"
@@ -119,9 +120,9 @@
         </div>
       </div>
       <div>
-        <label for="birthDate" class="block text-sm font-medium text-gray-200"
-          >Fecha de nacimiento</label
-        >
+        <label for="birthDate" class="block text-sm font-medium text-gray-200">
+          Fecha de nacimiento
+        </label>
         <input
           type="date"
           formControlName="birthDate"
@@ -137,15 +138,15 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="registerForm.get('birthDate')?.errors?.['required']"
-            >La fecha de nacimiento es requerida.</span
-          >
+          <span *ngIf="registerForm.get('birthDate')?.errors?.['required']">
+            La fecha de nacimiento es requerida.
+          </span>
         </div>
       </div>
       <div>
-        <label for="sex" class="block text-sm font-medium text-gray-200"
-          >Sexo</label
-        >
+        <label for="sex" class="block text-sm font-medium text-gray-200">
+          Sexo
+        </label>
         <select
           formControlName="sex"
           id="sex"
@@ -164,9 +165,9 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="registerForm.get('sex')?.errors?.['required']"
-            >El sexo es requerido.</span
-          >
+          <span *ngIf="registerForm.get('sex')?.errors?.['required']">
+            El sexo es requerido.
+          </span>
         </div>
       </div>
       <button
@@ -179,9 +180,9 @@
     </form>
     <p class="mt-4 text-center text-sm">
       ¿Ya tienes una cuenta?
-      <a routerLink="/login" class="text-blue-300 hover:underline"
-        >Iniciar sesión</a
-      >
+      <a routerLink="/login" class="text-blue-300 hover:underline">
+        Iniciar sesión
+      </a>
     </p>
   </div>
 </div>

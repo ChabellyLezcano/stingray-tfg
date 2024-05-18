@@ -19,8 +19,9 @@
         <label
           for="emailOrUsername"
           class="block text-sm font-medium text-gray-700"
-          >Correo electrónico</label
         >
+          Correo electrónico
+        </label>
         <input
           type="emailOrUsername"
           formControlName="emailOrUsername"
@@ -37,21 +38,22 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="loginForm.get('emailOrUsername')?.errors?.['required']"
-            >El correo electrónico es requerido.</span
-          >
+          <span *ngIf="loginForm.get('emailOrUsername')?.errors?.['required']">
+            El correo electrónico es requerido.
+          </span>
           <span
             *ngIf="
               loginForm.get('emailOrUsername')?.errors?.['emailOrUsername']
             "
-            >Ingrese un correo electrónico válido.</span
           >
+            Ingrese un correo electrónico válido.
+          </span>
         </div>
       </div>
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700"
-          >Contraseña</label
-        >
+        <label for="password" class="block text-sm font-medium text-gray-700">
+          Contraseña
+        </label>
         <input
           type="password"
           formControlName="password"
@@ -67,12 +69,12 @@
           "
           class="mt-1 text-xs text-red-500"
         >
-          <span *ngIf="loginForm.get('password')?.errors?.['required']"
-            >La contraseña es requerida.</span
-          >
-          <span *ngIf="loginForm.get('password')?.errors?.['minlength']"
-            >La contraseña debe tener al menos 8 caracteres.</span
-          >
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">
+            La contraseña es requerida.
+          </span>
+          <span *ngIf="loginForm.get('password')?.errors?.['minlength']">
+            La contraseña debe tener al menos 8 caracteres.
+          </span>
         </div>
       </div>
       <button
@@ -85,15 +87,15 @@
     </form>
     <p class="mt-4 text-sm">
       ¿Olvidaste tu contraseña?
-      <a routerLink="/forgot-password" class="text-blue-300 hover:underline"
-        >Restablecer aquí</a
-      >
+      <a routerLink="/forgot-password" class="text-blue-300 hover:underline">
+        Restablecer aquí
+      </a>
     </p>
     <p class="mt-4 text-sm">
       ¿No tienes una cuenta?
-      <a routerLink="/register" class="text-blue-300 hover:underline"
-        >Regístrate aquí</a
-      >
+      <a routerLink="/register" class="text-blue-300 hover:underline">
+        Regístrate aquí
+      </a>
     </p>
   </div>
 </div>

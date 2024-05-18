@@ -35,9 +35,9 @@ export class EditGameComponent implements OnInit {
     this.gameForm = this.fb.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      mainPhoto: [''],
+      mainPhoto: ['', Validators.required],
       status: ['Available', Validators.required],
-      tags: [''],
+      tags: ['', Validators.required],
       photoGallery: [''],
     });
   }

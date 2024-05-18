@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../../services/review.service';
 import { MessageService } from 'primeng/api';
 import { Review } from '../../interfaces/interfaces.interface';
@@ -12,35 +12,31 @@ import { Review } from '../../interfaces/interfaces.interface';
   providers: [MessageService],
 })
 export class EditReviewComponent implements OnInit {
-  reviewForm: FormGroup;
-  reviewId: string;
-  isLoading: boolean = true;
-  review: any | null = null;
+  reviewForm!: FormGroup;
+  reviewId!: string;
+  review!: Review;
 
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private reviewService: ReviewService,
     private messageService: MessageService,
     private router: Router,
-  ) {
-    this.reviewId = this.route.snapshot.paramMap.get('id') || '';
-    this.reviewForm = this.fb.group({
-      title: [''],
-      description: [''],
-      rating: [null, [Validators.min(1), Validators.max(5)]],
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.reviewId = this.route.snapshot.paramMap.get('id')!;
+    this.reviewForm = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      rating: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
+    });
     this.loadReview();
   }
 
-  private loadReview(): void {
-    this.isLoading = true;
+  loadReview(): void {
     this.reviewService.getReviewById(this.reviewId).subscribe({
       next: (response) => {
-        this.isLoading = false;
         if (response.ok) {
           this.review = response.review;
           this.reviewForm.patchValue(this.review);
@@ -53,12 +49,11 @@ export class EditReviewComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.isLoading = false;
         console.error('Error fetching review:', error);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to load review',
+          detail: 'Error al cargar la reseña',
         });
       },
     });
@@ -85,7 +80,7 @@ export class EditReviewComponent implements OnInit {
           });
           setTimeout(() => {
             this.router.navigate(['/game', this.review?.boardGameId]);
-          }, 1000);
+          }, 2000);
         },
         error: (error) => {
           console.error('Error updating review:', error);
