@@ -3,7 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ReviewResponse } from '../interfaces/interfaces.interface';
+import {
+  ReviewResponse,
+  RatingResponse,
+} from '../interfaces/interfaces.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +35,7 @@ export class ReviewService {
 
   // Obtener los detalles de un review por ID
   getReviewById(id: string): Observable<ReviewResponse> {
-    const url = `${this.baseUrl}/review/${id}`;
+    const url = `${this.baseUrl}/review/review-by-id/${id}`;
     const headers = this.getHeaders();
 
     return this.http.get<ReviewResponse>(url, { headers }).pipe(
@@ -76,6 +79,18 @@ export class ReviewService {
       catchError((error) => {
         console.error('Error in updateReview:', error);
         return throwError(() => new Error('Error updating review'));
+      }),
+    );
+  }
+
+  getAverageRating(gameId: string): Observable<RatingResponse> {
+    const url = `${this.baseUrl}/review/average-rating/${gameId}`;
+    const headers = this.getHeaders();
+
+    return this.http.get<RatingResponse>(url, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error in getAverageRating:', error);
+        return throwError(() => new Error('Error fetching average rating'));
       }),
     );
   }

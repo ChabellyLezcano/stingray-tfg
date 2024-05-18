@@ -14,6 +14,7 @@ import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { RecommendationsComponent } from './pages/recommendations/recommendations.component';
 import { EditReviewComponent } from './pages/edit-review/edit-review.component';
 import { CreateReviewComponent } from './pages/create-review/create-review.component';
+import { ReviewComponent } from './pages/review/review.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CreateReviewComponent } from './pages/create-review/create-review.compo
     RecommendationsComponent,
     EditReviewComponent,
     CreateReviewComponent,
+    ReviewComponent,
   ],
   imports: [
     CommonModule,

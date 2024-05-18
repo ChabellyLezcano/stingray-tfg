@@ -24,7 +24,6 @@ export class AuthService {
 
   // Getter for the user object
   get user() {
-    // Return a clone of the user object
     return { ...this._user };
   }
 

@@ -70,6 +70,34 @@ const getReviews = async (req, res) => {
   }
 };
 
+
+  // Get review by ID
+const getReviewById = async (req, res) => {
+  const { reviewId } = req.params;
+
+  try {
+    const review = await Review.findById(reviewId).populate("userId", "username photo");
+    if (!review) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Reseña no encontrada",
+      });
+    }
+    res.json({
+      ok: true,
+      msg: "Reseña obtenida con éxito",
+      review,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error obteniendo reseña",
+      error: error.msg,
+    });
+  }
+};
+
 // Update a review
 const updateReview = async (req, res) => {
   const userId = req.id;
@@ -178,4 +206,5 @@ module.exports = {
   updateReview,
   deleteReview,
   getAverageRating,
+  getReviewById
 };

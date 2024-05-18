@@ -9,6 +9,7 @@ const {
   updateReview,
   deleteReview,
   getAverageRating,
+  getReviewById,
 } = require("../controllers/reviewController");
 
 const router = express.Router();
@@ -34,6 +35,9 @@ router.post(
 
 // Retrieve all reviews for a game
 router.get("/:gameId", getReviews);
+
+// Retrieve all reviews for a game
+router.get("/review-by-id/:reviewId", getReviewById);
 
 // Update a review
 router.put(

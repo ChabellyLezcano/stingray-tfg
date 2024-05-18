@@ -9,9 +9,9 @@ import { EditGameComponent } from './pages/edit-game/edit-game.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { UserGuard } from '../guards/is-user.guard';
 import { RecommendationsComponent } from './pages/recommendations/recommendations.component';
+import { EditReviewComponent } from './pages/edit-review/edit-review.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -40,6 +40,11 @@ const routes: Routes = [
   {
     path: 'recommendations',
     component: RecommendationsComponent,
+    canActivate: [isAuthenticatedGuard, UserGuard],
+  },
+  {
+    path: 'edit-review/:id',
+    component: EditReviewComponent,
     canActivate: [isAuthenticatedGuard, UserGuard],
   },
   { path: '**', redirectTo: 'dashboard' },

@@ -1,0 +1,74 @@
+<div *ngIf="!isLoadingReviews && reviews.length > 0">
+  <div class="flex items-center justify-between py-4 text-slate-700">
+    <h2 class="text-left uppercase">Reseñas</h2>
+    <div class="flex items-center">
+      <span class="text-3xl font-semibold">{{ averageRating }}/5</span>
+      <i class="pi pi-star-fill ml-2 text-3xl text-yellow-500"></i>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 gap-8">
+    <div
+      *ngFor="let review of paginatedReviews"
+      class="card-review rounded-md bg-indigo-50 p-4 shadow-md"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <img
+            [src]="review.userId.photo"
+            alt="User Photo"
+            class="h-10 w-10 rounded-full object-cover"
+          />
+          <div class="flex-col items-center">
+            <h3 class="m-0 font-bold text-slate-700">{{ review.title }}</h3>
+            <span class="text-sm italic text-gray-600"
+              >Publicado por {{ review.userId.username }}</span
+            >
+          </div>
+        </div>
+        <div class="flex items-center gap-1">
+          <i
+            *ngFor="let starClass of getStarArray(review.rating)"
+            class="pi pi-star-fill"
+            [ngClass]="starClass"
+          ></i>
+        </div>
+      </div>
+      <p class="text-md font-medium text-gray-600">
+        {{ review.description }}
+      </p>
+      <div class="flex items-center justify-between">
+        <span class="mt-2 text-sm">{{
+          review.reviewDate | date: "dd/MM/yyyy"
+        }}</span>
+        <div
+          class="flex items-center gap-2"
+          *ngIf="user?.role === 'User' && review.userId._id === user?._id"
+        >
+          <button
+            pButton
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-text text-green-600"
+            [routerLink]="['/edit-review', review._id]"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            (click)="deleteReview(review._id)"
+            class="p-button-text text-red-600"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-center p-8">
+    <button
+      pButton
+      type="button"
+      label="Mostrar más"
+      (click)="showMoreReviews()"
+      *ngIf="paginatedReviews.length < reviews.length"
+    ></button>
+  </div>
+</div>
