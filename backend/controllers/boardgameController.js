@@ -207,23 +207,30 @@ const listBoardGames = async (req, res) => {
       });
     }
 
-    // Calculate the average rating for each boardgame
-    const boardgamesWithRatings = await Promise.all(
-      boardgames.map(async (boardgame) => {
-        const reviews = await Review.find({ boardGameId: boardgame._id });
-        const totalRating = reviews.reduce(
-          (acc, review) => acc + review.rating,
-          0,
-        );
-        const averageRating = reviews.length
-          ? (totalRating / reviews.length).toFixed(1)
-          : 0;
-        return {
-          ...boardgame.toObject(),
-          averageRating,
-        };
-      }),
-    );
+    // Calculate the average rating for each boardgame using MongoDB aggregation
+    const ratings = await Review.aggregate([
+      {
+        $group: {
+          _id: "$boardGameId",
+          averageRating: { $avg: "$rating" },
+        },
+      },
+    ]);
+
+    // Create a map of ratings for quick lookup
+    const ratingsMap = ratings.reduce((map, rating) => {
+      map[rating._id] = rating.averageRating.toFixed(1);
+      return map;
+    }, {});
+
+    // Update each boardgame with the calculated average rating
+    const boardgamesWithRatings = boardgames.map((boardgame) => {
+      const averageRating = ratingsMap[boardgame._id] || 0;
+      return {
+        ...boardgame.toObject(),
+        averageRating,
+      };
+    });
 
     // Return the list of boardgames with average ratings
     res.json({
