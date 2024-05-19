@@ -1,0 +1,22 @@
+<div class="flex items-center">
+  <p-dropdown
+    [options]="filterOptions"
+    [(ngModel)]="selectedFilter"
+    placeholder="Selecciona un filtro"
+    (onChange)="applyFilter()"
+  >
+    <!-- Template para las opciones del dropdown -->
+    <ng-template let-option pTemplate="item">
+      <div class="flex items-center">
+        <span>{{ option?.label }}</span>
+      </div>
+    </ng-template>
+
+    <!-- Template para el elemento seleccionado -->
+    <ng-template let-selectedOption pTemplate="selectedItem">
+      <div class="flex items-center">
+        <span class="ml-2 hidden lg:inline">{{ selectedOption?.label }}</span>
+      </div>
+    </ng-template>
+  </p-dropdown>
+</div>

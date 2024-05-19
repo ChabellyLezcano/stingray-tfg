@@ -7,9 +7,11 @@ import { CreateGameComponent } from './pages/create-game/create-game.component';
 import { AdminGuard } from '../guards/is-admin.guard';
 import { EditGameComponent } from './pages/edit-game/edit-game.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
-import { UserGuard } from '../guards/is-user.guard';
 import { RecommendationsComponent } from './pages/recommendations/recommendations.component';
 import { EditReviewComponent } from './pages/edit-review/edit-review.component';
+import { ReservationsAdminComponent } from './pages/reservations-admin/reservations-admin.component';
+import { ReservationsUserComponent } from './pages/reservations-user/reservations-user.component';
+import { AddReviewComponent } from './pages/add-review/add-review.component';
 
 const routes: Routes = [
   {
@@ -35,17 +37,32 @@ const routes: Routes = [
   {
     path: 'favorites',
     component: FavoritesComponent,
-    canActivate: [isAuthenticatedGuard, UserGuard],
+    canActivate: [isAuthenticatedGuard],
   },
   {
     path: 'recommendations',
     component: RecommendationsComponent,
-    canActivate: [isAuthenticatedGuard, UserGuard],
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'add-review/:id',
+    component: AddReviewComponent,
+    canActivate: [isAuthenticatedGuard],
   },
   {
     path: 'edit-review/:id',
     component: EditReviewComponent,
-    canActivate: [isAuthenticatedGuard, UserGuard],
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'reservations-admin',
+    component: ReservationsAdminComponent,
+    canActivate: [isAuthenticatedGuard, AdminGuard],
+  },
+  {
+    path: 'reservations-user',
+    component: ReservationsUserComponent,
+    canActivate: [isAuthenticatedGuard],
   },
   { path: '**', redirectTo: 'dashboard' },
 ];

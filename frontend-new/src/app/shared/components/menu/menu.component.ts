@@ -38,20 +38,28 @@ export class MenuComponent implements OnInit {
   }
 
   private buildCommonMenuItems(): void {
-    this.items.push(
-      { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/dashboard'] },
-      {
-        label: 'Reservaciones',
-        icon: 'pi pi-fw pi-calendar',
-        routerLink: ['/reservations'],
-      },
-    );
+    this.items.push({
+      label: 'Home',
+      icon: 'pi pi-fw pi-home',
+      routerLink: ['/dashboard'],
+    });
   }
 
   private buildRoleSpecificMenuItems(): void {
     if (this.user) {
-      if (this.user.role !== 'Admin') {
+      if (this.user.role === 'Admin') {
+        this.items.push({
+          label: 'Gestión de reservas',
+          icon: 'pi pi-fw pi-calendar',
+          routerLink: ['/reservations-admin'],
+        });
+      } else {
         this.items.push(
+          {
+            label: 'Reservas',
+            icon: 'pi pi-fw pi-calendar',
+            routerLink: ['/reservations-user'],
+          },
           {
             label: 'Recomendaciones',
             icon: 'pi pi-fw pi-star',

@@ -15,6 +15,9 @@ import { RecommendationsComponent } from './pages/recommendations/recommendation
 import { EditReviewComponent } from './pages/edit-review/edit-review.component';
 import { CreateReviewComponent } from './pages/create-review/create-review.component';
 import { ReviewComponent } from './pages/review/review.component';
+import { ReservationsUserComponent } from './pages/reservations-user/reservations-user.component';
+import { ReservationsAdminComponent } from './pages/reservations-admin/reservations-admin.component';
+import { AddReviewComponent } from './pages/add-review/add-review.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { ReviewComponent } from './pages/review/review.component';
     EditReviewComponent,
     CreateReviewComponent,
     ReviewComponent,
+    ReservationsUserComponent,
+    ReservationsAdminComponent,
+    AddReviewComponent,
   ],
   imports: [
     CommonModule,

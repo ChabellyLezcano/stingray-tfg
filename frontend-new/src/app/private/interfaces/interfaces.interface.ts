@@ -89,6 +89,7 @@ export interface ReservationResponse {
   msg: string;
   reservations: Reservation[];
   reservation: Reservation;
+  hasReservation?: boolean;
 }
 
 export interface Reservation {

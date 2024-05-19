@@ -151,9 +151,15 @@ export class GameDetailsComponent implements OnInit {
       if (result.isConfirmed) {
         this.reservationService.createReservation(gameId).subscribe({
           next: (response) => {
-            console.log(response);
             if (response.ok) {
-              Swal.fire('¡Reservado!', response.msg, 'success');
+              this.messageService.add({
+                severity: 'success',
+                summary: '¡Juego reservado!',
+                detail: response.msg,
+              });
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
             } else {
               Swal.fire(
                 'Error',
@@ -179,8 +185,9 @@ export class GameDetailsComponent implements OnInit {
   private checkIfReservation(): void {
     this.reservationService.hasUserReservationForGame(this.gameId).subscribe({
       next: (response) => {
-        if (response.ok) {
-          this.isReserved = response.ok;
+        console.log(response);
+        if (response.hasReservation) {
+          this.isReserved = response.hasReservation;
         }
       },
       error: (error) => {

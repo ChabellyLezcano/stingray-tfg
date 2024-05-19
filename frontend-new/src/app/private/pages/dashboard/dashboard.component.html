@@ -1,166 +1,150 @@
 <app-layout></app-layout>
 
-<div class="container mx-auto min-h-screen">
-  <div class="flex w-full flex-grow flex-col gap-8">
-    <div
-      class="mt-4 flex w-full flex-wrap items-center justify-between gap-4 md:flex-nowrap md:space-y-0 md:px-8"
-    >
-      <h1
-        class="w-full text-center text-2xl font-bold uppercase text-slate-700 md:w-auto md:text-left"
-      >
-        Juegos de mesa
-      </h1>
+<div class="container mx-auto flex min-h-screen-minus-62 flex-col">
+  <div class="flex flex-grow flex-col justify-between">
+    <div class="flex flex-col gap-8">
       <div
-        class="flex w-full flex-wrap items-center justify-center gap-4 md:w-auto md:justify-end"
+        class="mt-4 flex w-full flex-wrap items-center justify-between gap-4 md:flex-nowrap md:space-y-0 md:px-8"
       >
-        <button
-          pButton
-          type="button"
-          icon="pi pi-plus"
-          class="p-button-primary font-semibold"
-          [routerLink]="['/create-game']"
-          *ngIf="user?.role === 'Admin'"
+        <h1
+          class="w-full text-center text-2xl font-bold uppercase text-slate-700 md:w-auto md:text-left"
         >
-          <span class="ml-2 hidden lg:inline">Agregar Juego</span>
-        </button>
-        <app-filter (filter)="handleFilter($event)"></app-filter>
-
-        <app-search-bar
-          (search)="handleSearch($event)"
-          searchField="title"
-        ></app-search-bar>
-      </div>
-    </div>
-
-    <!-- Revisa si hay juegos de mesa disponibles -->
-    <div
-      *ngIf="!isLoading && filteredGames.length > 0; else noResultsOrLoading"
-      class="flex w-full flex-grow flex-col justify-start px-8"
-    >
-      <!-- Si el usuario tiene rol 'User', mostrar en formato de cuadrícula -->
-      <div *ngIf="user?.role === 'User'; else tableView">
+          Juegos de mesa
+        </h1>
         <div
-          class="grid w-full grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5"
+          class="flex w-full flex-wrap items-center justify-center gap-4 md:w-auto md:justify-end"
         >
-          <!-- Itera sobre cada juego de mesa -->
-          <div
-            *ngFor="let boardgame of paginatedGames"
-            [routerLink]="['/game', boardgame._id]"
-            class="flex cursor-pointer flex-col items-center justify-center rounded bg-gray-100 text-black no-underline shadow-lg"
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-primary font-semibold"
+            [routerLink]="['/create-game']"
+            *ngIf="user?.role === 'Admin'"
           >
-            <!-- Contenedor para la foto con altura fija -->
-            <div
-              class="h-54 flex w-full items-center justify-center overflow-hidden rounded"
-            >
-              <img
-                [src]="boardgame.mainPhoto || 'assets/images/nophoto.jpg'"
-                class="h-32 w-32 rounded object-cover pt-4"
-              />
-            </div>
-            <h3 class="text-center font-bold">{{ boardgame.title }}</h3>
-            <div class="mb-4">
-              <span
-                ><i class="pi pi-star-fill mr-2 text-yellow-500"></i>
-                {{ boardgame.averageRating }}</span
-              >
-            </div>
-          </div>
+            <span class="ml-2 hidden lg:inline">Agregar Juego</span>
+          </button>
+          <app-filter (filter)="handleFilter($event)"></app-filter>
+          <app-search-bar
+            (search)="handleSearch($event)"
+            searchField="title"
+          ></app-search-bar>
         </div>
       </div>
 
-      <!-- Plantilla para mostrar los juegos en formato de tabla -->
-      <ng-template #tableView>
-        <p-table [value]="paginatedGames" class="p-datatable-gridlines">
-          <ng-template pTemplate="header" class="text-center">
-            <tr>
-              <th class="hidden text-center md:table-cell">Imagen</th>
-              <th>Code</th>
-              <th>Título</th>
-              <th class="hidden text-center md:table-cell">Rating</th>
-              <th class="text-center">Estado</th>
-              <th class="text-center">Acciones</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-boardgame>
-            <tr>
-              <td class="hidden text-center align-middle md:table-cell">
-                <img
-                  [src]="boardgame.mainPhoto"
-                  alt="Boardgame image"
-                  class="h-16 w-16 rounded object-cover"
-                />
-              </td>
-              <td class="align-start">
-                <span
-                  class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
-                >
-                  {{ boardgame.code }}
-                </span>
-              </td>
-              <td class="align-start text-slate-600">{{ boardgame.title }}</td>
-              <td class="hidden text-center align-middle md:table-cell">
-                <i class="pi pi-star-fill mr-2 text-yellow-500"></i>
-                {{ boardgame.averageRating }}
-              </td>
-              <td class="text-center align-middle">
-                <span
-                  *ngIf="boardgame.status === 'Available'"
-                  class="rounded-md bg-green-100 p-2 font-semibold text-green-600"
-                >
-                  <i class="pi pi-check font-semibold"></i>
-                  <span class="ml-2 hidden lg:inline">Disponible</span>
-                </span>
-                <span
-                  *ngIf="boardgame.status !== 'Available'"
-                  class="rounded-md bg-red-100 p-2 font-semibold text-red-500"
-                >
-                  <i class="pi pi-times"></i>
-                  <span class="ml-2 hidden lg:inline">No disponible</span>
-                </span>
-              </td>
-              <td
-                class="flex flex-col items-center justify-center gap-2 pb-7 pt-8 md:flex-row"
+      <div
+        *ngIf="!isLoading && filteredGames.length > 0; else noResultsOrLoading"
+        class="flex flex-grow flex-col justify-start px-8"
+      >
+        <div *ngIf="user?.role === 'User'; else tableView">
+          <div
+            class="grid w-full grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5"
+          >
+            <div
+              *ngFor="let boardgame of paginatedGames"
+              [routerLink]="['/game', boardgame._id]"
+              class="flex cursor-pointer flex-col items-center justify-center rounded bg-gray-100 text-black no-underline shadow-lg"
+            >
+              <div
+                class="h-54 flex w-full items-center justify-center overflow-hidden rounded"
               >
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-eye"
-                  class="p-button-text"
-                  [routerLink]="['/game', boardgame._id]"
-                ></button>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-pencil"
-                  class="p-button-text text-green-500"
-                  [routerLink]="['/edit-game', boardgame._id]"
-                ></button>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-trash"
-                  class="p-button-text text-red-500"
-                  (click)="deleteBoardgame(boardgame._id)"
-                ></button>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </ng-template>
-    </div>
+                <img
+                  [src]="boardgame.mainPhoto || 'assets/images/nophoto.jpg'"
+                  class="h-32 w-32 rounded object-cover pt-4"
+                />
+              </div>
+              <h3 class="text-center font-bold">{{ boardgame.title }}</h3>
+              <div class="mb-4">
+                <span
+                  ><i class="pi pi-star-fill mr-2 text-yellow-500"></i
+                  >{{ boardgame.averageRating }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <!-- Espacio flexible para empujar el paginador al final -->
-    <div class="m-0 flex-grow"></div>
-
-    <!-- Paginador al final de la página -->
-    <div class="flex w-full justify-center pb-4">
-      <p-paginator
-        [rows]="pageSize"
-        [totalRecords]="totalRecords"
-        [rowsPerPageOptions]="[20, 50, 100]"
-        (onPageChange)="paginate($event)"
-        class="transparent-paginator mt-4"
-      ></p-paginator>
+        <ng-template #tableView>
+          <p-table [value]="paginatedGames" class="p-datatable-gridlines">
+            <ng-template pTemplate="header" class="text-center">
+              <tr>
+                <th class="hidden text-center md:table-cell">Imagen</th>
+                <th>Code</th>
+                <th>Título</th>
+                <th class="hidden text-center md:table-cell">Rating</th>
+                <th class="text-center">Estado</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-boardgame>
+              <tr>
+                <td class="hidden text-center align-middle md:table-cell">
+                  <img
+                    [src]="boardgame.mainPhoto"
+                    alt="Boardgame image"
+                    class="h-16 w-16 rounded object-cover"
+                  />
+                </td>
+                <td class="align-start">
+                  <span
+                    class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
+                  >
+                    {{ boardgame.code }}
+                  </span>
+                </td>
+                <td class="align-start text-slate-600">
+                  {{ boardgame.title }}
+                </td>
+                <td class="hidden text-center align-middle md:table-cell">
+                  <i class="pi pi-star-fill mr-2 text-yellow-500"></i>
+                  {{ boardgame.averageRating }}
+                </td>
+                <td class="text-center align-middle">
+                  <span
+                    *ngIf="boardgame.status === 'Available'"
+                    class="rounded-md bg-green-100 p-2 font-semibold text-green-600"
+                  >
+                    <i class="pi pi-check font-semibold"></i>
+                    <span class="ml-2 hidden lg:inline">Disponible</span>
+                  </span>
+                  <span
+                    *ngIf="boardgame.status !== 'Available'"
+                    class="rounded-md bg-red-100 p-2 font-semibold text-red-500"
+                  >
+                    <i class="pi pi-times"></i>
+                    <span class="ml-2 hidden lg:inline">No disponible</span>
+                  </span>
+                </td>
+                <td
+                  class="flex flex-col items-center justify-center gap-2 pb-7 pt-8 md:flex-row"
+                >
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-eye"
+                    class="p-button-text"
+                    [routerLink]="['/game', boardgame._id]"
+                  ></button>
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-pencil"
+                    class="p-button-text text-green-500"
+                    [routerLink]="['/edit-game', boardgame._id]"
+                  ></button>
+                  <button
+                    pButton
+                    type="button"
+                    icon="pi pi-trash"
+                    class="p-button-text text-red-500"
+                    (click)="deleteBoardgame(boardgame._id)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-template>
+      </div>
     </div>
 
     <ng-template #noResultsOrLoading>
@@ -179,5 +163,16 @@
         <div *ngIf="noResults" class="text-center">No results found.</div>
       </ng-template>
     </ng-template>
+  </div>
+
+  <!-- Paginador siempre al final de la página -->
+  <div class="flex w-full justify-center p-4">
+    <p-paginator
+      [rows]="pageSize"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="[20, 50, 100]"
+      (onPageChange)="paginate($event)"
+      class="transparent-paginator mt-4"
+    ></p-paginator>
   </div>
 </div>
