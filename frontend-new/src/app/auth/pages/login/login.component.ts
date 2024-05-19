@@ -28,7 +28,6 @@ export class LoginComponent {
 
     this.authService.login(emailOrUsername, password).subscribe((response) => {
       if (response === true) {
-        console.log('Inicio de sesión exitoso');
         Swal.fire({
           icon: 'success',
           title: '¡Inicio de sesión exitoso!',
