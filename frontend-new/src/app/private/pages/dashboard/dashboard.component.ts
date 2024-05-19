@@ -85,6 +85,8 @@ export class DashboardComponent implements OnInit {
       this.filteredGames = this.games.filter(
         (game) => game.status === 'Available',
       );
+    } else if (criteria === 'topRated') {
+      this.filteredGames.sort((a, b) => b.averageRating - a.averageRating);
     }
     this.totalRecords = this.filteredGames.length;
     this.paginate({ first: 0, rows: this.pageSize });

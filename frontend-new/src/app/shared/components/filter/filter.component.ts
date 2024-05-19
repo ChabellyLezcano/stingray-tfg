@@ -16,6 +16,7 @@ export class FilterComponent {
     },
     { label: 'Últimos agregados', value: 'latest', icon: 'pi pi-clock' },
     { label: 'Disponibles', value: 'available', icon: 'pi pi-check' },
+    { label: 'Mejor valorados', value: 'topRated', icon: 'pi pi-star' },
   ];
 
   selectedFilter: string = 'alphabetical';

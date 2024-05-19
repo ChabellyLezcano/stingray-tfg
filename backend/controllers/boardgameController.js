@@ -2,6 +2,7 @@ const { Boardgame } = require("../models/Boardgame");
 const { User } = require("../models/User");
 const { generateRandCode } = require("../helpers/generateRandCode");
 const extractPublicId = require("../helpers/extractPublicIdImage");
+const { Review } = require("../models/Review");
 const cloudinary = require("cloudinary").v2;
 
 // Create Boardgame
@@ -105,6 +106,9 @@ const deleteBoardGame = async (req, res) => {
       await cloudinary.uploader.destroy(photoId); // Destroy the image in Cloudinary using the extracted public_id
     }
 
+    // Delete associated reviews from the database
+    await Review.deleteMany({ boardGameId: id });
+
     // Delete the game from the database
     await boardgame.deleteOne();
 
@@ -203,11 +207,24 @@ const listBoardGames = async (req, res) => {
       });
     }
 
-    // Return the list of boardgames
+    // Calculate the average rating for each boardgame
+    const boardgamesWithRatings = await Promise.all(
+      boardgames.map(async (boardgame) => {
+        const reviews = await Review.find({ boardGameId: boardgame._id });
+        const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+        const averageRating = reviews.length ? (totalRating / reviews.length).toFixed(1) : 0;
+        return {
+          ...boardgame.toObject(),
+          averageRating,
+        };
+      })
+    );
+
+    // Return the list of boardgames with average ratings
     res.json({
       ok: true,
       msg: "Juegos de mesa recuperados con éxito",
-      boardgames,
+      boardgames: boardgamesWithRatings,
     });
   } catch (error) {
     console.error(error);
