@@ -11,6 +11,7 @@ const {
   createReservation,
   getUserReservationHistory,
   cancelReservation,
+  hasUserReservationForGame,
 } = require("../controllers/reservationController");
 const { validateJWT } = require("../middlewares/validate-jwt");
 const { validateFields } = require("../middlewares/validate-fields");
@@ -32,6 +33,9 @@ router.patch("/:reservationId/completed", markAsCompleted); // Marcar como devue
 
 // Cancelar una reserva
 router.patch("/:reservationId/cancel", cancelReservation); // Cancelar reserva
+
+//Tiene reserva
+router.get("/has-reservation/:gameId", hasUserReservationForGame)
 
 // Exportar el router
 module.exports = router;

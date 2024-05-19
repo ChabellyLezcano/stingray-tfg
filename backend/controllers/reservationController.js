@@ -309,86 +309,6 @@ const markAsPickedUp = async (req, res) => {
 };
 
 // Mark game reservation as "Completed"
-/*const markAsCompleted = async (req, res) => {
-  try {
-    const { reservationId } = req.params;
-    const userId = req.id;
-
-    const adminUser = await User.findById(userId);
-
-    if (!adminUser || adminUser.role !== "Admin") {
-      return res.status(401).json({
-        ok: false,
-        msg: "Solo los administradores están autorizados a rechazar reservas",
-      });
-    }
-
-    // Find game by id
-    const reservation = await Reservation.findById(reservationId);
-    if (!reservation) {
-      return res.status(404).json({
-        ok: false,
-        msg: "Reservación no encontrada",
-      });
-    }
-
-    const game = await Boardgame.findById(reservation.boardGameId);
-
-    if (!game) {
-      return res.status(404).json({
-        ok: false,
-        msg: "Juego no encontrado",
-      });
-    }
-
-    // Verify if reservation status is "Picked Up"
-    if (reservation.status !== "Picked Up") {
-      return res.status(400).json({
-        ok: false,
-        msg: "La reservación no está en el estado 'Picked Up' y no puede ser marcada como completada",
-      });
-    }
-
-    // Set return date
-    reservation.returnDate = new Date();
-
-    // Update reservation status as "Completed"
-    reservation.status = "Completed";
-
-    // Update game status as "Avaible"
-    await Boardgame.findByIdAndUpdate(reservation.boardGameId, {
-      status: "Avaible",
-    });
-
-    await reservation.save();
-
-    // Send email with reservation changes
-    const userWhoReserved = await User.findById(reservation.userId);
-    if (userWhoReserved) {
-      await sendEmailReservationCompleted(
-        userWhoReserved.email,
-        reservation,
-        game,
-        userWhoReserved.username,
-      );
-    }
-
-    res.json({
-      ok: true,
-      msg: "Reservación marcada como completada correctamente",
-      reservation,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      ok: false,
-      msg: "Error marcando la reservación como completada",
-    });
-  }
-};
-*/
-
-// Mark game reservation as "Completed"
 const markAsCompleted = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -508,7 +428,7 @@ const createReservation = async (req, res) => {
       });
     }
 
-    if (game.status !== "Avaible") {
+    if (game.status !== "Available") {
       return res.status(400).json({
         ok: false,
         msg: "El juego no está disponible para su reserva",
@@ -675,6 +595,38 @@ const cancelReservation = async (req, res) => {
   }
 };
 
+const hasUserReservationForGame = async (req, res) => {
+  try {
+    const { gameId } = req.params;
+    const userId = req.id;
+
+    const existingReservation = await Reservation.findOne({
+      userId: userId,
+      boardGameId: gameId,
+      status: { $in: ["Pending", "Accepted", "Picked Up"] }
+    });
+
+    if (existingReservation) {
+      return res.json({
+        ok: true,
+        hasReservation: true,
+        reservation: existingReservation,
+      });
+    } else {
+      return res.json({
+        ok: true,
+        hasReservation: false,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error verificando la reserva del usuario para el juego",
+    });
+  }
+};
+
 module.exports = {
   getAdminReservationHistory,
   acceptReservation,
@@ -684,4 +636,5 @@ module.exports = {
   createReservation,
   getUserReservationHistory,
   cancelReservation,
+  hasUserReservationForGame
 };

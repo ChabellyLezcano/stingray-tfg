@@ -59,5 +59,5 @@ module.exports = {
   shuffleArray,
   getUserFavoriteTags,
   getGamesByTags,
-  calculateAffinityScore
+  calculateAffinityScore,
 };

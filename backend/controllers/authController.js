@@ -12,19 +12,20 @@ const formatDateToMongoDB = require("../helpers/formatDate.js");
 
 // Registration
 const registerUser = async (req, res) => {
-  const { username, email, password, role, sex, birthDate } =
-    req.body;
+  const { username, email, password, role, sex, birthDate } = req.body;
 
   try {
     // Check if the user exists with the entered email
-    const user = await User.findOne({ $or: [{ email: email }, { username: username }] });
+    const user = await User.findOne({
+      $or: [{ email: email }, { username: username }],
+    });
 
     if (user) {
       return res.status(400).json({
         ok: false,
         msg: "Ya existe un usuario con esas credenciales",
       });
-    }    
+    }
 
     // Obtain a random image
     const image = randomImage();

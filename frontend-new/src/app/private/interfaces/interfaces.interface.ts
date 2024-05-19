@@ -83,3 +83,36 @@ export interface UserID {
   username: string;
   photo: string;
 }
+
+export interface ReservationResponse {
+  ok: boolean;
+  msg: string;
+  reservations: Reservation[];
+  reservation: Reservation;
+}
+
+export interface Reservation {
+  _id: string;
+  code: string;
+  boardGameId: BoardGameInfo;
+  userId: UserID;
+  reservationDate: Date;
+  status: string;
+  __v: number;
+  expirationDate?: Date;
+  pickupDate?: Date;
+  returnDate?: Date;
+}
+
+export interface BoardGameInfo {
+  _id: string;
+  code: string;
+  title: string;
+  description: string;
+  status: string;
+  mainPhoto: string;
+  photoGallery: string[];
+  tags: string[];
+  averageRating: number;
+  __v: number;
+}

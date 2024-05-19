@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ["User", "Admin"],
-    default: "User"
+    default: "User",
   },
   token: { type: String, default: null },
   authenticated: { type: Boolean, default: false },

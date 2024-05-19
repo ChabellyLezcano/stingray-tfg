@@ -4,7 +4,7 @@ const {
   shuffleArray,
   getUserFavoriteTags,
   getGamesByTags,
-  calculateAffinityScore
+  calculateAffinityScore,
 } = require("../helpers/recommendationUtils");
 const { User } = require("../models/User");
 
@@ -55,16 +55,17 @@ const generateRecommendations = async (req, res) => {
     await recommendation.save();
 
     // Populate the boardGame details for each recommendation after saving
-    recommendation = await Recommendation.findOne({ userId })
-      .populate({
-        path: 'recommendations.boardGameId',
-        model: 'Boardgame'
-      });
+    recommendation = await Recommendation.findOne({ userId }).populate({
+      path: "recommendations.boardGameId",
+      model: "Boardgame",
+    });
 
     res.json(recommendation);
   } catch (error) {
     console.error("Error generating recommendations:", error);
-    res.status(500).send({ error: "Error retrieving or updating recommendations" });
+    res
+      .status(500)
+      .send({ error: "Error retrieving or updating recommendations" });
   }
 };
 

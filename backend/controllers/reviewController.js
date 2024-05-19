@@ -53,11 +53,11 @@ const getReviews = async (req, res) => {
     // Find all reviews for the specified game and populate user details
     const reviews = await Review.find({ boardGameId: gameId }).populate(
       "userId",
-      "username photo"
+      "username photo",
     );
     res.json({
       ok: true,
-      msg:"Reseñas obtenidas con éxito",
+      msg: "Reseñas obtenidas con éxito",
       reviews,
     });
   } catch (error) {
@@ -70,13 +70,15 @@ const getReviews = async (req, res) => {
   }
 };
 
-
-  // Get review by ID
+// Get review by ID
 const getReviewById = async (req, res) => {
   const { reviewId } = req.params;
 
   try {
-    const review = await Review.findById(reviewId).populate("userId", "username photo");
+    const review = await Review.findById(reviewId).populate(
+      "userId",
+      "username photo",
+    );
     if (!review) {
       return res.status(404).json({
         ok: false,
@@ -206,5 +208,5 @@ module.exports = {
   updateReview,
   deleteReview,
   getAverageRating,
-  getReviewById
+  getReviewById,
 };

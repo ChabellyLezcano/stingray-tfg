@@ -69,7 +69,7 @@ async function updateGameStatus() {
 // Llamar a la función para actualizar el estado de los juegos
 updateGameStatus();
 */
-  
+
 /*
 app.get("/api/reservations/average", async (req, res) => {
   try {

@@ -51,7 +51,9 @@ router.get("/confirm-account/:token", confirmAccount);
 router.post(
   "/",
   [
-    check("emailOrUsername", "El username o el email es obligatorio").not().isEmpty(),
+    check("emailOrUsername", "El username o el email es obligatorio")
+      .not()
+      .isEmpty(),
     check("password", "La contraseña es obligatoria").not().isEmpty(),
     validateFields,
   ],

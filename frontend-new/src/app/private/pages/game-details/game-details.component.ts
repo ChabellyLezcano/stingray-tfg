@@ -5,6 +5,9 @@ import { FavoriteService } from '../../services/favorite.service';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
 import { MessageService } from 'primeng/api';
+import { ReservationService } from '../../services/reservation.service';
+import Swal from 'sweetalert2';
+import { Game } from '../../interfaces/interfaces.interface';
 
 @Component({
   selector: 'app-game-details',
@@ -15,10 +18,11 @@ import { MessageService } from 'primeng/api';
 export class GameDetailsComponent implements OnInit {
   gameId: string;
   user!: User | null;
-  boardgame: any;
+  game!: Game;
   isLoading: boolean = true;
   error: string | null = null;
   isFavorite: boolean = false;
+  isReserved: boolean = false;
 
   responsiveOptions: any[] = [
     {
@@ -43,6 +47,7 @@ export class GameDetailsComponent implements OnInit {
     private gameService: GameService,
     private favoriteService: FavoriteService,
     private authService: AuthService,
+    private reservationService: ReservationService,
     private messageService: MessageService,
   ) {
     this.gameId = this.route.snapshot.paramMap.get('id') || '';
@@ -52,6 +57,7 @@ export class GameDetailsComponent implements OnInit {
     this.user = this.authService.user;
     this.loadGameDetails();
     this.checkIfFavorite();
+    this.checkIfReservation();
   }
 
   private loadGameDetails(): void {
@@ -60,7 +66,7 @@ export class GameDetailsComponent implements OnInit {
       next: (response) => {
         this.isLoading = false;
         if (response.ok) {
-          this.boardgame = response.boardgame;
+          this.game = response.boardgame;
         } else {
           this.error = response.msg || 'Failed to load game details';
         }
@@ -129,6 +135,56 @@ export class GameDetailsComponent implements OnInit {
           summary: 'Error',
           detail: 'Hubo un problema al eliminar el juego de tus favoritos.',
         });
+      },
+    });
+  }
+
+  createReservation(gameId: string): void {
+    Swal.fire({
+      title: '¿Quieres reservar este juego?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#4f46e5',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, reservar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.reservationService.createReservation(gameId).subscribe({
+          next: (response) => {
+            console.log(response);
+            if (response.ok) {
+              Swal.fire('¡Reservado!', response.msg, 'success');
+            } else {
+              Swal.fire(
+                'Error',
+                response.msg || 'Hubo un problema al reservar el juego.',
+                'error',
+              );
+            }
+          },
+          error: (error) => {
+            console.error('Error creating reservation:', error);
+            Swal.fire(
+              'Error',
+              error ||
+                'Hubo un problema al reservar el juego. Inténtalo de nuevo más tarde.',
+              'error',
+            );
+          },
+        });
+      }
+    });
+  }
+
+  private checkIfReservation(): void {
+    this.reservationService.hasUserReservationForGame(this.gameId).subscribe({
+      next: (response) => {
+        if (response.ok) {
+          this.isReserved = response.ok;
+        }
+      },
+      error: (error) => {
+        console.error('Error checking if game is favorite:', error);
       },
     });
   }

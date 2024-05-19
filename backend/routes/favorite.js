@@ -39,5 +39,4 @@ router.delete(
   removeGameFromFavorites,
 );
 
-
 module.exports = router;

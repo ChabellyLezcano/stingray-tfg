@@ -154,4 +154,9 @@ const isGameFavorite = async (req, res) => {
   }
 };
 
-module.exports = { addGameToFavorites, removeGameFromFavorites, listFavorites, isGameFavorite };
+module.exports = {
+  addGameToFavorites,
+  removeGameFromFavorites,
+  listFavorites,
+  isGameFavorite,
+};

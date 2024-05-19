@@ -4,6 +4,7 @@ import { Game } from '../../interfaces/interfaces.interface';
 import { User } from 'src/app/auth/interface/authInterface';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import Swal from 'sweetalert2';
+import { ReservationService } from '../../services/reservation.service';
 
 @Component({
   selector: 'app-dashboard',

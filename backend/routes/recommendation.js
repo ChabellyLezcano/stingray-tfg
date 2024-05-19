@@ -12,5 +12,4 @@ router.use(validateJWT);
 // Generate or update recommendations
 router.get("/", generateRecommendations);
 
-
 module.exports = router;

@@ -9,25 +9,25 @@
       >
         <div class="flex w-full flex-col items-center gap-4 lg:flex-row">
           <h1 class="text-3xl font-bold text-slate-700">
-            {{ boardgame.title }}
+            {{ game.title }}
           </h1>
           <span
             *ngIf="user?.role === 'Admin'"
             class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
           >
-            {{ boardgame.code }}
+            {{ game.code }}
           </span>
         </div>
 
         <div
-          *ngIf="boardgame.status === 'Available'"
+          *ngIf="game.status === 'Available'"
           class="flex items-center rounded-md bg-green-200 p-2 font-semibold text-green-600"
         >
           <i class="pi pi-check mr-2 font-semibold"></i>
           <span>Disponible</span>
         </div>
         <div
-          *ngIf="boardgame.status !== 'Available'"
+          *ngIf="game.status !== 'Available'"
           class="flex items-center rounded-md bg-red-200 p-2 font-semibold text-red-500"
         >
           <i class="pi pi-times mr-2"></i>
@@ -39,7 +39,7 @@
         class="flex flex-wrap justify-center gap-4 lg:w-full lg:justify-start"
       >
         <p-chip
-          *ngFor="let tag of boardgame.tags"
+          *ngFor="let tag of game.tags"
           [label]="tag"
           class="max-w-full"
           styleClass="primary-chip"
@@ -55,8 +55,8 @@
           class="flex items-start justify-center lg:items-start lg:justify-start"
         >
           <img
-            [src]="boardgame.mainPhoto"
-            alt="Boardgame image"
+            [src]="game.mainPhoto"
+            alt="game image"
             class="mb-12 rounded-lg lg:mb-0 lg:w-full"
           />
         </div>
@@ -71,41 +71,53 @@
             Descripción
           </h2>
           <p class="font-14 leading-relaxed text-slate-600">
-            {{ boardgame.description }}
+            {{ game.description }}
           </p>
         </div>
 
         <!-- Botones de acción -->
         <div
           *ngIf="user?.role === 'User'"
-          class="flex justify-center gap-4 pt-8 lg:justify-end"
+          class="flex flex-col gap-4 pt-8 lg:flex-row lg:justify-end"
         >
-          <button
-            *ngIf="!isFavorite"
-            pButton
-            type="button"
-            icon="pi pi-star-fill"
-            class="p-button-warning"
-            label="Añadir a Favoritos"
-            (click)="addToFavorites()"
-          ></button>
-          <button
-            *ngIf="isFavorite"
-            pButton
-            type="button"
-            icon="pi pi-times"
-            class="p-button-danger"
-            label="Eliminar de Favoritos"
-            (click)="removeFromFavorites()"
-          ></button>
-          <button
-            *ngIf="boardgame.status === 'Available'"
-            pButton
-            type="button"
-            icon="pi pi-calendar"
-            label="Reservar"
-            class="p-button-primary"
-          ></button>
+          <div class="flex justify-center gap-4 lg:justify-start">
+            <button
+              *ngIf="!isFavorite"
+              pButton
+              type="button"
+              icon="pi pi-star-fill"
+              class="p-button-warning"
+              label="Añadir a Favoritos"
+              (click)="addToFavorites()"
+            ></button>
+            <button
+              *ngIf="isFavorite"
+              pButton
+              type="button"
+              icon="pi pi-times"
+              class="p-button-danger"
+              label="Eliminar de Favoritos"
+              (click)="removeFromFavorites()"
+            ></button>
+          </div>
+          <div
+            class="flex justify-center gap-4 lg:items-center lg:justify-start"
+          >
+            <button
+              *ngIf="game.status === 'Available' && !isReserved"
+              pButton
+              type="button"
+              icon="pi pi-calendar"
+              label="Reservar"
+              class="p-button-primary"
+              (click)="createReservation(game._id)"
+            ></button>
+            <span
+              *ngIf="isReserved"
+              class="rounded-md bg-indigo-100 p-4 font-semibold text-indigo-600"
+              >¡Ya has reservado este juego!</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -114,7 +126,7 @@
     <div>
       <h2 class="text-center uppercase text-slate-700">Galería de Imágenes</h2>
       <p-carousel
-        [value]="boardgame?.photoGallery"
+        [value]="game.photoGallery"
         [numVisible]="3"
         [responsiveOptions]="responsiveOptions"
         [showIndicators]="false"

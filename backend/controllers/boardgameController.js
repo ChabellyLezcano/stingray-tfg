@@ -7,7 +7,7 @@ const cloudinary = require("cloudinary").v2;
 
 // Create Boardgame
 const createBoardGame = async (req, res) => {
-  const { title, description, tags,status } = req.body;
+  const { title, description, tags, status } = req.body;
   const userId = req.id;
 
   try {
@@ -174,7 +174,7 @@ const updateBoardGame = async (req, res) => {
     if (title) boardgame.title = title;
     if (description) boardgame.description = description;
     if (tags) boardgame.tags = tags.split(",").map((tag) => tag.trim());
-    if(status) boardgame.status = status;
+    if (status) boardgame.status = status;
 
     // Save the updated boardgame in the database
     const updatedBoardGame = await boardgame.save();
@@ -211,13 +211,18 @@ const listBoardGames = async (req, res) => {
     const boardgamesWithRatings = await Promise.all(
       boardgames.map(async (boardgame) => {
         const reviews = await Review.find({ boardGameId: boardgame._id });
-        const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
-        const averageRating = reviews.length ? (totalRating / reviews.length).toFixed(1) : 0;
+        const totalRating = reviews.reduce(
+          (acc, review) => acc + review.rating,
+          0,
+        );
+        const averageRating = reviews.length
+          ? (totalRating / reviews.length).toFixed(1)
+          : 0;
         return {
           ...boardgame.toObject(),
           averageRating,
         };
-      })
+      }),
     );
 
     // Return the list of boardgames with average ratings
