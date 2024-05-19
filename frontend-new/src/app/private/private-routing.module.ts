@@ -11,7 +11,7 @@ import { RecommendationsComponent } from './pages/recommendations/recommendation
 import { EditReviewComponent } from './pages/edit-review/edit-review.component';
 import { ReservationsAdminComponent } from './pages/reservations-admin/reservations-admin.component';
 import { ReservationsUserComponent } from './pages/reservations-user/reservations-user.component';
-import { AddReviewComponent } from './pages/add-review/add-review.component';
+import { CreateReviewComponent } from './pages/create-review/create-review.component';
 
 const routes: Routes = [
   {
@@ -45,8 +45,8 @@ const routes: Routes = [
     canActivate: [isAuthenticatedGuard],
   },
   {
-    path: 'add-review/:id',
-    component: AddReviewComponent,
+    path: 'create-review/:id',
+    component: CreateReviewComponent,
     canActivate: [isAuthenticatedGuard],
   },
   {

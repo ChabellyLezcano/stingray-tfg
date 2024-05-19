@@ -4,12 +4,13 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/interface/authInterface';
 import { Game } from '../../interfaces/interfaces.interface';
 import Swal from 'sweetalert2';
-import { response } from 'express';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-favorites',
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.css'],
+  providers: [MessageService],
 })
 export class FavoritesComponent implements OnInit {
   user!: User | null;
@@ -23,6 +24,7 @@ export class FavoritesComponent implements OnInit {
   constructor(
     private favoriteService: FavoriteService,
     private authService: AuthService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -78,12 +80,21 @@ export class FavoritesComponent implements OnInit {
               );
               this.totalRecords = this.favorites.length;
               this.paginate({ first: 0, rows: this.pageSize });
-              Swal.fire('¡Eliminado!', response.msg, 'success');
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Eliminado',
+                detail: response.msg,
+              });
             }
           },
           error: (error) => {
             console.error('Error removing game from favorites:', error);
-            Swal.fire('Error', error, 'error');
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail:
+                'Hubo un problema al eliminar el juego. Inténtalo de nuevo más tarde.',
+            });
           },
         });
       }

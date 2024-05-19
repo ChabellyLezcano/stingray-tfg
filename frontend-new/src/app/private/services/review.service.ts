@@ -59,8 +59,11 @@ export class ReviewService {
   }
 
   // Crear un nuevo review
-  createReview(reviewData: FormData): Observable<ReviewResponse> {
-    const url = `${this.baseUrl}/review`;
+  createReview(
+    reviewData: FormData,
+    gameId: string,
+  ): Observable<ReviewResponse> {
+    const url = `${this.baseUrl}/review/${gameId}`;
     const headers = this.getHeaders();
 
     return this.http.post<ReviewResponse>(url, reviewData, { headers }).pipe(
@@ -88,6 +91,18 @@ export class ReviewService {
     const headers = this.getHeaders();
 
     return this.http.get<RatingResponse>(url, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error in getAverageRating:', error);
+        return throwError(() => new Error('Error fetching average rating'));
+      }),
+    );
+  }
+
+  userHasReview(gameId: string): Observable<ReviewResponse> {
+    const url = `${this.baseUrl}/review/user-has-review/${gameId}`;
+    const headers = this.getHeaders();
+
+    return this.http.get<ReviewResponse>(url, { headers }).pipe(
       catchError((error) => {
         console.error('Error in getAverageRating:', error);
         return throwError(() => new Error('Error fetching average rating'));

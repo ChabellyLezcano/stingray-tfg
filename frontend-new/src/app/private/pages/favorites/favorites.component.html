@@ -1,7 +1,9 @@
 <app-layout></app-layout>
 
-<div class="container mx-auto">
-  <h2 class="mb-6 text-center text-2xl font-bold">Mis Favoritos</h2>
+<div class="container mx-auto min-h-screen-minus-62 flex-col">
+  <h2 class="mb-8 text-center text-3xl font-bold text-gray-800">
+    Mis Favoritos
+  </h2>
 
   <div *ngIf="isLoading" class="flex h-64 items-center justify-center">
     <p-progressSpinner></p-progressSpinner>
@@ -13,40 +15,42 @@
 
   <div
     *ngIf="!isLoading && !error && favorites.length === 0"
-    class="text-center"
+    class="text-center text-gray-700"
   >
     No tienes juegos favoritos.
   </div>
 
   <div
     *ngIf="!isLoading && !error && paginatedFavorites.length > 0"
-    class="grid grid-cols-2 gap-8 px-6 md:grid-cols-3 lg:grid-cols-5"
+    class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
   >
     <div
       *ngFor="let game of paginatedFavorites"
-      class="flex flex-col items-center rounded-md bg-gray-100 p-4 shadow"
+      class="flex flex-col items-center rounded-lg bg-gray-100 p-4 shadow-lg transition-shadow duration-300 ease-in-out hover:shadow-xl"
     >
       <img
-        [src]="game.mainPhoto"
+        [src]="game.mainPhoto || 'assets/images/nophoto.jpg'"
         alt="Imagen del juego"
-        class="mb-2 h-32 w-full rounded-md object-cover"
+        class="mb-4 h-32 w-32 rounded-md object-cover"
       />
-      <h3 class="text-center text-lg font-semibold text-gray-700">
+      <h3 class="mb-2 text-center text-xl font-semibold text-gray-800">
         {{ game.title }}
       </h3>
-      <div class="flex gap-4">
+      <div class="mt-2 flex w-full justify-around gap-2">
         <button
           pButton
           type="button"
           icon="pi pi-eye"
-          class="p-button rounded-full"
+          label="Ver"
+          class="p-button p-button-sm p-button-primary rounded-md"
           [routerLink]="['/game', game._id]"
         ></button>
         <button
           pButton
           type="button"
           icon="pi pi-trash"
-          class="p-button-danger rounded-full"
+          label="Eliminar"
+          class="p-button-danger p-button-sm p-button-danger rounded-md"
           (click)="removeFromFavorites(game._id, $event)"
         ></button>
       </div>
@@ -63,3 +67,5 @@
     class="mt-4"
   ></p-paginator>
 </div>
+
+<p-toast></p-toast>

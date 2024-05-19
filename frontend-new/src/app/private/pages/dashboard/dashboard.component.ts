@@ -4,12 +4,13 @@ import { Game } from '../../interfaces/interfaces.interface';
 import { User } from 'src/app/auth/interface/authInterface';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import Swal from 'sweetalert2';
-import { ReservationService } from '../../services/reservation.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
+  providers: [MessageService],
 })
 export class DashboardComponent implements OnInit {
   games: Game[] = [];
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private gameService: GameService,
     private authService: AuthService,
+    private messageService: MessageService,
   ) {
     this.user = this.authService.user;
   }
@@ -111,18 +113,22 @@ export class DashboardComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.gameService.deleteGame(id).subscribe({
-          next: () => {
-            Swal.fire('¡Eliminado!', 'El juego ha sido eliminado.', 'success');
+          next: (response) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Juego eliminado',
+              detail: 'El juego ha sido eliminado con éxito',
+            });
             this.loadGames();
           },
           error: (error) => {
             console.error('Error deleting game:', error);
-            Swal.fire(
-              'Error',
-              error ||
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail:
                 'Hubo un problema al eliminar el juego. Inténtalo de nuevo más tarde.',
-              'error',
-            );
+            });
           },
         });
       }

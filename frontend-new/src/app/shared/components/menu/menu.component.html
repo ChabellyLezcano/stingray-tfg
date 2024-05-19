@@ -13,11 +13,11 @@
   </ng-template>
 
   <ng-template pTemplate="end">
-    <div class="flex-end flex items-center">
+    <div class="flex-end flex items-center gap-2">
       <img
         *ngIf="user?.photo"
         [src]="user?.photo"
-        class="user-photo mx-4 h-8 w-8 rounded-full"
+        class="user-photo mx-2 h-8 w-8 rounded-full"
         alt="User Photo"
       />
       <span *ngIf="user" class="user-name">{{ user.username }}</span>

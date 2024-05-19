@@ -185,7 +185,6 @@ export class GameDetailsComponent implements OnInit {
   private checkIfReservation(): void {
     this.reservationService.hasUserReservationForGame(this.gameId).subscribe({
       next: (response) => {
-        console.log(response);
         if (response.hasReservation) {
           this.isReserved = response.hasReservation;
         }

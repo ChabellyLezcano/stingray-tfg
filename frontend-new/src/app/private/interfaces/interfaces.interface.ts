@@ -57,8 +57,10 @@ export interface BoardGameID {
 
 export interface ReviewResponse {
   ok: boolean;
+  msg: string;
   reviews: Review[];
   review: Review;
+  hasReview?: boolean;
 }
 
 export interface RatingResponse {

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservationService } from '../../services/reservation.service';
+import { ReviewService } from '../../services/review.service';
 import { MessageService } from 'primeng/api';
-import {
-  ReservationResponse,
-  Reservation,
-} from '../../interfaces/interfaces.interface';
+import { Reservation } from '../../interfaces/interfaces.interface';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -19,10 +17,12 @@ export class ReservationsUserComponent implements OnInit {
   isLoading: boolean = true;
   pageSize: number = 20;
   totalRecords: number = 0;
-  filteredReservations: Reservation[] = []; // Añadido para almacenar las reservas filtradas
+  filteredReservations: Reservation[] = [];
+  reviewsMap: { [gameId: string]: boolean } = {};
 
   constructor(
     private reservationService: ReservationService,
+    private reviewService: ReviewService,
     private messageService: MessageService,
     private router: Router,
   ) {}
@@ -34,7 +34,7 @@ export class ReservationsUserComponent implements OnInit {
   loadReservations(): void {
     this.isLoading = true;
     this.reservationService.getUserReservationHistory().subscribe({
-      next: (response) => {
+      next: async (response) => {
         this.isLoading = false;
         if (response.ok) {
           this.reservations = response.reservations.sort(
@@ -42,7 +42,8 @@ export class ReservationsUserComponent implements OnInit {
               new Date(b.reservationDate).getTime() -
               new Date(a.reservationDate).getTime(),
           );
-          this.filteredReservations = this.reservations; // Inicializa las reservas filtradas
+          await this.checkReviewsForReservations();
+          this.filteredReservations = this.reservations;
           this.totalRecords = this.filteredReservations.length;
           this.paginate({ first: 0, rows: this.pageSize });
         } else {
@@ -65,10 +66,33 @@ export class ReservationsUserComponent implements OnInit {
     });
   }
 
+  async checkReviewsForReservations() {
+    for (const reservation of this.reservations) {
+      const hasReview = await this.checkIfUserHasReview(
+        reservation.boardGameId._id,
+      );
+      this.reviewsMap[reservation.boardGameId._id] = hasReview;
+    }
+  }
+
+  checkIfUserHasReview(gameId: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.reviewService.userHasReview(gameId).subscribe({
+        next: (response) => {
+          resolve(response.hasReview ?? false);
+        },
+        error: (error) => {
+          console.error('Error checking if user has review:', error);
+          resolve(false);
+        },
+      });
+    });
+  }
+
   paginate(event: any): void {
     const start = event.first;
     const end = event.first + event.rows;
-    this.paginatedReservations = this.filteredReservations.slice(start, end); // Cambiado para usar reservas filtradas
+    this.paginatedReservations = this.filteredReservations.slice(start, end);
   }
 
   applyFilter(filter: string): void {
@@ -80,7 +104,7 @@ export class ReservationsUserComponent implements OnInit {
       );
     }
     this.totalRecords = this.filteredReservations.length;
-    this.paginate({ first: 0, rows: this.pageSize }); // Reinicia la paginación al principio
+    this.paginate({ first: 0, rows: this.pageSize });
   }
 
   cancelReservation(reservationId: string): void {

@@ -202,6 +202,41 @@ const getAverageRating = async (req, res) => {
   }
 };
 
+// Check if user has review for a game
+const userHasReview = async (req, res) => {
+  const userId = req.id;
+  const { gameId } = req.params;
+
+  try {
+    const existingReview = await Review.findOne({
+      boardGameId: gameId,
+      userId: userId,
+    });
+
+    if (existingReview) {
+      return res.status(200).json({
+        ok: true,
+        hasReview: true,
+        msg: "El usuario ya ha creado una reseña para este juego",
+        review: existingReview,
+      });
+    }
+
+    return res.status(200).json({
+      ok: false,
+      hasReview: false,
+      msg: "El usuario no ha creado una reseña para este juego",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error verificando reseña del usuario",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createReview,
   getReviews,
@@ -209,4 +244,5 @@ module.exports = {
   deleteReview,
   getAverageRating,
   getReviewById,
+  userHasReview
 };

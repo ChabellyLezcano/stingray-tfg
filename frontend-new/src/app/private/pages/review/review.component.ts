@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
   styleUrls: ['./review.component.css'],
   providers: [MessageService],
 })
-export class ReviewComponent {
+export class ReviewComponent implements OnInit {
   gameId!: string;
   @Input() user!: any;
   reviews: Review[] = [];
@@ -112,12 +112,13 @@ export class ReviewComponent {
         this.reviewService.deleteReview(reviewId).subscribe({
           next: () => {
             this.reviews = this.reviews.filter((r) => r._id !== reviewId);
+            this.paginatedReviews = this.reviews.slice(0, this.pageSize);
             this.messageService.add({
               severity: 'success',
               summary: 'Reseña eliminada',
               detail: 'La reseña ha sido eliminada con éxito',
             });
-            this.loadReviews();
+            this.loadAverageRating();
           },
           error: (error) => {
             this.messageService.add({

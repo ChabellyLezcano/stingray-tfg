@@ -2,8 +2,10 @@
 
 <div class="container mx-auto flex min-h-screen-minus-62 flex-col py-4">
   <div class="flex flex-grow flex-col justify-between px-4 lg:px-0">
-    <div class="flex justify-between">
-      <h2 class="mb-6 text-center text-2xl font-bold">Mis Reservas</h2>
+    <div class="flex items-center justify-between">
+      <h2 class="mb-6 text-center text-2xl font-bold uppercase text-slate-700">
+        Mis Reservas
+      </h2>
       <app-filter-reservations
         (filter)="applyFilter($event)"
       ></app-filter-reservations>
@@ -21,26 +23,37 @@
       *ngIf="!isLoading && paginatedReservations.length > 0"
       class="flex-grow"
     >
-      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-8 xl:grid-cols-2">
         <div
           *ngFor="let reservation of paginatedReservations"
-          class="flex items-center rounded bg-gray-100 p-4 shadow"
+          class="flex items-center gap-4 rounded bg-gray-100 p-4 shadow"
         >
           <img
             [src]="
               reservation.boardGameId.mainPhoto || 'assets/images/nophoto.jpg'
             "
             alt="Boardgame image"
-            class="mr-4 h-20 w-20 rounded object-cover"
+            class="h-20 w-20 rounded object-cover"
           />
-          <div class="flex flex-grow flex-col">
-            <h3 class="text-xl font-semibold">
-              {{ reservation.boardGameId.title }}
-            </h3>
+          <div class="flex flex-grow flex-col gap-2">
+            <span class="text-xl font-semibold text-slate-600">{{
+              reservation.boardGameId.title
+            }}</span>
             <span
               ><strong>Fecha de reserva:</strong>
               {{ reservation.reservationDate | date: "dd/MM/yyyy" }}</span
             >
+            <span
+              *ngIf="reservation.status === 'Completed'"
+              class="text-green-600"
+            >
+              <strong>Devolución:</strong>
+              {{ reservation.returnDate | date: "dd/MM/yyyy" }}
+            </span>
+            <span *ngIf="reservation.status === 'Expired'" class="text-red-700">
+              <strong>Fecha de expiración:</strong>
+              {{ reservation.expirationDate | date: "dd/MM/yyyy" }}
+            </span>
             <p>
               <span
                 [ngClass]="{
@@ -55,17 +68,11 @@
                     reservation.status === 'Completed',
                   'bg-orange-100 text-orange-700':
                     reservation.status === 'Cancelled',
-                  'bg-gray-100 text-gray-600': reservation.status === 'Expired'
+                  'bg-gray-300 text-gray-700': reservation.status === 'Expired'
                 }"
                 class="rounded-md p-2 font-bold"
               >
                 {{ reservation.status }}
-              </span>
-              <span
-                *ngIf="reservation.status === 'Completed'"
-                class="ml-2 text-green-600"
-              >
-                (Devolución: {{ reservation.returnDate | date: "dd/MM/yyyy" }})
               </span>
             </p>
           </div>
@@ -80,13 +87,19 @@
             ></button>
           </div>
           <div *ngIf="reservation.status === 'Completed'" class="ml-auto">
+            <span
+              *ngIf="reviewsMap[reservation.boardGameId._id]"
+              class="rounded-md bg-blue-100 p-2 font-semibold text-blue-500"
+              ><i class="pi pi-check mr-2"></i>Reseña</span
+            >
             <button
+              *ngIf="!reviewsMap[reservation.boardGameId._id]"
               pButton
               icon="pi pi-plus"
               type="button"
               label="Reseñar"
               class="p-button font-semibold"
-              [routerLink]="['/add-review', reservation.boardGameId._id]"
+              [routerLink]="['/create-review', reservation.boardGameId._id]"
             ></button>
           </div>
         </div>
