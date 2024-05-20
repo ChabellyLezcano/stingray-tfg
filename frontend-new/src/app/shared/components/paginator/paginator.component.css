@@ -1,0 +1,23 @@
+.paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.paginator button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.paginator button.active {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.paginator button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

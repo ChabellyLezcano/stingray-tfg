@@ -244,5 +244,5 @@ module.exports = {
   deleteReview,
   getAverageRating,
   getReviewById,
-  userHasReview
+  userHasReview,
 };

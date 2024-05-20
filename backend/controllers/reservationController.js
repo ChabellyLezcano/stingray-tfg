@@ -13,16 +13,12 @@ const {
 
 const { generateRandCodeReservation } = require("../helpers/generateRandCode");
 
-// Get reservation history by the admin
 const getAdminReservationHistory = async (req, res) => {
   try {
-    // Get the admin user ID from the request
+    const { page = 1, limit = 20 } = req.query;
     const userId = req.id;
 
-    // Search for the user by their ID
     const adminUser = await User.findById(userId);
-
-    // Verify if the user is an administrator
     if (adminUser.role !== "Admin") {
       return res.status(401).json({
         ok: false,
@@ -30,33 +26,23 @@ const getAdminReservationHistory = async (req, res) => {
       });
     }
 
-    // Get all reservations
-    const reservations =
-      await Reservation.find().populate("userId boardGameId");
+    const options = {
+      page: Math.max(1, parseInt(page)), // Asegura que page sea al menos 1
+      limit: Math.max(1, parseInt(limit)), // Asegura que limit sea al menos 1
+      populate: ["userId", "boardGameId"],
+      sort: { reservationDate: -1 }, // Ordenar por fecha de reserva en orden descendente
+    };
 
-    // Update status of reservations
-    for (const reservation of reservations) {
-      // Check if reservation has passed its expiration date
-      if (reservation.expirationDate < new Date()) {
-        // Mark the reservation as "Expired"
-        reservation.status = "Expired";
-        await reservation.save();
-
-        // If the reservation status was "Accepted", then also mark the associated game as "Available"
-        if (reservation.status === "Accepted") {
-          const game = await Boardgame.findById(reservation.boardGameId);
-          if (game) {
-            // Ensure the game exists before attempting to update
-            game.status = "Available";
-            await game.save();
-          }
-        }
-      }
-    }
+    const result = await Reservation.paginate({}, options);
 
     res.json({
       ok: true,
-      reservations,
+      reservations: result.docs,
+      totalRecords: result.totalDocs,
+      totalPages: result.totalPages,
+      currentPage: result.page,
+      hasNextPage: result.hasNextPage,
+      hasPrevPage: result.hasPrevPage,
     });
   } catch (error) {
     console.error(error);
@@ -603,7 +589,7 @@ const hasUserReservationForGame = async (req, res) => {
     const existingReservation = await Reservation.findOne({
       userId: userId,
       boardGameId: gameId,
-      status: { $in: ["Pending", "Accepted", "Picked Up"] }
+      status: { $in: ["Pending", "Accepted", "Picked Up"] },
     });
 
     if (existingReservation) {
@@ -627,6 +613,55 @@ const hasUserReservationForGame = async (req, res) => {
   }
 };
 
+// Delete reservation
+const deleteReservation = async (req, res) => {
+  try {
+    const { reservationId } = req.params;
+    const userId = req.id;
+
+    const adminUser = await User.findById(userId);
+
+    if (!adminUser || adminUser.role !== "Admin") {
+      return res.status(401).json({
+        ok: false,
+        msg: "Solo los administradores están autorizados a eliminar reservas",
+      });
+    }
+
+    const reservation = await Reservation.findByIdAndDelete(reservationId);
+
+    if (!reservation) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Reservación no encontrada",
+      });
+    }
+
+    // Si necesitas enviar un correo electrónico después de eliminar la reserva, puedes hacerlo aquí.
+    const userWhoReserved = await User.findById(reservation.userId);
+    if (userWhoReserved) {
+      await sendEmailCancelReservation(
+        userWhoReserved.email,
+        reservation,
+        null,
+        userWhoReserved.username,
+        "Su reservación ha sido eliminada por el administrador.",
+      );
+    }
+
+    res.json({
+      ok: true,
+      msg: "Reservación eliminada correctamente",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Error eliminando la reservación",
+    });
+  }
+};
+
 module.exports = {
   getAdminReservationHistory,
   acceptReservation,
@@ -636,5 +671,6 @@ module.exports = {
   createReservation,
   getUserReservationHistory,
   cancelReservation,
-  hasUserReservationForGame
+  hasUserReservationForGame,
+  deleteReservation,
 };

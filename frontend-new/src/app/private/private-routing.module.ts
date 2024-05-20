@@ -57,7 +57,7 @@ const routes: Routes = [
   {
     path: 'reservations-admin',
     component: ReservationsAdminComponent,
-    canActivate: [isAuthenticatedGuard, AdminGuard],
+    canActivate: [isAuthenticatedGuard],
   },
   {
     path: 'reservations-user',

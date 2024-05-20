@@ -63,6 +63,6 @@ router.delete("/:reviewId", deleteReview);
 // Retrieve the average rating for a game
 router.get("/average-rating/:gameId", getAverageRating);
 
-router.get('/user-has-review/:gameId', validateJWT, userHasReview);
+router.get("/user-has-review/:gameId", validateJWT, userHasReview);
 
 module.exports = router;

@@ -44,8 +44,11 @@ export class ReservationService {
   }
 
   // Obtener el historial de reservas del administrador
-  getAdminReservationHistory(): Observable<ReservationResponse> {
-    const url = `${this.baseUrl}/reservation/admin/history`;
+  getAdminReservationHistory(
+    page: number,
+    limit: number,
+  ): Observable<ReservationResponse> {
+    const url = `${this.baseUrl}/reservation/admin/history?page=${page}&limit=${limit}`;
     const headers = this.getHeaders();
 
     return this.http.get<ReservationResponse>(url, { headers }).pipe(
@@ -57,7 +60,6 @@ export class ReservationService {
       }),
     );
   }
-
   // Obtener el historial de reservas del usuario
   getUserReservationHistory(): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/user/history`;
@@ -138,6 +140,19 @@ export class ReservationService {
       catchError((error) => {
         console.error('Error in cancelReservation:', error);
         return throwError(() => new Error('Error canceling reservation'));
+      }),
+    );
+  }
+
+  // Borrar reserva
+  deleteReservation(reservationId: string): Observable<ReservationResponse> {
+    const url = `${this.baseUrl}/reservation/${reservationId}`;
+    const headers = this.getHeaders();
+
+    return this.http.delete<ReservationResponse>(url, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error in deleteReservation:', error);
+        return throwError(() => new Error('Error deleting reservation'));
       }),
     );
   }

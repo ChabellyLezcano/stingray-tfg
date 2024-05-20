@@ -92,6 +92,7 @@ export interface ReservationResponse {
   reservations: Reservation[];
   reservation: Reservation;
   hasReservation?: boolean;
+  totalRecords: number;
 }
 
 export interface Reservation {

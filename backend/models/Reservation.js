@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const reservationSchema = new mongoose.Schema({
   code: { type: String, required: true },
@@ -28,6 +29,9 @@ const reservationSchema = new mongoose.Schema({
     default: "Pending",
   },
 });
+
+// Add the mongoose-paginate-v2 plugin to the schema
+reservationSchema.plugin(mongoosePaginate);
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
