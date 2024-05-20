@@ -100,6 +100,11 @@
                 {{ reservation.status }}
               </span>
             </p>
+
+            <p *ngIf="reservation.status === 'Rejected'" class="text-red-600">
+              <strong>Mensaje de rechazo:</strong>
+              {{ reservation.rejectionMessage }}
+            </p>
           </td>
           <td>
             <div *ngIf="reservation.status === 'Pending'">

@@ -106,6 +106,7 @@ export interface Reservation {
   expirationDate?: Date;
   pickupDate?: Date;
   returnDate?: Date;
+  rejectionMessage?: string;
 }
 
 export interface BoardGameInfo {

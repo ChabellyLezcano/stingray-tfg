@@ -44,11 +44,27 @@
               {{ reservation.reservationDate | date: "dd/MM/yyyy" }}</span
             >
             <span
-              *ngIf="reservation.status === 'Completed'"
-              class="text-green-600"
+              [ngClass]="{
+                'text-green-600': reservation.status === 'Completed',
+                'text-violet-600': reservation.status === 'Picked Up'
+              }"
             >
-              <strong>Devolución:</strong>
+              <strong
+                >{{
+                  reservation.status === "Completed"
+                    ? "Devolución"
+                    : "Fecha de devolución"
+                }}:</strong
+              >
               {{ reservation.returnDate | date: "dd/MM/yyyy" }}
+            </span>
+
+            <span
+              *ngIf="reservation.status === 'Rejected'"
+              class="text-red-600"
+            >
+              <strong>Mensaje de rechazo: </strong>
+              {{ reservation.rejectionMessage }}
             </span>
             <span *ngIf="reservation.status === 'Expired'" class="text-red-700">
               <strong>Fecha de expiración:</strong>

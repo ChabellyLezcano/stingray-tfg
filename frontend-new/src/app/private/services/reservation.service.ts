@@ -104,8 +104,9 @@ export class ReservationService {
   ): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}/reject`;
     const headers = this.getHeaders();
+    const body = { rejectionMessage };
 
-    return this.http.patch<ReservationResponse>(url, {}, { headers }).pipe(
+    return this.http.patch<ReservationResponse>(url, body, { headers }).pipe(
       catchError((error) => {
         console.error('Error in rejectReservation:', error);
         return throwError(() => new Error('Error rejecting reservation'));
