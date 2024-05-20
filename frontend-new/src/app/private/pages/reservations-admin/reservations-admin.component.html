@@ -5,8 +5,12 @@
 </div>
 
 <div *ngIf="!isLoading" class="container mx-auto flex flex-col gap-8">
-  <div class="mt-4 flex items-center justify-between">
-    <h2 class="text-center text-2xl font-bold uppercase text-slate-700">
+  <div
+    class="mt-4 flex flex-col items-center justify-center lg:flex-row lg:justify-between"
+  >
+    <h2
+      class="mb-4 text-center text-2xl font-bold uppercase text-slate-700 lg:mb-0"
+    >
       Administración de Reservas
     </h2>
 
@@ -22,191 +26,328 @@
   </div>
 
   <div *ngIf="reservations.length > 0" class="flex flex-col gap-4">
-    <p-table [value]="filteredReservations" styleClass="p-datatable-striped">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Imagen</th>
-          <th>Título del Juego</th>
-          <th>Código</th>
-          <th>Usuario</th>
-          <th>Fecha de Reserva</th>
-          <th>Fecha de Expiración</th>
-          <th>Fecha de Devolución</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-reservation>
-        <tr>
-          <td>
-            <img
-              [src]="
-                reservation.boardGameId?.mainPhoto ||
-                'assets/images/nophoto.jpg'
-              "
-              alt="Imagen del juego"
-              class="h-16 w-16 rounded object-cover"
-            />
-          </td>
-          <td>{{ reservation.boardGameId?.title || "Juego no disponible" }}</td>
-          <td>
-            <span
-              class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
-              >{{ reservation.code }}</span
-            >
-          </td>
-          <td>
-            <span
-              class="rounded-md bg-rose-100 p-2 font-semibold text-rose-500"
-              >{{
-                reservation.userId?.username || "Usuario no disponible"
-              }}</span
-            >
-          </td>
-          <td>{{ reservation.reservationDate | date: "dd/MM/yyyy" }}</td>
-          <td>
-            {{
-              reservation.expirationDate
-                ? (reservation.expirationDate | date: "dd/MM/yyyy")
-                : "-"
-            }}
-          </td>
-          <td>
-            {{
-              reservation.returnDate
-                ? (reservation.returnDate | date: "dd/MM/yyyy")
-                : "-"
-            }}
-          </td>
-          <td>
-            <p>
+    <!-- Tabla para pantallas medianas y grandes -->
+    <div class="hidden md:block">
+      <p-table [value]="filteredReservations" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Imagen</th>
+            <th>Título del Juego</th>
+            <th>Código</th>
+            <th>Usuario</th>
+            <th>Fecha de Reserva</th>
+            <th>Fecha de Expiración</th>
+            <th>Fecha de Devolución</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reservation>
+          <tr>
+            <td>
+              <img
+                [src]="
+                  reservation.boardGameId?.mainPhoto ||
+                  'assets/images/nophoto.jpg'
+                "
+                alt="Imagen del juego"
+                class="h-16 w-16 rounded object-cover"
+              />
+            </td>
+            <td>
+              {{ reservation.boardGameId?.title || "Juego no disponible" }}
+            </td>
+            <td>
               <span
-                [ngClass]="{
-                  'bg-blue-100 text-blue-600':
-                    reservation.status === 'Accepted',
-                  'bg-yellow-100 text-yellow-600':
-                    reservation.status === 'Pending',
-                  'bg-red-100 text-red-600': reservation.status === 'Rejected',
-                  'bg-purple-100 text-purple-600':
-                    reservation.status === 'Picked Up',
-                  'bg-green-100 text-green-600':
-                    reservation.status === 'Completed',
-                  'bg-orange-100 text-orange-700':
-                    reservation.status === 'Cancelled',
-                  'bg-gray-300 text-gray-700': reservation.status === 'Expired'
-                }"
-                class="rounded-md p-2 font-bold"
+                class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
+                >{{ reservation.code }}</span
               >
-                {{ reservation.status }}
-              </span>
-            </p>
+            </td>
+            <td>
+              <span
+                class="rounded-md bg-rose-100 p-2 font-semibold text-rose-500"
+                >{{
+                  reservation.userId?.username || "Usuario no disponible"
+                }}</span
+              >
+            </td>
+            <td>{{ reservation.reservationDate | date: "dd/MM/yyyy" }}</td>
+            <td>
+              {{
+                reservation.expirationDate
+                  ? (reservation.expirationDate | date: "dd/MM/yyyy")
+                  : "-"
+              }}
+            </td>
+            <td>
+              {{
+                reservation.returnDate
+                  ? (reservation.returnDate | date: "dd/MM/yyyy")
+                  : "-"
+              }}
+            </td>
+            <td>
+              <p>
+                <span
+                  [ngClass]="{
+                    'bg-blue-100 text-blue-600':
+                      reservation.status === 'Accepted',
+                    'bg-yellow-100 text-yellow-600':
+                      reservation.status === 'Pending',
+                    'bg-red-100 text-red-600':
+                      reservation.status === 'Rejected',
+                    'bg-purple-100 text-purple-600':
+                      reservation.status === 'Picked Up',
+                    'bg-green-100 text-green-600':
+                      reservation.status === 'Completed',
+                    'bg-orange-100 text-orange-700':
+                      reservation.status === 'Cancelled',
+                    'bg-gray-300 text-gray-700':
+                      reservation.status === 'Expired'
+                  }"
+                  class="rounded-md p-2 font-bold"
+                >
+                  {{ reservation.status }}
+                </span>
+              </p>
 
-            <p *ngIf="reservation.status === 'Rejected'" class="text-red-600">
-              <strong>Mensaje de rechazo:</strong>
-              {{ reservation.rejectionMessage }}
-            </p>
-          </td>
-          <td>
-            <div *ngIf="reservation.status === 'Pending'">
-              <button
-                pButton
-                type="button"
-                icon="pi pi-check"
-                label="Aprobar"
-                class="p-button-success mb-1 w-full"
-                (click)="acceptReservation(reservation._id)"
-              ></button>
-              <button
-                pButton
-                type="button"
-                icon="pi pi-times"
-                label="Rechazar"
-                class="p-button-danger mb-1 w-full"
-                (click)="openRejectModal(reservation._id)"
-              ></button>
+              <p *ngIf="reservation.status === 'Rejected'" class="text-red-600">
+                <strong>Mensaje de rechazo:</strong>
+                {{ reservation.rejectionMessage }}
+              </p>
+            </td>
+            <td>
+              <div *ngIf="reservation.status === 'Pending'">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-check"
+                  label="Aprobar"
+                  class="p-button-success mb-1 w-full"
+                  (click)="acceptReservation(reservation._id)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-times"
+                  label="Rechazar"
+                  class="p-button-danger mb-1 w-full"
+                  (click)="openRejectModal(reservation._id)"
+                ></button>
+              </div>
+              <div *ngIf="reservation.status === 'Accepted'">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-shopping-cart"
+                  label="Recoger"
+                  class="p-button mb-1 w-full"
+                  (click)="markAsPickedUp(reservation._id)"
+                ></button>
+              </div>
+              <div
+                *ngIf="
+                  reservation.status === 'Picked Up' ||
+                  reservation.status === 'Expired'
+                "
+              >
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-check"
+                  label="Completar"
+                  class="p-button-info mb-1 w-full"
+                  (click)="markAsCompleted(reservation._id)"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Tarjetas para pantallas pequeñas -->
+    <div *ngIf="reservations.length > 0" class="flex flex-col gap-2">
+      <div class="block md:hidden">
+        <ng-container *ngFor="let reservation of filteredReservations">
+          <div class="mb-4 rounded-lg border bg-gray-50 p-4 shadow-md">
+            <div class="flex flex-col items-center">
+              <img
+                [src]="
+                  reservation.boardGameId.mainPhoto ||
+                  'assets/images/nophoto.jpg'
+                "
+                alt="Imagen del juego"
+                class="mb-4 h-36 w-36 rounded object-cover"
+              />
+              <div class="text-center">
+                <h3 class="text-lg font-bold">
+                  {{ reservation.boardGameId.title || "Juego no disponible" }}
+                </h3>
+                <p
+                  class="my-2 inline-block rounded-md bg-indigo-100 p-2 text-sm font-semibold text-indigo-600"
+                >
+                  {{ reservation.code }}
+                </p>
+                <p>
+                  <span
+                    [ngClass]="{
+                      'bg-blue-100 text-blue-600':
+                        reservation.status === 'Accepted',
+                      'bg-yellow-100 text-yellow-600':
+                        reservation.status === 'Pending',
+                      'bg-red-100 text-red-600':
+                        reservation.status === 'Rejected',
+                      'bg-purple-100 text-purple-600':
+                        reservation.status === 'Picked Up',
+                      'bg-green-100 text-green-600':
+                        reservation.status === 'Completed',
+                      'bg-orange-100 text-orange-700':
+                        reservation.status === 'Cancelled',
+                      'bg-gray-300 text-gray-700':
+                        reservation.status === 'Expired'
+                    }"
+                    class="my-2 mt-4 rounded-md p-2 text-sm font-bold"
+                  >
+                    {{ reservation.status }}
+                  </span>
+                </p>
+              </div>
             </div>
-            <div *ngIf="reservation.status === 'Accepted'">
-              <button
-                pButton
-                type="button"
-                icon="pi pi-shopping-cart"
-                label="Recoger"
-                class="p-button mb-1 w-full"
-                (click)="markAsPickedUp(reservation._id)"
-              ></button>
+            <div class="mt-2 text-center">
+              <p
+                *ngIf="reservation.status === 'Rejected'"
+                class="text-sm text-red-600"
+              >
+                <strong>Mensaje de rechazo:</strong>
+                {{ reservation.rejectionMessage }}
+              </p>
+              <p class="text-sm text-slate-700">
+                <strong>Fecha de Reserva:</strong>
+                {{ reservation.reservationDate | date: "dd/MM/yyyy" }}
+              </p>
+              <p
+                *ngIf="reservation.expirationDate"
+                class="text-sm text-red-600"
+              >
+                <strong>Fecha de Expiración:</strong>
+                {{
+                  reservation.expirationDate
+                    ? (reservation.expirationDate | date: "dd/MM/yyyy")
+                    : "-"
+                }}
+              </p>
+              <p *ngIf="reservation.returnDate" class="text-sm text-green-600">
+                <strong>Fecha de Devolución:</strong>
+                {{
+                  reservation.returnDate
+                    ? (reservation.returnDate | date: "dd/MM/yyyy")
+                    : "-"
+                }}
+              </p>
             </div>
-            <div
-              *ngIf="
-                reservation.status === 'Picked Up' ||
-                reservation.status === 'Expired'
-              "
+            <div class="mt-4 flex flex-col items-center gap-2">
+              <div *ngIf="reservation.status === 'Pending'">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-check"
+                  label="Aprobar"
+                  class="p-button-success w-full"
+                  (click)="acceptReservation(reservation._id)"
+                ></button>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-times"
+                  label="Rechazar"
+                  class="p-button-danger w-full"
+                  (click)="openRejectModal(reservation._id)"
+                ></button>
+              </div>
+              <div *ngIf="reservation.status === 'Accepted'">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-shopping-cart"
+                  label="Recoger"
+                  class="p-button w-full"
+                  (click)="markAsPickedUp(reservation._id)"
+                ></button>
+              </div>
+              <div
+                *ngIf="
+                  reservation.status === 'Picked Up' ||
+                  reservation.status === 'Expired'
+                "
+              >
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-check"
+                  label="Completar"
+                  class="p-button-info w-full"
+                  (click)="markAsCompleted(reservation._id)"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <p-dialog
+        header="Rechazar Reserva"
+        [(visible)]="displayRejectModal"
+        [modal]="true"
+        [closable]="false"
+        [style]="{ width: '30vw' }"
+      >
+        <div class="p-fluid">
+          <div class="p-field">
+            <label
+              for="rejectionMessage"
+              class="block py-2 text-sm font-medium text-gray-700"
+              >Motivo del Rechazo</label
             >
-              <button
-                pButton
-                type="button"
-                icon="pi pi-check"
-                label="Completar"
-                class="p-button-info mb-1 w-full"
-                (click)="markAsCompleted(reservation._id)"
-              ></button>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+            <textarea
+              id="rejectionMessage"
+              [(ngModel)]="rejectionMessage"
+              rows="5"
+              pInputTextarea
+            ></textarea>
+          </div>
+        </div>
+        <p-footer class="flex justify-center gap-4">
+          <button
+            pButton
+            type="button"
+            label="Cancelar"
+            icon="pi pi-times"
+            (click)="displayRejectModal = false"
+            class="p-button"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="Rechazar"
+            icon="pi pi-check"
+            (click)="rejectReservation()"
+            class="p-button-danger"
+          ></button>
+        </p-footer>
+      </p-dialog>
 
-    <div class="flex justify-center">
-      <p-paginator
-        [rows]="pageSize"
-        [totalRecords]="totalRecords"
-        [first]="(currentPage - 1) * pageSize"
-        (onPageChange)="paginate($event)"
-        styleClass="custom-paginator"
-      ></p-paginator>
+      <div class="flex justify-center">
+        <p-paginator
+          [rows]="pageSize"
+          [totalRecords]="totalRecords"
+          [first]="(currentPage - 1) * pageSize"
+          (onPageChange)="paginate($event)"
+          styleClass="custom-paginator"
+        ></p-paginator>
+
+        <p-toast></p-toast>
+      </div>
     </div>
   </div>
 </div>
-
-<p-dialog
-  header="Rechazar Reserva"
-  [(visible)]="displayRejectModal"
-  [modal]="true"
-  [closable]="false"
-  [style]="{ width: '30vw' }"
->
-  <div class="p-fluid">
-    <div class="p-field">
-      <label
-        for="rejectionMessage"
-        class="block py-2 text-sm font-medium text-gray-700"
-        >Motivo del Rechazo</label
-      >
-      <textarea
-        id="rejectionMessage"
-        [(ngModel)]="rejectionMessage"
-        rows="5"
-        pInputTextarea
-      ></textarea>
-    </div>
-  </div>
-  <p-footer class="flex justify-center gap-4">
-    <button
-      pButton
-      type="button"
-      label="Cancelar"
-      icon="pi pi-times"
-      (click)="displayRejectModal = false"
-      class="p-button"
-    ></button>
-    <button
-      pButton
-      type="button"
-      label="Rechazar"
-      icon="pi pi-check"
-      (click)="rejectReservation()"
-      class="p-button-danger"
-    ></button>
-  </p-footer>
-</p-dialog>
-
-<p-toast></p-toast>
