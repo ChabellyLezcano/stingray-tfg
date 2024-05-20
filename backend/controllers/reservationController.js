@@ -15,7 +15,7 @@ const { generateRandCodeReservation } = require("../helpers/generateRandCode");
 
 const getAdminReservationHistory = async (req, res) => {
   try {
-    const { page = 1, limit = 20 } = req.query;
+    const { page = 1, limit = 20, status } = req.query;
     const userId = req.id;
 
     const adminUser = await User.findById(userId);
@@ -26,6 +26,8 @@ const getAdminReservationHistory = async (req, res) => {
       });
     }
 
+    const query = status && status !== 'all' ? { status } : {};
+
     const options = {
       page: Math.max(1, parseInt(page)), // Asegura que page sea al menos 1
       limit: Math.max(1, parseInt(limit)), // Asegura que limit sea al menos 1
@@ -33,7 +35,7 @@ const getAdminReservationHistory = async (req, res) => {
       sort: { reservationDate: -1 }, // Ordenar por fecha de reserva en orden descendente
     };
 
-    const result = await Reservation.paginate({}, options);
+    const result = await Reservation.paginate(query, options);
 
     res.json({
       ok: true,
@@ -145,7 +147,6 @@ const acceptReservation = async (req, res) => {
     });
   }
 };
-
 
 // Reject reservation
 const rejectReservation = async (req, res) => {

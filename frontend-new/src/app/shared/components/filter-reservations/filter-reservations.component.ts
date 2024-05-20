@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-filter-reservations',
@@ -7,9 +7,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class FilterReservationsComponent {
   @Output() filter = new EventEmitter<string>();
+  @Input() selectedFilter: string = 'all'; // Añadir @Input para el filtro seleccionado
 
   filterOptions = [
-    { label: 'Todos', value: 'all' },
+    { label: 'Todas', value: 'all' },
     { label: 'Aceptadas', value: 'Accepted' },
     { label: 'Pendientes', value: 'Pending' },
     { label: 'Rechazadas', value: 'Rejected' },
@@ -18,8 +19,6 @@ export class FilterReservationsComponent {
     { label: 'Canceladas', value: 'Cancelled' },
     { label: 'Expiradas', value: 'Expired' },
   ];
-
-  selectedFilter: string = 'all';
 
   applyFilter(): void {
     this.filter.emit(this.selectedFilter);

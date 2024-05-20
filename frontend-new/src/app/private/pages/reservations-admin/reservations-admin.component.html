@@ -4,17 +4,25 @@
   <p-progressSpinner></p-progressSpinner>
 </div>
 
-<div *ngIf="!isLoading" class="container mx-auto">
-  <h2 class="mb-6 text-center text-2xl font-bold">
-    Administración de Reservas
-  </h2>
+<div *ngIf="!isLoading" class="container mx-auto flex flex-col gap-8">
+  <div class="mt-4 flex items-center justify-between">
+    <h2 class="text-center text-2xl font-bold uppercase text-slate-700">
+      Administración de Reservas
+    </h2>
+
+    <!-- Componente de filtrado -->
+    <app-filter-reservations
+      [selectedFilter]="selectedFilter"
+      (filter)="applyFilter($event)"
+    ></app-filter-reservations>
+  </div>
 
   <div *ngIf="reservations.length === 0" class="text-center">
     No hay reservas.
   </div>
 
-  <div *ngIf="reservations.length > 0">
-    <p-table [value]="reservations" styleClass="p-datatable-striped">
+  <div *ngIf="reservations.length > 0" class="flex flex-col gap-4">
+    <p-table [value]="filteredReservations" styleClass="p-datatable-striped">
       <ng-template pTemplate="header">
         <tr>
           <th>Imagen</th>
@@ -142,7 +150,7 @@
       </ng-template>
     </p-table>
 
-    <div class="m-4">
+    <div class="flex justify-center">
       <p-paginator
         [rows]="pageSize"
         [totalRecords]="totalRecords"
@@ -176,7 +184,7 @@
       ></textarea>
     </div>
   </div>
-  <p-footer class="flex justify-center">
+  <p-footer class="flex justify-center gap-4">
     <button
       pButton
       type="button"

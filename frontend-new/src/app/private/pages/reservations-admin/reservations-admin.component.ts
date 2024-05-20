@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ReservationsAdminComponent implements OnInit {
   reservations: Reservation[] = [];
+  filteredReservations: Reservation[] = [];
   isLoading: boolean = true;
   pageSize: number = 20;
   totalRecords: number = 0;
@@ -19,6 +20,7 @@ export class ReservationsAdminComponent implements OnInit {
   displayRejectModal: boolean = false;
   selectedReservationId: string = '';
   rejectionMessage: string = '';
+  selectedFilter: string = 'all'; // Añadir propiedad para el filtro seleccionado
 
   constructor(
     private reservationService: ReservationService,
@@ -29,14 +31,15 @@ export class ReservationsAdminComponent implements OnInit {
     this.loadAdminReservations(this.currentPage);
   }
 
-  loadAdminReservations(page: number): void {
+  loadAdminReservations(page: number, status: string = 'all'): void {
     this.isLoading = true;
     this.reservationService
-      .getAdminReservationHistory(page, this.pageSize)
+      .getAdminReservationHistory(page, this.pageSize, status)
       .subscribe({
         next: (response) => {
           if (response.ok) {
             this.reservations = response.reservations;
+            this.filteredReservations = response.reservations;
             this.totalRecords = response.totalRecords;
           } else {
             this.messageService.add({
@@ -60,7 +63,7 @@ export class ReservationsAdminComponent implements OnInit {
 
   paginate(event: any): void {
     this.currentPage = event.page + 1; // PrimeNG paginator starts from 0
-    this.loadAdminReservations(this.currentPage);
+    this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
   }
 
   acceptReservation(reservationId: string): void {
@@ -83,7 +86,7 @@ export class ReservationsAdminComponent implements OnInit {
                 summary: 'Reserva aprobada',
                 detail: response.msg,
               });
-              this.loadAdminReservations(this.currentPage);
+              this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
             } else {
               this.messageService.add({
                 severity: 'error',
@@ -130,7 +133,7 @@ export class ReservationsAdminComponent implements OnInit {
               summary: 'Reserva rechazada',
               detail: response.msg,
             });
-            this.loadAdminReservations(this.currentPage);
+            this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
             this.displayRejectModal = false;
           } else {
             this.messageService.add({
@@ -170,7 +173,7 @@ export class ReservationsAdminComponent implements OnInit {
                 summary: 'Reserva marcada como recogida',
                 detail: response.msg,
               });
-              this.loadAdminReservations(this.currentPage);
+              this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
             } else {
               this.messageService.add({
                 severity: 'error',
@@ -212,7 +215,7 @@ export class ReservationsAdminComponent implements OnInit {
                 summary: 'Reserva marcada como completada',
                 detail: response.msg,
               });
-              this.loadAdminReservations(this.currentPage);
+              this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
             } else {
               this.messageService.add({
                 severity: 'error',
@@ -236,5 +239,11 @@ export class ReservationsAdminComponent implements OnInit {
 
   deleteReservation(reservationId: string): void {
     this.openRejectModal(reservationId);
+  }
+
+  // Método para aplicar el filtro
+  applyFilter(filter: string): void {
+    this.selectedFilter = filter;
+    this.loadAdminReservations(this.currentPage, this.selectedFilter);
   }
 }

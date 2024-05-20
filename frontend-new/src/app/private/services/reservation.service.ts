@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -47,11 +47,19 @@ export class ReservationService {
   getAdminReservationHistory(
     page: number,
     limit: number,
+    status?: string,
   ): Observable<ReservationResponse> {
-    const url = `${this.baseUrl}/reservation/admin/history?page=${page}&limit=${limit}`;
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (status && status !== 'all') {
+      params = params.set('status', status);
+    }
+
+    const url = `${this.baseUrl}/reservation/admin/history`;
     const headers = this.getHeaders();
 
-    return this.http.get<ReservationResponse>(url, { headers }).pipe(
+    return this.http.get<ReservationResponse>(url, { headers, params }).pipe(
       catchError((error) => {
         console.error('Error in getAdminReservationHistory:', error);
         return throwError(
@@ -60,6 +68,7 @@ export class ReservationService {
       }),
     );
   }
+
   // Obtener el historial de reservas del usuario
   getUserReservationHistory(): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/user/history`;
