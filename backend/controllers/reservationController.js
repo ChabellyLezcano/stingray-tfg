@@ -58,7 +58,6 @@ const acceptReservation = async (req, res) => {
   try {
     const { reservationId } = req.params;
     const userId = req.id;
-    const { expirationDate } = req.body;
 
     const adminUser = await User.findById(userId);
 
@@ -69,7 +68,7 @@ const acceptReservation = async (req, res) => {
       });
     }
 
-    // Fin a reservation by id
+    // Encontrar una reservación por id
     const reservation = await Reservation.findById(reservationId);
 
     if (!reservation) {
@@ -98,17 +97,21 @@ const acceptReservation = async (req, res) => {
       });
     }
 
-    // Set the expiration date
-    reservation.expirationDate = new Date(expirationDate);
+    // Calcular la fecha de expiración como 7 días después de la fecha actual
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 7);
 
-    // Set reservation status as "Accepted"
+    // Establecer la fecha de expiración
+    reservation.expirationDate = expirationDate;
+
+    // Establecer el estado de la reservación como "Accepted"
     reservation.status = "Accepted";
 
     const userWhoReserved = await User.findById(reservation.userId);
 
     await reservation.save();
 
-    // Find a game with the reservation id game
+    // Encontrar el juego con el id de la reservación
     const game = await Boardgame.findById(reservation.boardGameId);
     if (!game) {
       return res.status(404).json({
@@ -117,7 +120,7 @@ const acceptReservation = async (req, res) => {
       });
     }
 
-    // Update status game to "Occupied"
+    // Actualizar el estado del juego a "Occupied"
     await Boardgame.findByIdAndUpdate(reservation.boardGameId, {
       status: "Occupied",
     });
@@ -126,7 +129,7 @@ const acceptReservation = async (req, res) => {
       userWhoReserved.email,
       reservation,
       game,
-      userWhoReserved.username,
+      userWhoReserved.username
     );
 
     res.json({
@@ -142,6 +145,7 @@ const acceptReservation = async (req, res) => {
     });
   }
 };
+
 
 // Reject reservation
 const rejectReservation = async (req, res) => {
@@ -220,7 +224,6 @@ const markAsPickedUp = async (req, res) => {
   try {
     const { reservationId } = req.params;
     const userId = req.id;
-    const { newExpirationDate } = req.body;
 
     const adminUser = await User.findById(userId);
 
@@ -231,7 +234,7 @@ const markAsPickedUp = async (req, res) => {
       });
     }
 
-    // Find reservation by id
+    // Encontrar la reservación por id
     const reservation = await Reservation.findById(reservationId);
     if (!reservation) {
       return res.status(404).json({
@@ -249,7 +252,7 @@ const markAsPickedUp = async (req, res) => {
       });
     }
 
-    // Verify if reservation status is "Accepted"
+    // Verificar si el estado de la reservación es "Accepted"
     if (reservation.status !== "Accepted") {
       return res.status(400).json({
         ok: false,
@@ -257,27 +260,28 @@ const markAsPickedUp = async (req, res) => {
       });
     }
 
-    // Set pickup date
+    // Establecer la fecha de recogida a la fecha actual
     reservation.pickupDate = new Date();
 
-    // Update expiration date
-    reservation.expirationDate = new Date(newExpirationDate);
-    console.log(reservation.expirationDate);
+    // Calcular la nueva fecha de expiración (7 días desde la fecha de recogida)
+    const newExpirationDate = new Date();
+    newExpirationDate.setDate(newExpirationDate.getDate() + 7);
+    reservation.expirationDate = newExpirationDate;
 
-    // Update status of reservation as "Picke Up"
+    // Actualizar el estado de la reservación a "Picked Up"
     reservation.status = "Picked Up";
 
     await reservation.save();
 
-    // Find user info
+    // Encontrar la información del usuario que hizo la reservación
     const userWhoReserved = await User.findById(reservation.userId);
 
-    // Send email to user with reservation changes
+    // Enviar un correo electrónico al usuario con los cambios en la reservación
     await sendEmailReservationPickedUp(
       userWhoReserved.email,
       reservation,
       game,
-      userWhoReserved.username,
+      userWhoReserved.username
     );
 
     res.json({
@@ -302,76 +306,77 @@ const markAsCompleted = async (req, res) => {
 
     const adminUser = await User.findById(userId);
 
-    if (!adminUser || adminUser.role !== "Admin") {
+    if (!adminUser || adminUser.role !== 'Admin') {
       return res.status(401).json({
         ok: false,
-        msg: "Solo los administradores están autorizados a rechazar reservas",
+        msg: 'Solo los administradores están autorizados a marcar reservas como completadas',
       });
     }
 
-    // Find game by id
+    // Encontrar la reservación por id
     const reservation = await Reservation.findById(reservationId);
     if (!reservation) {
       return res.status(404).json({
         ok: false,
-        msg: "Reservación no encontrada",
+        msg: 'Reservación no encontrada',
       });
     }
 
     const game = await Boardgame.findById(reservation.boardGameId);
-
     if (!game) {
       return res.status(404).json({
         ok: false,
-        msg: "Juego no encontrado",
+        msg: 'Juego no encontrado',
       });
     }
 
-    // Verify if reservation status is "Picked Up"
-    if (reservation.status !== "Picked Up") {
+    // Verificar si el estado de la reservación es "Picked Up" o "Expired"
+    if (reservation.status !== 'Picked Up' && reservation.status !== 'Expired') {
       return res.status(400).json({
         ok: false,
-        msg: "La reservación no está en el estado 'Picked Up' y no puede ser marcada como completada",
+        msg: 'La reservación no está en el estado "Picked Up" o "Expired" y no puede ser marcada como completada',
       });
     }
 
-    // Set return date adding 1 to 6 days to the current date
-    const daysToAdd = Math.floor(Math.random() * 6) + 1; // Genera un número aleatorio entre 1 y 6
-    const returnDate = new Date();
-    returnDate.setDate(returnDate.getDate() + daysToAdd); // Añade el número aleatorio de días a la fecha actual
-    reservation.returnDate = returnDate;
+    // Establecer la fecha de devolución a la fecha actual
+    reservation.returnDate = new Date();
 
-    // Update reservation status as "Completed"
-    reservation.status = "Completed";
+    // Marcar wasExpired como true si el estado es "Expired"
+    if (reservation.status === 'Expired') {
+      reservation.wasExpired = true;
+    }
 
-    // Update game status as "Avaible"
+    // Actualizar el estado de la reservación a "Completed"
+    reservation.status = 'Completed';
+
+    // Actualizar el estado del juego a "Available"
     await Boardgame.findByIdAndUpdate(reservation.boardGameId, {
-      status: "Avaible",
+      status: 'Available',
     });
 
     await reservation.save();
 
-    // Send email with reservation changes
+    // Enviar un correo electrónico al usuario con los cambios en la reservación
     const userWhoReserved = await User.findById(reservation.userId);
     if (userWhoReserved) {
       await sendEmailReservationCompleted(
         userWhoReserved.email,
         reservation,
         game,
-        userWhoReserved.username,
+        userWhoReserved.username
       );
     }
 
     res.json({
       ok: true,
-      msg: "Reservación marcada como completada correctamente",
+      msg: 'Reservación marcada como completada correctamente',
       reservation,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       ok: false,
-      msg: "Error marcando la reservación como completada",
+      msg: 'Error marcando la reservación como completada',
     });
   }
 };
@@ -613,54 +618,6 @@ const hasUserReservationForGame = async (req, res) => {
   }
 };
 
-// Delete reservation
-const deleteReservation = async (req, res) => {
-  try {
-    const { reservationId } = req.params;
-    const userId = req.id;
-
-    const adminUser = await User.findById(userId);
-
-    if (!adminUser || adminUser.role !== "Admin") {
-      return res.status(401).json({
-        ok: false,
-        msg: "Solo los administradores están autorizados a eliminar reservas",
-      });
-    }
-
-    const reservation = await Reservation.findByIdAndDelete(reservationId);
-
-    if (!reservation) {
-      return res.status(404).json({
-        ok: false,
-        msg: "Reservación no encontrada",
-      });
-    }
-
-    // Si necesitas enviar un correo electrónico después de eliminar la reserva, puedes hacerlo aquí.
-    const userWhoReserved = await User.findById(reservation.userId);
-    if (userWhoReserved) {
-      await sendEmailCancelReservation(
-        userWhoReserved.email,
-        reservation,
-        null,
-        userWhoReserved.username,
-        "Su reservación ha sido eliminada por el administrador.",
-      );
-    }
-
-    res.json({
-      ok: true,
-      msg: "Reservación eliminada correctamente",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      ok: false,
-      msg: "Error eliminando la reservación",
-    });
-  }
-};
 
 module.exports = {
   getAdminReservationHistory,
@@ -672,5 +629,4 @@ module.exports = {
   getUserReservationHistory,
   cancelReservation,
   hasUserReservationForGame,
-  deleteReservation,
 };

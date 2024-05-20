@@ -13,53 +13,64 @@
     No hay reservas.
   </div>
 
-  <div *ngIf="reservations.length > 0" class="overflow-x-auto">
-    <table class="min-w-full bg-white">
-      <thead>
+  <div *ngIf="reservations.length > 0">
+    <p-table [value]="reservations" styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
         <tr>
-          <th class="border-b px-4 py-2">Imagen</th>
-          <th class="border-b px-4 py-2">Título del Juego</th>
-          <th class="border-b px-4 py-2">Código</th>
-          <th class="border-b px-4 py-2">Fecha de Reserva</th>
-          <th class="border-b px-4 py-2">Fecha de Expiración</th>
-          <th class="border-b px-4 py-2">Fecha de Devolución</th>
-          <th class="border-b px-4 py-2">Estado</th>
-          <th class="border-b px-4 py-2">Acciones</th>
+          <th>Imagen</th>
+          <th>Título del Juego</th>
+          <th>Código</th>
+          <th>Usuario</th>
+          <th>Fecha de Reserva</th>
+          <th>Fecha de Expiración</th>
+          <th>Fecha de Devolución</th>
+          <th>Estado</th>
+          <th>Acciones</th>
         </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let reservation of reservations">
-          <td class="border-b px-4 py-2">
+      </ng-template>
+      <ng-template pTemplate="body" let-reservation>
+        <tr>
+          <td>
             <img
               [src]="
-                reservation.boardGameId.mainPhoto || 'assets/images/nophoto.jpg'
+                reservation.boardGameId?.mainPhoto ||
+                'assets/images/nophoto.jpg'
               "
               alt="Imagen del juego"
               class="h-16 w-16 rounded object-cover"
             />
           </td>
-          <td class="border-b px-4 py-2">
-            {{ reservation.boardGameId.title || "Juego no disponible" }}
+          <td>{{ reservation.boardGameId?.title || "Juego no disponible" }}</td>
+          <td>
+            <span
+              class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
+              >{{ reservation.code }}</span
+            >
           </td>
-          <td class="border-b px-4 py-2">{{ reservation.code }}</td>
-          <td class="border-b px-4 py-2">
-            {{ reservation.reservationDate | date: "dd/MM/yyyy" }}
+          <td>
+            <span
+              class="rounded-md bg-rose-100 p-2 font-semibold text-rose-500"
+              >{{
+                reservation.userId?.username || "Usuario no disponible"
+              }}</span
+            >
           </td>
-          <td class="border-b px-4 py-2">
+          <td>{{ reservation.reservationDate | date: "dd/MM/yyyy" }}</td>
+          <td>
             {{
               reservation.expirationDate
                 ? (reservation.expirationDate | date: "dd/MM/yyyy")
                 : "-"
             }}
           </td>
-          <td class="border-b px-4 py-2">
+          <td>
             {{
               reservation.returnDate
                 ? (reservation.returnDate | date: "dd/MM/yyyy")
                 : "-"
             }}
           </td>
-          <td class="border-b px-4 py-2">
+          <td>
             <p>
               <span
                 [ngClass]="{
@@ -82,7 +93,7 @@
               </span>
             </p>
           </td>
-          <td class="border-b px-4 py-2">
+          <td>
             <div *ngIf="reservation.status === 'Pending'">
               <button
                 pButton
@@ -98,7 +109,7 @@
                 icon="pi pi-times"
                 label="Rechazar"
                 class="p-button-danger mb-1 w-full"
-                (click)="rejectReservation(reservation._id)"
+                (click)="openRejectModal(reservation._id)"
               ></button>
             </div>
             <div *ngIf="reservation.status === 'Accepted'">
@@ -128,22 +139,61 @@
             </div>
           </td>
         </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="8" class="border-t px-4 py-2">
-            <p-paginator
-              [rows]="pageSize"
-              [totalRecords]="totalRecords"
-              [first]="(currentPage - 1) * pageSize"
-              (onPageChange)="paginate($event)"
-              styleClass="custom-paginator"
-            ></p-paginator>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
+      </ng-template>
+    </p-table>
 
-  <p-toast></p-toast>
+    <div class="m-4">
+      <p-paginator
+        [rows]="pageSize"
+        [totalRecords]="totalRecords"
+        [first]="(currentPage - 1) * pageSize"
+        (onPageChange)="paginate($event)"
+        styleClass="custom-paginator"
+      ></p-paginator>
+    </div>
+  </div>
 </div>
+
+<p-dialog
+  header="Rechazar Reserva"
+  [(visible)]="displayRejectModal"
+  [modal]="true"
+  [closable]="false"
+  [style]="{ width: '30vw' }"
+>
+  <div class="p-fluid">
+    <div class="p-field">
+      <label
+        for="rejectionMessage"
+        class="block py-2 text-sm font-medium text-gray-700"
+        >Motivo del Rechazo</label
+      >
+      <textarea
+        id="rejectionMessage"
+        [(ngModel)]="rejectionMessage"
+        rows="5"
+        pInputTextarea
+      ></textarea>
+    </div>
+  </div>
+  <p-footer class="flex justify-center">
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      icon="pi pi-times"
+      (click)="displayRejectModal = false"
+      class="p-button"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Rechazar"
+      icon="pi pi-check"
+      (click)="rejectReservation()"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</p-dialog>
+
+<p-toast></p-toast>

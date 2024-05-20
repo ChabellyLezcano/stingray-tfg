@@ -38,7 +38,6 @@ router.patch("/:reservationId/cancel", cancelReservation); // Cancelar reserva
 //Tiene reserva
 router.get("/has-reservation/:gameId", hasUserReservationForGame);
 
-router.delete("/:reservationId", deleteReservation);
 
 // Exportar el router
 module.exports = router;

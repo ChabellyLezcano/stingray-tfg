@@ -28,6 +28,10 @@ const reservationSchema = new mongoose.Schema({
     ],
     default: "Pending",
   },
+  wasExpired: {
+    type: String,
+    default: false
+  }
 });
 
 // Add the mongoose-paginate-v2 plugin to the schema

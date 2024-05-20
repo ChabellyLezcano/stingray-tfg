@@ -16,6 +16,9 @@ export class ReservationsAdminComponent implements OnInit {
   pageSize: number = 20;
   totalRecords: number = 0;
   currentPage: number = 1;
+  displayRejectModal: boolean = false;
+  selectedReservationId: string = '';
+  rejectionMessage: string = '';
 
   constructor(
     private reservationService: ReservationService,
@@ -32,7 +35,6 @@ export class ReservationsAdminComponent implements OnInit {
       .getAdminReservationHistory(page, this.pageSize)
       .subscribe({
         next: (response) => {
-          console.log(response);
           if (response.ok) {
             this.reservations = response.reservations;
             this.totalRecords = response.totalRecords;
@@ -47,7 +49,6 @@ export class ReservationsAdminComponent implements OnInit {
         },
         error: (error) => {
           this.isLoading = false;
-          console.error('Error fetching reservations:', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
@@ -58,11 +59,9 @@ export class ReservationsAdminComponent implements OnInit {
   }
 
   paginate(event: any): void {
-    this.currentPage = event.page + 1;
+    this.currentPage = event.page + 1; // PrimeNG paginator starts from 0
     this.loadAdminReservations(this.currentPage);
   }
-
-  // Methods for accepting, rejecting, marking as picked up, marking as completed, deleting reservations
 
   acceptReservation(reservationId: string): void {
     Swal.fire({
@@ -94,7 +93,6 @@ export class ReservationsAdminComponent implements OnInit {
             }
           },
           error: (error) => {
-            console.error('Error accepting reservation:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -106,46 +104,50 @@ export class ReservationsAdminComponent implements OnInit {
     });
   }
 
-  rejectReservation(reservationId: string): void {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: '¿Quieres rechazar esta reserva?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#4f46e5',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, rechazar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.reservationService.rejectReservation(reservationId).subscribe({
-          next: (response) => {
-            if (response.ok) {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Reserva rechazada',
-                detail: response.msg,
-              });
-              this.loadAdminReservations(this.currentPage);
-            } else {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: response.msg || 'Failed to reject reservation',
-              });
-            }
-          },
-          error: (error) => {
-            console.error('Error rejecting reservation:', error);
+  openRejectModal(reservationId: string): void {
+    this.selectedReservationId = reservationId;
+    this.rejectionMessage = '';
+    this.displayRejectModal = true;
+  }
+
+  rejectReservation(): void {
+    if (this.rejectionMessage.trim() === '') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Rejection message is required',
+      });
+      return;
+    }
+
+    this.reservationService
+      .rejectReservation(this.selectedReservationId, this.rejectionMessage)
+      .subscribe({
+        next: (response) => {
+          if (response.ok) {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Reserva rechazada',
+              detail: response.msg,
+            });
+            this.loadAdminReservations(this.currentPage);
+            this.displayRejectModal = false;
+          } else {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Failed to reject reservation',
+              detail: response.msg || 'Failed to reject reservation',
             });
-          },
-        });
-      }
-    });
+          }
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to reject reservation',
+          });
+        },
+      });
   }
 
   markAsPickedUp(reservationId: string): void {
@@ -179,7 +181,6 @@ export class ReservationsAdminComponent implements OnInit {
             }
           },
           error: (error) => {
-            console.error('Error marking reservation as picked up:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -222,7 +223,6 @@ export class ReservationsAdminComponent implements OnInit {
             }
           },
           error: (error) => {
-            console.error('Error marking reservation as completed:', error);
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -235,48 +235,6 @@ export class ReservationsAdminComponent implements OnInit {
   }
 
   deleteReservation(reservationId: string): void {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: 'No podrás revertir esta acción',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#4f46e5',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar reserva',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.reservationService.deleteReservation(reservationId).subscribe({
-          next: (response) => {
-            if (response.ok) {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Reserva eliminada',
-                detail: response.msg,
-              });
-              this.reservations = this.reservations.filter(
-                (reservation) => reservation._id !== reservationId,
-              );
-              this.totalRecords;
-              this.totalRecords--;
-            } else {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: response.msg || 'Failed to delete reservation',
-              });
-            }
-          },
-          error: (error) => {
-            console.error('Error deleting reservation:', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Failed to delete reservation',
-            });
-          },
-        });
-      }
-    });
+    this.openRejectModal(reservationId);
   }
 }

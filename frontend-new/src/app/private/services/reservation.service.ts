@@ -89,7 +89,10 @@ export class ReservationService {
   }
 
   // Rechazar reserva
-  rejectReservation(reservationId: string): Observable<ReservationResponse> {
+  rejectReservation(
+    reservationId: string,
+    rejectionMessage: string,
+  ): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}/reject`;
     const headers = this.getHeaders();
 
