@@ -27,7 +27,7 @@
 
   <div *ngIf="reservations.length > 0" class="flex flex-col gap-4">
     <!-- Tabla para pantallas medianas y grandes -->
-    <div class="hidden md:block">
+    <div class="hidden xl:block">
       <p-table
         [value]="filteredReservations"
         [sortMode]="'multiple'"
@@ -98,13 +98,13 @@
             </td>
             <td>
               <span
-                class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
+                class="rounded-md bg-indigo-100 p-2 text-sm font-semibold text-indigo-600"
                 >{{ reservation.code }}</span
               >
             </td>
             <td>
               <span
-                class="rounded-md bg-rose-100 p-2 font-semibold text-rose-500"
+                class="rounded-md bg-rose-100 p-2 text-sm font-semibold text-rose-500"
                 >{{
                   reservation.userId?.username || "Usuario no disponible"
                 }}</span
@@ -144,13 +144,16 @@
                     'bg-gray-300 text-gray-700':
                       reservation.status === 'Expired'
                   }"
-                  class="rounded-md p-2 font-bold"
+                  class="rounded-md p-2 text-sm font-bold"
                 >
                   {{ reservation.status }}
                 </span>
               </p>
 
-              <p *ngIf="reservation.status === 'Rejected'" class="text-red-600">
+              <p
+                *ngIf="reservation.status === 'Rejected'"
+                class="text-sm text-red-600"
+              >
                 <strong>Mensaje de rechazo:</strong>
                 {{ reservation.rejectionMessage }}
               </p>
@@ -209,125 +212,133 @@
     <div *ngIf="reservations.length > 0" class="flex flex-col gap-2">
       <div class="block xl:hidden">
         <ng-container *ngFor="let reservation of filteredReservations">
-          <div class="mb-4 rounded-lg border bg-gray-50 p-4 shadow-md">
-            <div class="flex flex-col items-center">
+          <div
+            class="mb-4 flex flex-col rounded-lg border bg-gray-50 p-2 shadow-sm"
+          >
+            <div class="flex items-center gap-4">
               <img
                 [src]="
                   reservation.boardGameId.mainPhoto ||
                   'assets/images/nophoto.jpg'
                 "
                 alt="Imagen del juego"
-                class="mb-4 h-36 w-36 rounded object-cover"
+                class="h-24 w-24 rounded object-cover"
               />
-              <div class="text-center">
-                <h3 class="text-lg font-bold">
-                  {{ reservation.boardGameId.title || "Juego no disponible" }}
-                </h3>
-                <p
-                  class="my-2 inline-block rounded-md bg-indigo-100 p-2 text-sm font-semibold text-indigo-600"
-                >
-                  {{ reservation.code }}
-                </p>
-                <p>
-                  <span
-                    [ngClass]="{
-                      'bg-blue-100 text-blue-600':
-                        reservation.status === 'Accepted',
-                      'bg-yellow-100 text-yellow-600':
-                        reservation.status === 'Pending',
-                      'bg-red-100 text-red-600':
-                        reservation.status === 'Rejected',
-                      'bg-purple-100 text-purple-600':
-                        reservation.status === 'Picked Up',
-                      'bg-green-100 text-green-600':
-                        reservation.status === 'Completed',
-                      'bg-orange-100 text-orange-700':
-                        reservation.status === 'Cancelled',
-                      'bg-gray-300 text-gray-700':
-                        reservation.status === 'Expired'
-                    }"
-                    class="my-2 mt-4 rounded-md p-2 text-sm font-bold"
+              <div class="flex flex-1 flex-col justify-between">
+                <div>
+                  <div class="flex items-center gap-4">
+                    <h3 class="text-lg font-bold">
+                      {{
+                        reservation.boardGameId.title || "Juego no disponible"
+                      }}
+                    </h3>
+                    <div>
+                      <span
+                        class="inline-block rounded-md bg-indigo-100 p-1 px-2 text-sm font-semibold text-indigo-600"
+                      >
+                        {{ reservation.code }}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <span
+                      [ngClass]="{
+                        'bg-blue-100 text-blue-600':
+                          reservation.status === 'Accepted',
+                        'bg-yellow-100 text-yellow-600':
+                          reservation.status === 'Pending',
+                        'bg-red-100 text-red-600':
+                          reservation.status === 'Rejected',
+                        'bg-purple-100 text-purple-600':
+                          reservation.status === 'Picked Up',
+                        'bg-green-100 text-green-600':
+                          reservation.status === 'Completed',
+                        'bg-orange-100 text-orange-700':
+                          reservation.status === 'Cancelled',
+                        'bg-gray-300 text-gray-700':
+                          reservation.status === 'Expired'
+                      }"
+                      class="rounded-md p-1 text-sm font-bold"
+                    >
+                      {{ reservation.status }}
+                    </span>
+                  </div>
+                  <p
+                    *ngIf="reservation.status === 'Rejected'"
+                    class="text-sm text-red-600"
                   >
-                    {{ reservation.status }}
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div class="mt-2 text-center">
-              <p
-                *ngIf="reservation.status === 'Rejected'"
-                class="text-sm text-red-600"
-              >
-                <strong>Mensaje de rechazo:</strong>
-                {{ reservation.rejectionMessage }}
-              </p>
-              <p class="text-sm text-slate-700">
-                <strong>Fecha de Reserva:</strong>
-                {{ reservation.reservationDate | date: "dd/MM/yyyy" }}
-              </p>
-              <p
-                *ngIf="reservation.expirationDate"
-                class="text-sm text-red-600"
-              >
-                <strong>Fecha de Expiración:</strong>
-                {{
-                  reservation.expirationDate
-                    ? (reservation.expirationDate | date: "dd/MM/yyyy")
-                    : "-"
-                }}
-              </p>
-              <p *ngIf="reservation.returnDate" class="text-sm text-green-600">
-                <strong>Fecha de Devolución:</strong>
-                {{
-                  reservation.returnDate
-                    ? (reservation.returnDate | date: "dd/MM/yyyy")
-                    : "-"
-                }}
-              </p>
-            </div>
-            <div class="mt-4 flex flex-col items-center gap-2">
-              <div *ngIf="reservation.status === 'Pending'">
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-check"
-                  label="Aprobar"
-                  class="p-button-success w-full"
-                  (click)="acceptReservation(reservation._id)"
-                ></button>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-times"
-                  label="Rechazar"
-                  class="p-button-danger w-full"
-                  (click)="openRejectModal(reservation._id)"
-                ></button>
-              </div>
-              <div *ngIf="reservation.status === 'Accepted'">
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-shopping-cart"
-                  label="Recoger"
-                  class="p-button w-full"
-                  (click)="markAsPickedUp(reservation._id)"
-                ></button>
-              </div>
-              <div
-                *ngIf="
-                  reservation.status === 'Picked Up' ||
-                  reservation.status === 'Expired'
-                "
-              >
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-check"
-                  label="Completar"
-                  class="p-button-info w-full"
-                  (click)="markAsCompleted(reservation._id)"
-                ></button>
+                    <strong>Mensaje de rechazo:</strong>
+                    {{ reservation.rejectionMessage }}
+                  </p>
+                  <p class="text-sm text-slate-700">
+                    <strong>Fecha de Reserva:</strong>
+                    {{ reservation.reservationDate | date: "dd/MM/yyyy" }}
+                  </p>
+                  <p
+                    *ngIf="reservation.expirationDate"
+                    class="text-sm text-red-600"
+                  >
+                    <strong>Fecha de Expiración:</strong>
+                    {{ reservation.expirationDate | date: "dd/MM/yyyy" }}
+                  </p>
+                  <p
+                    *ngIf="reservation.returnDate"
+                    class="text-sm text-green-600"
+                  >
+                    <strong>Fecha de Devolución:</strong>
+                    {{ reservation.returnDate | date: "dd/MM/yyyy" }}
+                  </p>
+                </div>
+                <div class="mt-2 flex flex-row justify-between sm:mt-0">
+                  <div>
+                    <div
+                      *ngIf="reservation.status === 'Pending'"
+                      class="flex gap-4"
+                    >
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-check"
+                        label="Aprobar"
+                        class="p-button-success text-sm"
+                        (click)="acceptReservation(reservation._id)"
+                      ></button>
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-times"
+                        label="Rechazar"
+                        class="p-button-danger text-sm"
+                        (click)="openRejectModal(reservation._id)"
+                      ></button>
+                    </div>
+                    <div *ngIf="reservation.status === 'Accepted'">
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-shopping-cart"
+                        label="Recoger"
+                        class="p-button text-sm"
+                        (click)="markAsPickedUp(reservation._id)"
+                      ></button>
+                    </div>
+                    <div
+                      *ngIf="
+                        reservation.status === 'Picked Up' ||
+                        reservation.status === 'Expired'
+                      "
+                    >
+                      <button
+                        pButton
+                        type="button"
+                        icon="pi pi-check"
+                        label="Completar"
+                        class="p-button-info text-sm"
+                        (click)="markAsCompleted(reservation._id)"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -339,15 +350,16 @@
         [(visible)]="displayRejectModal"
         [modal]="true"
         [closable]="false"
-        [style]="{ width: '30vw' }"
+        [style]="{ width: '90vw' }"
       >
         <div class="p-fluid">
           <div class="p-field">
             <label
               for="rejectionMessage"
               class="block py-2 text-sm font-medium text-gray-700"
-              >Motivo del Rechazo</label
             >
+              Motivo del Rechazo
+            </label>
             <textarea
               id="rejectionMessage"
               [(ngModel)]="rejectionMessage"
@@ -384,9 +396,9 @@
           (onPageChange)="paginate($event)"
           styleClass="custom-paginator"
         ></p-paginator>
-
-        <p-toast></p-toast>
       </div>
     </div>
+
+    <p-toast></p-toast>
   </div>
 </div>

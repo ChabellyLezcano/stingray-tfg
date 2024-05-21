@@ -25,6 +25,19 @@
         <ng-template let-item pTemplate="item">
           <div *ngIf="item.icon === 'pi pi-sign-out'" class="h-px w-full"></div>
           <li
+            *ngIf="!item.command"
+            [routerLink]="item.routerLink"
+            [ngClass]="
+              item.icon === 'pi pi-sign-out' ? 'text-red-500' : 'text-black'
+            "
+            class="flex items-center gap-2 hover:bg-transparent"
+          >
+            <i [ngClass]="item.icon" class="p-3"></i>
+            {{ item.label }}
+          </li>
+          <li
+            *ngIf="item.command"
+            (click)="item.command()"
             [ngClass]="
               item.icon === 'pi pi-sign-out' ? 'text-red-500' : 'text-black'
             "

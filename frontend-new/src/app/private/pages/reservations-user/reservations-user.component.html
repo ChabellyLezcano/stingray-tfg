@@ -39,34 +39,36 @@
             <span class="text-xl font-semibold text-slate-600">{{
               reservation.boardGameId.title
             }}</span>
-            <span
+            <span class="text-sm"
               ><strong>Fecha de reserva:</strong>
               {{ reservation.reservationDate | date: "dd/MM/yyyy" }}</span
             >
             <span
+              *ngIf="
+                reservation.status === 'Completed' ||
+                reservation.status === 'Picked Up'
+              "
               [ngClass]="{
                 'text-green-600': reservation.status === 'Completed',
                 'text-violet-600': reservation.status === 'Picked Up'
               }"
+              class="text-sm"
             >
-              <strong
-                >{{
-                  reservation.status === "Completed"
-                    ? "Devolución"
-                    : "Fecha de devolución"
-                }}:</strong
-              >
+              <strong>Fecha de devolución:</strong>
               {{ reservation.returnDate | date: "dd/MM/yyyy" }}
             </span>
 
             <span
               *ngIf="reservation.status === 'Rejected'"
-              class="text-red-600"
+              class="text-sm text-red-600"
             >
               <strong>Mensaje de rechazo: </strong>
               {{ reservation.rejectionMessage }}
             </span>
-            <span *ngIf="reservation.status === 'Expired'" class="text-red-700">
+            <span
+              *ngIf="reservation.status === 'Expired'"
+              class="text-sm text-red-700"
+            >
               <strong>Fecha de expiración:</strong>
               {{ reservation.expirationDate | date: "dd/MM/yyyy" }}
             </span>
@@ -86,7 +88,7 @@
                     reservation.status === 'Cancelled',
                   'bg-gray-300 text-gray-700': reservation.status === 'Expired'
                 }"
-                class="rounded-md p-2 font-bold"
+                class="rounded-md p-2 text-sm font-bold"
               >
                 {{ reservation.status }}
               </span>
@@ -98,14 +100,14 @@
               icon="pi pi-times"
               type="button"
               label="Cancelar"
-              class="p-button-danger font-semibold"
+              class="p-button-danger text-sm font-semibold"
               (click)="cancelReservation(reservation._id)"
             ></button>
           </div>
           <div *ngIf="reservation.status === 'Completed'" class="ml-auto">
             <span
               *ngIf="reviewsMap[reservation.boardGameId._id]"
-              class="rounded-md bg-blue-100 p-2 font-semibold text-blue-500"
+              class="rounded-md bg-blue-100 p-2 text-sm font-semibold text-blue-500"
               ><i class="pi pi-check mr-2"></i>Reseña</span
             >
             <button
@@ -114,7 +116,7 @@
               icon="pi pi-plus"
               type="button"
               label="Reseñar"
-              class="p-button font-semibold"
+              class="p-button text-sm font-semibold"
               [routerLink]="['/create-review', reservation.boardGameId._id]"
             ></button>
           </div>

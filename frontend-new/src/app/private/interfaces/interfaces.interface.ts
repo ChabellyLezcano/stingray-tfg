@@ -1,3 +1,5 @@
+import { User } from 'src/app/auth/interface/authInterface';
+
 export interface GameResponse {
   ok: boolean;
   msg: string;
@@ -71,19 +73,13 @@ export interface RatingResponse {
 
 export interface Review {
   _id: string;
-  boardGameId: BoardGameID;
-  userId: UserID;
+  boardGameId: Game;
+  userId: User;
   title: string;
   description: string;
   rating: number;
   reviewDate: Date;
   __v: number;
-}
-
-export interface UserID {
-  _id: string;
-  username: string;
-  photo: string;
 }
 
 export interface ReservationResponse {
@@ -98,8 +94,8 @@ export interface ReservationResponse {
 export interface Reservation {
   _id: string;
   code: string;
-  boardGameId: BoardGameInfo;
-  userId: UserID;
+  boardGameId: Game;
+  userId: User;
   reservationDate: Date;
   status: string;
   __v: number;
@@ -109,15 +105,22 @@ export interface Reservation {
   rejectionMessage?: string;
 }
 
-export interface BoardGameInfo {
+export interface ProfileResponse {
+  ok: boolean;
+  msg: string;
+  user: Profile;
+}
+
+export interface Profile {
   _id: string;
-  code: string;
-  title: string;
-  description: string;
-  status: string;
-  mainPhoto: string;
-  photoGallery: string[];
-  tags: string[];
-  averageRating: number;
+  photo: string;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  token: string;
+  authenticated: boolean;
+  sex: string;
+  birthDate: Date;
   __v: number;
 }

@@ -19,7 +19,7 @@ export class MenuComponent implements OnInit {
     private router: Router,
   ) {
     this.dropdownItems = [
-      { label: 'Configuración', icon: 'pi pi-cog', routerLink: '/settings' },
+      { label: 'Perfil', icon: 'pi pi-user', routerLink: '/profile' },
       { label: 'About', icon: 'pi pi-info', routerLink: '/about' },
       { label: 'Faq', icon: 'pi pi-question', routerLink: '/faq' },
       {

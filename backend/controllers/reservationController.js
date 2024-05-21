@@ -26,7 +26,7 @@ const getAdminReservationHistory = async (req, res) => {
       });
     }
 
-    const query = status && status !== 'all' ? { status } : {};
+    const query = status && status !== "all" ? { status } : {};
 
     const options = {
       page: Math.max(1, parseInt(page)), // Asegura que page sea al menos 1
@@ -131,7 +131,7 @@ const acceptReservation = async (req, res) => {
       userWhoReserved.email,
       reservation,
       game,
-      userWhoReserved.username
+      userWhoReserved.username,
     );
 
     res.json({
@@ -282,7 +282,7 @@ const markAsPickedUp = async (req, res) => {
       userWhoReserved.email,
       reservation,
       game,
-      userWhoReserved.username
+      userWhoReserved.username,
     );
 
     res.json({
@@ -307,10 +307,10 @@ const markAsCompleted = async (req, res) => {
 
     const adminUser = await User.findById(userId);
 
-    if (!adminUser || adminUser.role !== 'Admin') {
+    if (!adminUser || adminUser.role !== "Admin") {
       return res.status(401).json({
         ok: false,
-        msg: 'Solo los administradores están autorizados a marcar reservas como completadas',
+        msg: "Solo los administradores están autorizados a marcar reservas como completadas",
       });
     }
 
@@ -319,7 +319,7 @@ const markAsCompleted = async (req, res) => {
     if (!reservation) {
       return res.status(404).json({
         ok: false,
-        msg: 'Reservación no encontrada',
+        msg: "Reservación no encontrada",
       });
     }
 
@@ -327,12 +327,15 @@ const markAsCompleted = async (req, res) => {
     if (!game) {
       return res.status(404).json({
         ok: false,
-        msg: 'Juego no encontrado',
+        msg: "Juego no encontrado",
       });
     }
 
     // Verificar si el estado de la reservación es "Picked Up" o "Expired"
-    if (reservation.status !== 'Picked Up' && reservation.status !== 'Expired') {
+    if (
+      reservation.status !== "Picked Up" &&
+      reservation.status !== "Expired"
+    ) {
       return res.status(400).json({
         ok: false,
         msg: 'La reservación no está en el estado "Picked Up" o "Expired" y no puede ser marcada como completada',
@@ -343,16 +346,16 @@ const markAsCompleted = async (req, res) => {
     reservation.returnDate = new Date();
 
     // Marcar wasExpired como true si el estado es "Expired"
-    if (reservation.status === 'Expired') {
+    if (reservation.status === "Expired") {
       reservation.wasExpired = true;
     }
 
     // Actualizar el estado de la reservación a "Completed"
-    reservation.status = 'Completed';
+    reservation.status = "Completed";
 
     // Actualizar el estado del juego a "Available"
     await Boardgame.findByIdAndUpdate(reservation.boardGameId, {
-      status: 'Available',
+      status: "Available",
     });
 
     await reservation.save();
@@ -364,20 +367,20 @@ const markAsCompleted = async (req, res) => {
         userWhoReserved.email,
         reservation,
         game,
-        userWhoReserved.username
+        userWhoReserved.username,
       );
     }
 
     res.json({
       ok: true,
-      msg: 'Reservación marcada como completada correctamente',
+      msg: "Reservación marcada como completada correctamente",
       reservation,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       ok: false,
-      msg: 'Error marcando la reservación como completada',
+      msg: "Error marcando la reservación como completada",
     });
   }
 };
@@ -618,7 +621,6 @@ const hasUserReservationForGame = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   getAdminReservationHistory,

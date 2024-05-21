@@ -87,7 +87,7 @@
                 </td>
                 <td class="align-start">
                   <span
-                    class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
+                    class="rounded-md bg-indigo-100 p-2 text-sm font-semibold text-indigo-600"
                   >
                     {{ boardgame.code }}
                   </span>
@@ -102,14 +102,14 @@
                 <td class="text-center align-middle">
                   <span
                     *ngIf="boardgame.status === 'Available'"
-                    class="rounded-md bg-green-100 p-2 font-semibold text-green-600"
+                    class="rounded-md bg-green-100 p-2 text-sm font-semibold text-green-600"
                   >
                     <i class="pi pi-check font-semibold"></i>
                     <span class="ml-2 hidden lg:inline">Disponible</span>
                   </span>
                   <span
                     *ngIf="boardgame.status !== 'Available'"
-                    class="rounded-md bg-red-100 p-2 font-semibold text-red-500"
+                    class="rounded-md bg-red-100 p-2 text-sm font-semibold text-red-600"
                   >
                     <i class="pi pi-times"></i>
                     <span class="ml-2 hidden lg:inline">No disponible</span>

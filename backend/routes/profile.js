@@ -6,6 +6,7 @@ const { validateJWT } = require("../middlewares/validate-jwt");
 const {
   updateProfile,
   updatePhoto,
+  getProfile,
 } = require("../controllers/profileController");
 const upload = require("../middlewares/upload");
 
@@ -13,23 +14,24 @@ const router = express.Router();
 
 router.use(validateJWT, validateFields);
 
+router.get("/", getProfile);
+
 // Update profile
-router.put(
+router.patch(
   "/update-profile",
   [
     check(
       "username",
       "El nombre de usuario es obligatorio y debe tener al menos 3 caracteres",
     ).isLength({ min: 3 }),
+    check("username", "El nombre de usuario es obligatorio").notEmpty(),
     check("sex", "El sexo es obligatorio y debe ser 'M', 'F', u 'Otro'").isIn([
       "M",
       "F",
       "Otro",
     ]),
-    check(
-      "birthDate",
-      "La fecha de nacimiento debe tener formato DD/MM/YYYY",
-    ).matches(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/, "g"),
+    check("birthDate", "La fecha de nacimiento es obligatoria").notEmpty(),
+    check("password", "La fecha password es obligatoria").notEmpty(),
   ],
   updateProfile,
 );

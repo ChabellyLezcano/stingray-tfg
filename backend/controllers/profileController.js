@@ -1,9 +1,21 @@
 const { User } = require("../models/User");
-const formatDateToMongoDB = require("../helpers/formatDate.js");
+
+const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.id);
+    if (!user) {
+      return res.status(404).json({ msg: "Usuario no encontrado" });
+    }
+    res.json({ ok: true, msg: "Usuario obtenido con éxito", user });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Error en el servidor");
+  }
+};
 
 const updateProfile = async (req, res) => {
   const userId = req.id;
-  const { username, sex, birthDate } = req.body;
+  const { username, sex, birthDate, password } = req.body;
 
   try {
     // Check if the username or email already exists in another document (exclude the current user)
@@ -20,7 +32,8 @@ const updateProfile = async (req, res) => {
     const updatedFields = {
       ...(username && { username }),
       ...(sex && { sex }),
-      ...(birthDate && { birthDate: formatDateToMongoDB(birthDate) }),
+      ...(birthDate && { birthDate }),
+      ...(password && { password }),
     };
 
     // Find the user and update their profile
@@ -40,6 +53,7 @@ const updateProfile = async (req, res) => {
         username: updatedUser.username,
         sex: updatedUser.sex,
         birthDate: updatedUser.birthDate,
+        password: updatedUser.password,
       },
     });
   } catch (error) {
@@ -87,6 +101,7 @@ const updatePhoto = async (req, res) => {
 };
 
 module.exports = {
+  getProfile,
   updateProfile,
   updatePhoto,
 };

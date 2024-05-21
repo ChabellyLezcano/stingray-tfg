@@ -12,12 +12,12 @@ export class FilterReservationsComponent {
   filterOptions = [
     { label: 'Todas', value: 'all' },
     { label: 'Aceptadas', value: 'Accepted' },
+    { label: 'Canceladas', value: 'Cancelled' },
+    { label: 'Completadas', value: 'Completed' },
+    { label: 'Expiradas', value: 'Expired' },
     { label: 'Pendientes', value: 'Pending' },
     { label: 'Rechazadas', value: 'Rejected' },
     { label: 'Recogidas', value: 'Picked Up' },
-    { label: 'Completadas', value: 'Completed' },
-    { label: 'Canceladas', value: 'Cancelled' },
-    { label: 'Expiradas', value: 'Expired' },
   ];
 
   applyFilter(): void {

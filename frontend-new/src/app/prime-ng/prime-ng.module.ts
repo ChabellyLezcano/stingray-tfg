@@ -17,11 +17,13 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [],
   imports: [
     ButtonModule,
+    CalendarModule,
     CardModule,
     CarouselModule,
     ChipModule,
@@ -41,6 +43,7 @@ import { MessageService } from 'primeng/api';
   ],
   exports: [
     ButtonModule,
+    CalendarModule,
     CardModule,
     CarouselModule,
     ChipModule,
