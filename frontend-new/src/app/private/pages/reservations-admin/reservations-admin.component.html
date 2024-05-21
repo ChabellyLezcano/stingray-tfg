@@ -28,17 +28,56 @@
   <div *ngIf="reservations.length > 0" class="flex flex-col gap-4">
     <!-- Tabla para pantallas medianas y grandes -->
     <div class="hidden md:block">
-      <p-table [value]="filteredReservations" styleClass="p-datatable-striped">
+      <p-table
+        [value]="filteredReservations"
+        [sortMode]="'multiple'"
+        styleClass="p-datatable-striped"
+      >
         <ng-template pTemplate="header">
           <tr>
-            <th>Imagen</th>
-            <th>Título del Juego</th>
-            <th>Código</th>
-            <th>Usuario</th>
-            <th>Fecha de Reserva</th>
-            <th>Fecha de Expiración</th>
-            <th>Fecha de Devolución</th>
-            <th>Estado</th>
+            <th pSortableColumn="boardGameId.mainPhoto">Imagen</th>
+            <th pSortableColumn="boardGameId.title">
+              <div class="flex items-center justify-center">
+                Título del Juego
+                <p-sortIcon field="boardGameId.title" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="code">
+              <div class="flex items-center justify-center">
+                Código
+                <p-sortIcon field="code" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="userId.username">
+              <div class="flex items-center justify-center">
+                Usuario
+                <p-sortIcon field="userId.username" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="reservationDate">
+              <div class="flex items-center justify-center">
+                Fecha de Reserva
+                <p-sortIcon field="reservationDate" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="expirationDate">
+              <div class="flex items-center justify-center">
+                Fecha de Expiración
+                <p-sortIcon field="expirationDate" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="returnDate">
+              <div class="flex items-center justify-center">
+                Fecha de Devolución
+                <p-sortIcon field="returnDate" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
+            <th pSortableColumn="status">
+              <div class="flex items-center justify-center">
+                Estado
+                <p-sortIcon field="status" class="ml-2"></p-sortIcon>
+              </div>
+            </th>
             <th>Acciones</th>
           </tr>
         </ng-template>
@@ -168,7 +207,7 @@
 
     <!-- Tarjetas para pantallas pequeñas -->
     <div *ngIf="reservations.length > 0" class="flex flex-col gap-2">
-      <div class="block md:hidden">
+      <div class="block xl:hidden">
         <ng-container *ngFor="let reservation of filteredReservations">
           <div class="mb-4 rounded-lg border bg-gray-50 p-4 shadow-md">
             <div class="flex flex-col items-center">
