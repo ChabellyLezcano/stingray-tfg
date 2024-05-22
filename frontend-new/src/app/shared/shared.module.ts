@@ -6,14 +6,13 @@ import { MenuComponent } from './components/menu/menu.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FilterReservationsComponent } from './components/filter-reservations/filter-reservations.component';
-import { PaginatorComponent } from './components/paginator/paginator.component';
+
 @NgModule({
   declarations: [
     MenuComponent,
     SearchBarComponent,
     FilterComponent,
     FilterReservationsComponent,
-    PaginatorComponent,
   ],
   imports: [CommonModule, PrimeNgModule],
   exports: [
@@ -21,7 +20,6 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     SearchBarComponent,
     FilterComponent,
     FilterReservationsComponent,
-    PaginatorComponent,
   ],
 })
 export class SharedModule {}

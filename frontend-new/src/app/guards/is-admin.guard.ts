@@ -5,8 +5,9 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '../auth/services/auth.service';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +22,20 @@ export class AdminGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> | Promise<boolean> | boolean {
-    const user = this.authService.user;
-    if (user && user.role === 'Admin') {
-      return true;
-    } else {
-      this.router.navigate(['/not-authorized']);
-      return false;
-    }
+    return this.authService.validateToken().pipe(
+      switchMap(() => {
+        const user = this.authService.user;
+        if (user && user.role === 'Admin') {
+          return of(true);
+        } else {
+          this.router.navigate(['/not-authorized']);
+          return of(false);
+        }
+      }),
+      catchError(() => {
+        this.router.navigate(['/not-authorized']);
+        return of(false);
+      }),
+    );
   }
 }
