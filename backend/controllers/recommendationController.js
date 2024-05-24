@@ -1,5 +1,4 @@
 const { Recommendation } = require("../models/Recommendation");
-const { Review } = require("../models/Review"); // Asumiendo que tienes un modelo Review
 const {
   shuffleArray,
   getUserFavoriteTags,

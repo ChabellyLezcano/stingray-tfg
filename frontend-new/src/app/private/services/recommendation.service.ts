@@ -9,7 +9,7 @@ import { RecommendationResponse } from '../interfaces/interfaces.interface';
   providedIn: 'root',
 })
 export class RecommendationService {
-  private baseUrl: string = environment.baseUrl; // Ajusta la URL de tu API
+  private baseUrl: string = environment.baseUrl;
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders().set('token', localStorage.getItem('token') ?? '');

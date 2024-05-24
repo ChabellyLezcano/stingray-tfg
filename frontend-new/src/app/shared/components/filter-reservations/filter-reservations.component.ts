@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 })
 export class FilterReservationsComponent {
   @Output() filter = new EventEmitter<string>();
-  @Input() selectedFilter: string = 'all'; // Añadir @Input para el filtro seleccionado
+  @Input() selectedFilter: string = 'all';
 
   filterOptions = [
     { label: 'Todas', value: 'all' },

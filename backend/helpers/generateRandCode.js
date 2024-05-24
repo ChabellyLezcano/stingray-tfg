@@ -1,6 +1,6 @@
 function generateRandCode() {
   const characters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Lista de letras mayúsculas, minúsculas y números
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let randomCode = "";
 
   for (let i = 0; i < 5; i++) {
@@ -13,7 +13,7 @@ function generateRandCode() {
 
 function generateRandCodeReservation() {
   const characters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Lista de letras mayúsculas, minúsculas y números
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let randomCode = "";
 
   for (let i = 0; i < 8; i++) {

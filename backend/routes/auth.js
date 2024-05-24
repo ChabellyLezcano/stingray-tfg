@@ -9,7 +9,6 @@ const {
   loginUser,
   forgotPassword,
   resetPassword,
-  checkToken,
   revalidateToken,
 } = require("../controllers/authController");
 
@@ -84,9 +83,6 @@ router.post(
   validateFields,
   resetPassword,
 );
-
-// Verificar Token
-router.get("/check-token/:token", checkToken);
 
 // Validar y revalidar token
 router.get("/renew", validateJWT, revalidateToken);

@@ -8,13 +8,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./confirm-account.component.css'],
 })
 export class ConfirmAccountComponent implements OnInit {
-  // Token received from the route parameter
   token!: string;
-
-  // Flag to indicate if the account confirmation was successful
   confirmSuccess: boolean = false;
-
-  // Flag to indicate if the component is currently loading
   loading: boolean = true;
 
   constructor(
@@ -22,9 +17,7 @@ export class ConfirmAccountComponent implements OnInit {
     private authService: AuthService,
   ) {}
 
-  // Lifecycle hook that is called when the component is initialized
   ngOnInit(): void {
-    // Retrieve the token from the route parameter
     this.token = this.route.snapshot.paramMap.get('token') || '';
 
     this.confirmAccount();

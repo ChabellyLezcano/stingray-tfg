@@ -32,6 +32,7 @@ export class FavoritesComponent implements OnInit {
     this.loadFavorites();
   }
 
+  // Method to load favorites
   private loadFavorites(): void {
     this.isLoading = true;
     this.favoriteService.listFavorites().subscribe({

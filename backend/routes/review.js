@@ -34,10 +34,10 @@ router.post(
   createReview,
 );
 
-// Retrieve all reviews for a game
+// Retrieve all reviews for a boardgame
 router.get("/:gameId", getReviews);
 
-// Retrieve all reviews for a game
+// Retrieve all reviews for a boardgame
 router.get("/review-by-id/:reviewId", getReviewById);
 
 // Update a review
@@ -60,9 +60,10 @@ router.put(
 // Delete a review
 router.delete("/:reviewId", deleteReview);
 
-// Retrieve the average rating for a game
+// Retrieve the average rating for a boardgame
 router.get("/average-rating/:gameId", getAverageRating);
 
+// Check if user has a review for a boardgame
 router.get("/user-has-review/:gameId", validateJWT, userHasReview);
 
 module.exports = router;

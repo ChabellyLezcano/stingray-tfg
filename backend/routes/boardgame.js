@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.use(validateJWT, validateFields);
 
-// Create Boardgame
+// Create boardgame
 router.post(
   "/",
   [
@@ -40,7 +40,7 @@ router.post(
   createBoardGame,
 );
 
-// Update Boardgame
+// Update boardgame
 router.put(
   "/:id",
   [
@@ -65,13 +65,13 @@ router.put(
   updateBoardGame,
 );
 
-// Delete Boardgame
+// Delete boardgame
 router.delete("/:id", deleteBoardGame);
 
-// List Boardgames
+// List boardgames
 router.get("/", listBoardGames);
 
-// View Boardgame Details
+// View boardgame details
 router.get("/:id", viewBoardGameDetails);
 
 module.exports = router;

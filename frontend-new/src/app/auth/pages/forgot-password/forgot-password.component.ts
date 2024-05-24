@@ -15,7 +15,6 @@ export class ForgotPasswordComponent {
     private fb: FormBuilder,
     private authService: AuthService,
   ) {
-    // Initialize the forgot password form with an email field
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
     });

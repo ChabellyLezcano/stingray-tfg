@@ -11,6 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Send email to confirm account
 const sendEmailConfirmation = async (email, token) => {
   try {
     const mailOptions = {
@@ -37,6 +38,7 @@ const sendEmailConfirmation = async (email, token) => {
   }
 };
 
+// Send email to reset password
 const sendEmailResetPassword = async (email, token) => {
   try {
     const mailOptions = {
@@ -63,6 +65,7 @@ const sendEmailResetPassword = async (email, token) => {
   }
 };
 
+// Send welcome email
 const sendWelcomeEmail = async (email, username) => {
   try {
     const mailOptions = {
@@ -84,6 +87,7 @@ const sendWelcomeEmail = async (email, username) => {
   }
 };
 
+// Send email to inform about the new reservation
 const sendEmailNewReservation = async (email, reservation, game, username) => {
   try {
     const mailOptions = {
@@ -120,6 +124,7 @@ const sendEmailNewReservation = async (email, reservation, game, username) => {
   }
 };
 
+// Send email to cancel reservation
 const sendEmailCancelReservation = async (
   email,
   reservation,
@@ -160,6 +165,7 @@ const sendEmailCancelReservation = async (
   }
 };
 
+// Send email about the acceptance of the reservation
 const sendEmailReservationConfirmation = async (
   email,
   reservation,
@@ -204,6 +210,7 @@ const sendEmailReservationConfirmation = async (
   }
 };
 
+// Send email about the rejection of the reservation
 const sendEmailReservationRejection = async (
   email,
   reservation,
@@ -241,6 +248,7 @@ const sendEmailReservationRejection = async (
   }
 };
 
+// Send email to inform that a reservations has been picked up
 const sendEmailReservationPickedUp = async (
   email,
   reservation,
@@ -279,6 +287,7 @@ const sendEmailReservationPickedUp = async (
   }
 };
 
+// Send email to inform that a reservations has been completed
 const sendEmailReservationCompleted = async (
   email,
   reservation,

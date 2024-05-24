@@ -22,7 +22,6 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
   ) {
-    // Initialize the register form
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.minLength(5)]],
@@ -45,8 +44,6 @@ export class RegisterComponent implements OnInit {
         .register(email, username, password, birthDate, sex)
         .subscribe((response: any) => {
           if (response === true) {
-            console.log('Registro exitoso');
-            // Mostrar Sweet Alert de éxito y confirmación de correo
             Swal.fire({
               icon: 'success',
               title: '¡Registro exitoso!',

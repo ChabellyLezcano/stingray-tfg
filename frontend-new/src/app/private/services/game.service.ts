@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -17,7 +17,7 @@ export class GameService {
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los juegos
+  // Load boardgames
   getGames(): Observable<GameResponse> {
     const url = `${this.baseUrl}/game`;
     const headers = this.getHeaders();
@@ -30,7 +30,7 @@ export class GameService {
     );
   }
 
-  // Obtener los detalles de un juego por ID
+  // Get game details by id
   getGameById(id: string): Observable<GameResponse> {
     const url = `${this.baseUrl}/game/${id}`;
     const headers = this.getHeaders();
@@ -43,6 +43,7 @@ export class GameService {
     );
   }
 
+  // Delete a game
   deleteGame(id: string): Observable<GameResponse> {
     const url = `${this.baseUrl}/game/${id}`;
     const headers = this.getHeaders();
@@ -55,7 +56,7 @@ export class GameService {
     );
   }
 
-  // Crear un nuevo juego
+  // Create a boardgame
   createGame(gameData: FormData): Observable<GameResponse> {
     const url = `${this.baseUrl}/game`;
     const headers = this.getHeaders();
@@ -68,6 +69,7 @@ export class GameService {
     );
   }
 
+  // Update boardgame
   updateGame(id: string, gameData: FormData): Observable<GameResponse> {
     const url = `${this.baseUrl}/game/${id}`;
     const headers = this.getHeaders();

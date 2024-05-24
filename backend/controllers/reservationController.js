@@ -13,6 +13,7 @@ const {
 
 const { generateRandCodeReservation } = require("../helpers/generateRandCode");
 
+// Controller to get admin reservation history
 const getAdminReservationHistory = async (req, res) => {
   try {
     const { page = 1, limit = 20, status } = req.query;
@@ -29,10 +30,10 @@ const getAdminReservationHistory = async (req, res) => {
     const query = status && status !== "all" ? { status } : {};
 
     const options = {
-      page: Math.max(1, parseInt(page)), // Asegura que page sea al menos 1
-      limit: Math.max(1, parseInt(limit)), // Asegura que limit sea al menos 1
+      page: Math.max(1, parseInt(page)),
+      limit: Math.max(1, parseInt(limit)),
       populate: ["userId", "boardGameId"],
-      sort: { reservationDate: -1 }, // Ordenar por fecha de reserva en orden descendente
+      sort: { reservationDate: -1 },
     };
 
     const result = await Reservation.paginate(query, options);
@@ -55,7 +56,7 @@ const getAdminReservationHistory = async (req, res) => {
   }
 };
 
-// Accept reservations
+// Controller to accept reservation
 const acceptReservation = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -70,7 +71,6 @@ const acceptReservation = async (req, res) => {
       });
     }
 
-    // Encontrar una reservación por id
     const reservation = await Reservation.findById(reservationId);
 
     if (!reservation) {
@@ -99,14 +99,10 @@ const acceptReservation = async (req, res) => {
       });
     }
 
-    // Calcular la fecha de expiración como 7 días después de la fecha actual
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 7);
 
-    // Establecer la fecha de expiración
     reservation.expirationDate = expirationDate;
-
-    // Establecer el estado de la reservación como "Accepted"
     reservation.status = "Accepted";
 
     const userWhoReserved = await User.findById(reservation.userId);
@@ -148,7 +144,7 @@ const acceptReservation = async (req, res) => {
   }
 };
 
-// Reject reservation
+// Controller to reject a reservation
 const rejectReservation = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -220,7 +216,7 @@ const rejectReservation = async (req, res) => {
   }
 };
 
-// Mark game as "Picked Up"
+// Controller to mark game as "Picked Up"
 const markAsPickedUp = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -235,7 +231,6 @@ const markAsPickedUp = async (req, res) => {
       });
     }
 
-    // Encontrar la reservación por id
     const reservation = await Reservation.findById(reservationId);
     if (!reservation) {
       return res.status(404).json({
@@ -253,7 +248,6 @@ const markAsPickedUp = async (req, res) => {
       });
     }
 
-    // Verificar si el estado de la reservación es "Accepted"
     if (reservation.status !== "Accepted") {
       return res.status(400).json({
         ok: false,
@@ -261,23 +255,17 @@ const markAsPickedUp = async (req, res) => {
       });
     }
 
-    // Establecer la fecha de recogida a la fecha actual
     reservation.pickupDate = new Date();
 
-    // Calcular la nueva fecha de expiración (7 días desde la fecha de recogida)
     const newExpirationDate = new Date();
     newExpirationDate.setDate(newExpirationDate.getDate() + 7);
     reservation.expirationDate = newExpirationDate;
-
-    // Actualizar el estado de la reservación a "Picked Up"
     reservation.status = "Picked Up";
 
     await reservation.save();
 
-    // Encontrar la información del usuario que hizo la reservación
     const userWhoReserved = await User.findById(reservation.userId);
 
-    // Enviar un correo electrónico al usuario con los cambios en la reservación
     await sendEmailReservationPickedUp(
       userWhoReserved.email,
       reservation,
@@ -299,7 +287,7 @@ const markAsPickedUp = async (req, res) => {
   }
 };
 
-// Mark game reservation as "Completed"
+// Controller to mark game reservation as "Completed"
 const markAsCompleted = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -314,7 +302,6 @@ const markAsCompleted = async (req, res) => {
       });
     }
 
-    // Encontrar la reservación por id
     const reservation = await Reservation.findById(reservationId);
     if (!reservation) {
       return res.status(404).json({
@@ -331,7 +318,6 @@ const markAsCompleted = async (req, res) => {
       });
     }
 
-    // Verificar si el estado de la reservación es "Picked Up" o "Expired"
     if (
       reservation.status !== "Picked Up" &&
       reservation.status !== "Expired"
@@ -342,25 +328,20 @@ const markAsCompleted = async (req, res) => {
       });
     }
 
-    // Establecer la fecha de devolución a la fecha actual
     reservation.returnDate = new Date();
 
-    // Marcar wasExpired como true si el estado es "Expired"
     if (reservation.status === "Expired") {
       reservation.wasExpired = true;
     }
 
-    // Actualizar el estado de la reservación a "Completed"
     reservation.status = "Completed";
 
-    // Actualizar el estado del juego a "Available"
     await Boardgame.findByIdAndUpdate(reservation.boardGameId, {
       status: "Available",
     });
 
     await reservation.save();
 
-    // Enviar un correo electrónico al usuario con los cambios en la reservación
     const userWhoReserved = await User.findById(reservation.userId);
     if (userWhoReserved) {
       await sendEmailReservationCompleted(
@@ -385,7 +366,7 @@ const markAsCompleted = async (req, res) => {
   }
 };
 
-// Create reservation
+// Controller to create reservation
 const createReservation = async (req, res) => {
   try {
     const gameId = req.params.gameId;
@@ -400,7 +381,6 @@ const createReservation = async (req, res) => {
       });
     }
 
-    // Verify if already exists a reservation of the user for that game
     const existingPendingReservation = await Reservation.findOne({
       userId: userId,
       boardGameId: gameId,
@@ -433,10 +413,8 @@ const createReservation = async (req, res) => {
     let code;
     let isCodeUnique = false;
 
-    // Geerate reservation unique code
     while (!isCodeUnique) {
       code = generateRandCodeReservation();
-      // Verify if already exists that code of reservation in db
       const existingReservation = await Reservation.findOne({ code });
       if (!existingReservation) {
         isCodeUnique = true;
@@ -456,7 +434,6 @@ const createReservation = async (req, res) => {
 
     const reservation = await newReservation.save();
 
-    // Send email with reservation changes
     await sendEmailNewReservation(user.email, reservation, game, user.username);
 
     res.status(201).json({
@@ -473,7 +450,7 @@ const createReservation = async (req, res) => {
   }
 };
 
-// Get user reservation history
+// Controller to get user reservation history
 const getUserReservationHistory = async (req, res) => {
   try {
     const userId = req.id;
@@ -482,19 +459,14 @@ const getUserReservationHistory = async (req, res) => {
       "boardGameId",
     );
 
-    // Update status of reservations
     for (const reservation of reservations) {
-      // Check if reservation has passed its expiration date
       if (reservation.expirationDate < new Date()) {
-        // Mark the reservation as "Expired"
         reservation.status = "Expired";
         await reservation.save();
 
-        // If the reservation status was "Accepted", then also mark the associated game as "Available"
         if (reservation.status === "Accepted") {
           const game = await Boardgame.findById(reservation.boardGameId);
           if (game) {
-            // Ensure the game exists before attempting to update
             game.status = "Available";
             await game.save();
           }
@@ -516,7 +488,7 @@ const getUserReservationHistory = async (req, res) => {
   }
 };
 
-// Cancel reservation
+// Controller to cancel reservation
 const cancelReservation = async (req, res) => {
   try {
     const { reservationId } = req.params;
@@ -558,7 +530,6 @@ const cancelReservation = async (req, res) => {
 
     await reservation.save();
 
-    // Only if the reservation is valid should you attempt to get the game
     const game = await Boardgame.findById(reservation.boardGameId);
 
     if (!game) {
@@ -568,7 +539,6 @@ const cancelReservation = async (req, res) => {
       });
     }
 
-    // Send a confirmation email to the user
     await sendEmailCancelReservation(
       user.email,
       reservation,
@@ -590,6 +560,7 @@ const cancelReservation = async (req, res) => {
   }
 };
 
+// Controller to check if a user has a reservation
 const hasUserReservationForGame = async (req, res) => {
   try {
     const { gameId } = req.params;

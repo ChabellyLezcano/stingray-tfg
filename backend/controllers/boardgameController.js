@@ -5,7 +5,7 @@ const extractPublicId = require("../helpers/extractPublicIdImage");
 const { Review } = require("../models/Review");
 const cloudinary = require("cloudinary").v2;
 
-// Create Boardgame
+// Controller to create boardgame
 const createBoardGame = async (req, res) => {
   const { title, description, tags, status } = req.body;
   const userId = req.id;
@@ -72,7 +72,7 @@ const createBoardGame = async (req, res) => {
   }
 };
 
-// Delete Boardgame
+// Controller to delete boardgame
 const deleteBoardGame = async (req, res) => {
   const { id } = req.params;
   const userId = req.id;
@@ -125,7 +125,7 @@ const deleteBoardGame = async (req, res) => {
   }
 };
 
-// Update Boardgame
+// Controller to update boardgame
 const updateBoardGame = async (req, res) => {
   const { id } = req.params; // Assumes the ID of the boardgame is passed as a URL parameter
   const { title, description, tags, status } = req.body;
@@ -193,7 +193,7 @@ const updateBoardGame = async (req, res) => {
   }
 };
 
-// List all Boardgames
+// Controller to list all boardgames
 const listBoardGames = async (req, res) => {
   try {
     // Fetch all boardgames from the database
@@ -247,7 +247,7 @@ const listBoardGames = async (req, res) => {
   }
 };
 
-// View Boardgame Details
+// Controller to view boardgame Details
 const viewBoardGameDetails = async (req, res) => {
   const { id } = req.params; // Assumes the ID of the boardgame is passed as a URL parameter
 

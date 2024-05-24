@@ -16,13 +16,9 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  // Base URL for API requests
   private baseUrl: string = environment.baseUrl;
-
-  // User object stored in the service
   private _user!: User;
 
-  // Getter for the user object
   get user() {
     return { ...this._user };
   }
@@ -202,6 +198,7 @@ export class AuthService {
     }
   }
 
+  // Method to handle logout
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);

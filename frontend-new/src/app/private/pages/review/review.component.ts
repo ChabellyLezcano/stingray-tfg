@@ -36,6 +36,7 @@ export class ReviewComponent implements OnInit {
     this.loadAverageRating();
   }
 
+  // Method to load reviews
   private loadReviews(): void {
     this.isLoadingReviews = true;
     this.reviewService.getReviews(this.gameId).subscribe({
@@ -68,6 +69,7 @@ export class ReviewComponent implements OnInit {
     });
   }
 
+  // Method to load average rating
   private loadAverageRating(): void {
     this.reviewService.getAverageRating(this.gameId).subscribe({
       next: (response) => {
@@ -92,11 +94,13 @@ export class ReviewComponent implements OnInit {
     });
   }
 
+  // Method to show more reviews
   showMoreReviews(): void {
     const nextIndex = this.paginatedReviews.length + this.pageSize;
     this.paginatedReviews = this.reviews.slice(0, nextIndex);
   }
 
+  // Method to delete a review
   deleteReview(reviewId: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -134,6 +138,7 @@ export class ReviewComponent implements OnInit {
     });
   }
 
+  // Visuals for stars of the rating
   getStarArray(rating: number): string[] {
     return Array.from({ length: 5 }, (_, i) =>
       i < rating ? 'text-yellow-500' : 'text-slate-600',

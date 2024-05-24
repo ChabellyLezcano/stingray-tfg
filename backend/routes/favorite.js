@@ -14,10 +14,13 @@ const router = express.Router();
 
 router.use(validateJWT, validateFields);
 
+// List favorite games
 router.get("/", listFavorites);
 
+// Check if a game is favorite
 router.get("/check/:gameId", isGameFavorite);
 
+// Add a game to favorites
 router.post(
   "/:gameId",
   [
@@ -27,6 +30,7 @@ router.post(
   addGameToFavorites,
 );
 
+// Remove a game from favorites
 router.delete(
   "/:gameId",
   [

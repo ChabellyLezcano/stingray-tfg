@@ -46,6 +46,7 @@ export class EditGameComponent implements OnInit {
     this.loadGameDetails();
   }
 
+  // Method to load the game details of the game is going to be updated
   loadGameDetails(): void {
     this.gameService.getGameById(this.gameId).subscribe({
       next: (response) => {
@@ -80,6 +81,7 @@ export class EditGameComponent implements OnInit {
     });
   }
 
+  // Method to select main photo of the game
   onSelectMainPhoto(event: any): void {
     this.mainPhotoFile = event.files[0];
     if (this.mainPhotoFile) {
@@ -92,6 +94,7 @@ export class EditGameComponent implements OnInit {
     }
   }
 
+  // Method to select photo gallery of the game
   onSelectPhotoGallery(event: any): void {
     this.photoGalleryFiles = event.files;
     this.photoGalleryPreviews = [];
@@ -112,6 +115,7 @@ export class EditGameComponent implements OnInit {
     }
   }
 
+  // Method to update game
   updateGame(): void {
     if (this.gameForm.valid) {
       const updatedGame = this.gameForm.value;

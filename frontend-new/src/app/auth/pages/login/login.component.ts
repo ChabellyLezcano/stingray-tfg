@@ -10,7 +10,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  // Initialize the login form with emailOrUsername and password fields
   loginForm: FormGroup = this.fb.group({
     emailOrUsername: ['giles45', [Validators.required]],
     password: ['Password123', [Validators.required, Validators.minLength(8)]],
@@ -35,7 +34,6 @@ export class LoginComponent {
           showConfirmButton: false,
           timer: 800,
         }).then(() => {
-          // Navegar después de que la alerta se cierre
           this.router.navigate(['/dashboard']);
         });
       }

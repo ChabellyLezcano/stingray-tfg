@@ -19,24 +19,31 @@ const { validateFields } = require("../middlewares/validate-fields");
 
 router.use(validateJWT, validateFields);
 
-// Rutas para la gestión de reservas
-router.post("/:gameId", createReservation); // Crear una nueva reserva
-router.get("/admin/history", getAdminReservationHistory); // Historial de reservaciones (Admin)
-router.get("/user/history", getUserReservationHistory); // Historial de reservaciones del usuario
+// Create a reservation
+router.post("/:gameId", createReservation);
 
-// Aprobación y rechazo de reservas por el administrador
-router.patch("/:reservationId/accept", acceptReservation); // Aprobar reserva
-router.patch("/:reservationId/reject", rejectReservation); // Rechazar reserva
+// Get admin reservations history
+router.get("/admin/history", getAdminReservationHistory);
 
-// Manejo de recogida y devolución de juegos
-router.patch("/:reservationId/pickup", markAsPickedUp); // Marcar como recogido
-router.patch("/:reservationId/completed", markAsCompleted); // Marcar como devuelto
+// Get user reservations history
+router.get("/user/history", getUserReservationHistory);
 
-// Cancelar una reserva
-router.patch("/:reservationId/cancel", cancelReservation); // Cancelar reserva
+// Accept a reservation
+router.patch("/:reservationId/accept", acceptReservation);
 
-//Tiene reserva
+// Reject a reservation
+router.patch("/:reservationId/reject", rejectReservation);
+
+// Mark a reservations as picked up
+router.patch("/:reservationId/pickup", markAsPickedUp);
+
+// Mark a reservation as completed
+router.patch("/:reservationId/completed", markAsCompleted);
+
+// Cancel a reservation
+router.patch("/:reservationId/cancel", cancelReservation);
+
+// Check if user has reserved a game
 router.get("/has-reservation/:gameId", hasUserReservationForGame);
 
-// Exportar el router
 module.exports = router;

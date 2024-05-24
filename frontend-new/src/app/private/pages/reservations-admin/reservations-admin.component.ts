@@ -20,7 +20,7 @@ export class ReservationsAdminComponent implements OnInit {
   displayRejectModal: boolean = false;
   selectedReservationId: string = '';
   rejectionMessage: string = '';
-  selectedFilter: string = 'all'; // Añadir propiedad para el filtro seleccionado
+  selectedFilter: string = 'all';
 
   constructor(
     private reservationService: ReservationService,
@@ -31,6 +31,7 @@ export class ReservationsAdminComponent implements OnInit {
     this.loadAdminReservations(this.currentPage);
   }
 
+  // Method to load admin reservations
   loadAdminReservations(page: number, status: string = 'all'): void {
     this.isLoading = true;
     this.reservationService
@@ -61,11 +62,7 @@ export class ReservationsAdminComponent implements OnInit {
       });
   }
 
-  paginate(event: any): void {
-    this.currentPage = event.page + 1; // PrimeNG paginator starts from 0
-    this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
-  }
-
+  // Method to accept reservation
   acceptReservation(reservationId: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -107,12 +104,7 @@ export class ReservationsAdminComponent implements OnInit {
     });
   }
 
-  openRejectModal(reservationId: string): void {
-    this.selectedReservationId = reservationId;
-    this.rejectionMessage = '';
-    this.displayRejectModal = true;
-  }
-
+  // Method to reject reservation
   rejectReservation(): void {
     if (this.rejectionMessage.trim() === '') {
       this.messageService.add({
@@ -133,7 +125,7 @@ export class ReservationsAdminComponent implements OnInit {
               summary: 'Reserva rechazada',
               detail: response.msg,
             });
-            this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
+            this.loadAdminReservations(this.currentPage, this.selectedFilter);
             this.displayRejectModal = false;
           } else {
             this.messageService.add({
@@ -153,6 +145,7 @@ export class ReservationsAdminComponent implements OnInit {
       });
   }
 
+  // Method to mark a game as picked up
   markAsPickedUp(reservationId: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -173,7 +166,7 @@ export class ReservationsAdminComponent implements OnInit {
                 summary: 'Reserva marcada como recogida',
                 detail: response.msg,
               });
-              this.loadAdminReservations(this.currentPage, this.selectedFilter); // Pasar el filtro seleccionado
+              this.loadAdminReservations(this.currentPage, this.selectedFilter);
             } else {
               this.messageService.add({
                 severity: 'error',
@@ -195,6 +188,7 @@ export class ReservationsAdminComponent implements OnInit {
     });
   }
 
+  // Method to mark a game as completed
   markAsCompleted(reservationId: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -237,13 +231,27 @@ export class ReservationsAdminComponent implements OnInit {
     });
   }
 
+  // Method to delete a reservation
   deleteReservation(reservationId: string): void {
     this.openRejectModal(reservationId);
   }
 
-  // Método para aplicar el filtro
+  // Method to apply filter
   applyFilter(filter: string): void {
     this.selectedFilter = filter;
     this.loadAdminReservations(this.currentPage, this.selectedFilter);
+  }
+
+  // Method to handle pagination
+  paginate(event: any): void {
+    this.currentPage = event.page + 1;
+    this.loadAdminReservations(this.currentPage, this.selectedFilter);
+  }
+
+  // Method to open the rejection reservation modal
+  openRejectModal(reservationId: string): void {
+    this.selectedReservationId = reservationId;
+    this.rejectionMessage = '';
+    this.displayRejectModal = true;
   }
 }

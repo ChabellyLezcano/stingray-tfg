@@ -60,6 +60,7 @@ export class GameDetailsComponent implements OnInit {
     this.checkIfReservation();
   }
 
+  // Method to load game details
   private loadGameDetails(): void {
     this.isLoading = true;
     this.gameService.getGameById(this.gameId).subscribe({
@@ -79,6 +80,7 @@ export class GameDetailsComponent implements OnInit {
     });
   }
 
+  // Method to check if game is in favorites
   private checkIfFavorite(): void {
     this.favoriteService.isGameFavorite(this.gameId).subscribe({
       next: (response) => {
@@ -92,6 +94,7 @@ export class GameDetailsComponent implements OnInit {
     });
   }
 
+  // Method to add a game to favorites
   addToFavorites(): void {
     this.favoriteService.addGameToFavorites(this.gameId).subscribe({
       next: (response) => {
@@ -116,6 +119,7 @@ export class GameDetailsComponent implements OnInit {
     });
   }
 
+  // Method to remove a game from favorites
   removeFromFavorites(): void {
     this.favoriteService.removeGameFromFavorites(this.gameId).subscribe({
       next: (response) => {
@@ -139,6 +143,7 @@ export class GameDetailsComponent implements OnInit {
     });
   }
 
+  // Method to create a reservation
   createReservation(gameId: string): void {
     Swal.fire({
       title: '¿Quieres reservar este juego?',
@@ -182,6 +187,7 @@ export class GameDetailsComponent implements OnInit {
     });
   }
 
+  // Method to check if the game is booked
   private checkIfReservation(): void {
     this.reservationService.hasUserReservationForGame(this.gameId).subscribe({
       next: (response) => {

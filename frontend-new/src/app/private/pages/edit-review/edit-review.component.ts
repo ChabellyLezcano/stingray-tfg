@@ -34,6 +34,7 @@ export class EditReviewComponent implements OnInit {
     this.loadReview();
   }
 
+  // Method to update the review which it is going to be updated
   loadReview(): void {
     this.reviewService.getReviewById(this.reviewId).subscribe({
       next: (response) => {
@@ -59,6 +60,7 @@ export class EditReviewComponent implements OnInit {
     });
   }
 
+  // Method to update review
   updateReview(): void {
     if (this.reviewForm.invalid) {
       this.messageService.add({

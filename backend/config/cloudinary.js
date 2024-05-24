@@ -1,5 +1,6 @@
 const cloudinary = require("cloudinary").v2;
 
+// Method to configure Cloudinary with environment variables
 const configureCloudinary = async () => {
   try {
     cloudinary.config({

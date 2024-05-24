@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ReservationResponse } from '../interfaces/interfaces.interface'; // Asegúrate de tener esta interfaz definida
+import { ReservationResponse } from '../interfaces/interfaces.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class ReservationService {
 
   constructor(private http: HttpClient) {}
 
-  // Crear una nueva reserva
+  // Create a new reservation
   createReservation(gameId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${gameId}`;
     const headers = this.getHeaders();
@@ -30,7 +30,7 @@ export class ReservationService {
     );
   }
 
-  // Verificar si un usuario tiene una reserva para un juego específico
+  // Verify if user has a reservation for a game
   hasUserReservationForGame(gameId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/has-reservation/${gameId}`;
     const headers = this.getHeaders();
@@ -43,7 +43,7 @@ export class ReservationService {
     );
   }
 
-  // Obtener el historial de reservas del administrador
+  // Get admin reservation history
   getAdminReservationHistory(
     page: number,
     limit: number,
@@ -69,7 +69,7 @@ export class ReservationService {
     );
   }
 
-  // Obtener el historial de reservas del usuario
+  // Get user reservation history
   getUserReservationHistory(): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/user/history`;
     const headers = this.getHeaders();
@@ -84,7 +84,7 @@ export class ReservationService {
     );
   }
 
-  // Aprobar reserva
+  // Accept a reservation
   acceptReservation(reservationId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}/accept`;
     const headers = this.getHeaders();
@@ -97,7 +97,7 @@ export class ReservationService {
     );
   }
 
-  // Rechazar reserva
+  // Reject a reservation
   rejectReservation(
     reservationId: string,
     rejectionMessage: string,
@@ -114,7 +114,7 @@ export class ReservationService {
     );
   }
 
-  // Marcar reserva como recogida
+  // Mark a reservation as picked up
   markAsPickedUp(reservationId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}/pickup`;
     const headers = this.getHeaders();
@@ -129,7 +129,7 @@ export class ReservationService {
     );
   }
 
-  // Marcar reserva como completada
+  // Mark the reservation as completed
   markAsCompleted(reservationId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}/completed`;
     const headers = this.getHeaders();
@@ -144,7 +144,7 @@ export class ReservationService {
     );
   }
 
-  // Cancelar reserva
+  // Cancel a reservation
   cancelReservation(reservationId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}/cancel`;
     const headers = this.getHeaders();
@@ -157,7 +157,7 @@ export class ReservationService {
     );
   }
 
-  // Borrar reserva
+  // Delete a reservation
   deleteReservation(reservationId: string): Observable<ReservationResponse> {
     const url = `${this.baseUrl}/reservation/${reservationId}`;
     const headers = this.getHeaders();

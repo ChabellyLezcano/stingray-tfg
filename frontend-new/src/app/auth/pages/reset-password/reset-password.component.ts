@@ -24,26 +24,21 @@ export class ResetPasswordComponent {
     private router: Router,
     private authService: AuthService,
   ) {
-    // Obtener el token de la URL
     this.token = this.route.snapshot.paramMap.get('token') || '';
-
-    // Inicializar el formulario con validación
     this.resetPasswordForm = this.fb.group(
       {
         newPassword: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
       },
       {
-        validator: this.passwordMatchValidator, // Validator para confirmar que newPassword y confirmPassword coincidan
+        validator: this.passwordMatchValidator,
       },
     );
   }
 
-  // Validator personalizado para verificar que newPassword y confirmPassword coincidan
   passwordMatchValidator(
     control: AbstractControl,
   ): { [key: string]: boolean } | null {
-    // Initialize de resert-password submission
     const newPassword = control.get('newPassword');
     const confirmPassword = control.get('confirmPassword');
 
@@ -63,7 +58,6 @@ export class ResetPasswordComponent {
     if (this.resetPasswordForm.valid) {
       const newPassword = this.resetPasswordForm.get('newPassword')?.value;
 
-      // Llamar al servicio para restablecer la contraseña
       this.authService
         .resetPassword(this.token, newPassword)
         .subscribe((response) => {
@@ -72,7 +66,6 @@ export class ResetPasswordComponent {
               'Respuesta del servicio de restablecimiento de contraseña:',
               response,
             );
-            // Aquí puedes redirigir al usuario a otra página o mostrar un mensaje de éxito
             Swal.fire({
               icon: 'success',
               title: '¡Contraseña restablecida!',
@@ -80,7 +73,7 @@ export class ResetPasswordComponent {
               confirmButtonText: 'Aceptar',
             }).then((result) => {
               if (result.value) {
-                this.router.navigate(['/login']); // Asumiendo que tienes un router y una ruta de login definida
+                this.router.navigate(['/login']);
               }
             });
           }

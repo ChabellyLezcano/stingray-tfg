@@ -31,6 +31,7 @@ export class ReservationsUserComponent implements OnInit {
     this.loadReservations();
   }
 
+  // Method to load reservations
   loadReservations(): void {
     this.isLoading = true;
     this.reservationService.getUserReservationHistory().subscribe({
@@ -66,47 +67,7 @@ export class ReservationsUserComponent implements OnInit {
     });
   }
 
-  async checkReviewsForReservations() {
-    for (const reservation of this.reservations) {
-      const hasReview = await this.checkIfUserHasReview(
-        reservation.boardGameId._id,
-      );
-      this.reviewsMap[reservation.boardGameId._id] = hasReview;
-    }
-  }
-
-  checkIfUserHasReview(gameId: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      this.reviewService.userHasReview(gameId).subscribe({
-        next: (response) => {
-          resolve(response.hasReview ?? false);
-        },
-        error: (error) => {
-          console.error('Error checking if user has review:', error);
-          resolve(false);
-        },
-      });
-    });
-  }
-
-  paginate(event: any): void {
-    const start = event.first;
-    const end = event.first + event.rows;
-    this.paginatedReservations = this.filteredReservations.slice(start, end);
-  }
-
-  applyFilter(filter: string): void {
-    if (filter === 'all') {
-      this.filteredReservations = this.reservations;
-    } else {
-      this.filteredReservations = this.reservations.filter(
-        (reservation) => reservation.status === filter,
-      );
-    }
-    this.totalRecords = this.filteredReservations.length;
-    this.paginate({ first: 0, rows: this.pageSize });
-  }
-
+  // Method to cancel reservations
   cancelReservation(reservationId: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -147,5 +108,50 @@ export class ReservationsUserComponent implements OnInit {
         });
       }
     });
+  }
+
+  // Method to check if user has reviewed a game
+  checkIfUserHasReview(gameId: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.reviewService.userHasReview(gameId).subscribe({
+        next: (response) => {
+          resolve(response.hasReview ?? false);
+        },
+        error: (error) => {
+          console.error('Error checking if user has review:', error);
+          resolve(false);
+        },
+      });
+    });
+  }
+
+  // Method to handle pagination
+  paginate(event: any): void {
+    const start = event.first;
+    const end = event.first + event.rows;
+    this.paginatedReservations = this.filteredReservations.slice(start, end);
+  }
+
+  // Method to apply filters
+  applyFilter(filter: string): void {
+    if (filter === 'all') {
+      this.filteredReservations = this.reservations;
+    } else {
+      this.filteredReservations = this.reservations.filter(
+        (reservation) => reservation.status === filter,
+      );
+    }
+    this.totalRecords = this.filteredReservations.length;
+    this.paginate({ first: 0, rows: this.pageSize });
+  }
+
+  // Function to check reviews for a game
+  async checkReviewsForReservations() {
+    for (const reservation of this.reservations) {
+      const hasReview = await this.checkIfUserHasReview(
+        reservation.boardGameId._id,
+      );
+      this.reviewsMap[reservation.boardGameId._id] = hasReview;
+    }
   }
 }

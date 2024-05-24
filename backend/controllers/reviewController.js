@@ -1,6 +1,6 @@
 const { Review } = require("../models/Review");
 
-// Create a new review
+// Controller to create a new review
 const createReview = async (req, res) => {
   const userId = req.id;
   const { gameId } = req.params;
@@ -12,14 +12,13 @@ const createReview = async (req, res) => {
       userId: userId,
     });
 
-    // If review exists, return an error message
     if (existingReview) {
       return res.status(400).json({
         ok: false,
         msg: "Ya has creado una reseña para este juego",
       });
     }
-    // Create a new review if no existing review is found
+
     const newReview = new Review({
       boardGameId: gameId,
       userId,
@@ -28,7 +27,6 @@ const createReview = async (req, res) => {
       rating,
     });
 
-    // Save the new review to the database
     await newReview.save();
     res.status(201).json({
       ok: true,
@@ -45,12 +43,11 @@ const createReview = async (req, res) => {
   }
 };
 
-// Get reviews by BoardGame ID
+// Controller to get reviews by boardgameId
 const getReviews = async (req, res) => {
   const { gameId } = req.params;
 
   try {
-    // Find all reviews for the specified game and populate user details
     const reviews = await Review.find({ boardGameId: gameId }).populate(
       "userId",
       "username photo",
@@ -70,7 +67,7 @@ const getReviews = async (req, res) => {
   }
 };
 
-// Get review by ID
+// Controller to get review by ID
 const getReviewById = async (req, res) => {
   const { reviewId } = req.params;
 
@@ -100,29 +97,25 @@ const getReviewById = async (req, res) => {
   }
 };
 
-// Update a review
+// Controller to update a review
 const updateReview = async (req, res) => {
   const userId = req.id;
   const { reviewId } = req.params;
   const { title, description, rating } = req.body;
 
   try {
-    // Find the review by ID and user ID to ensure ownership
     const review = await Review.findOne({ _id: reviewId, userId });
 
     if (!review) {
-      // If no review is found, return an error
       return res.status(404).json({
         ok: false,
         msg: "Reseña no encontrada o usuario no autorizado para actualizar esta reseña",
       });
     }
-    // Update review details
     review.title = title;
     review.description = description;
     review.rating = rating;
 
-    // Save the updated review
     await review.save();
     res.json({
       ok: true,
@@ -139,16 +132,14 @@ const updateReview = async (req, res) => {
   }
 };
 
-// Delete a review
+// Controller to delete a review
 const deleteReview = async (req, res) => {
   const userId = req.id;
   const { reviewId } = req.params;
 
   try {
-    // Attempt to delete the review, ensuring it belongs to the user
     const result = await Review.deleteOne({ _id: reviewId, userId });
     if (result.deletedCount === 0) {
-      // If no review is deleted, it either doesn't exist or the user is unauthorized
       return res.status(404).json({
         ok: false,
         msg: "Reseña no encontrada o usuario no autorizado para actualizar esta reseña",
@@ -168,22 +159,19 @@ const deleteReview = async (req, res) => {
   }
 };
 
-// Average rating of results
+// Controller to get average rating of results
 const getAverageRating = async (req, res) => {
   const { gameId } = req.params;
 
   try {
-    // Retrieve all reviews for the specified game
     const reviews = await Review.find({ boardGameId: gameId });
     if (!reviews.length) {
-      // If no reviews are found, return an error
       return res.status(404).json({
         ok: false,
         msg: "No se encontraron reseñas para este juego",
       });
     }
 
-    // Calculate the total rating and compute the average
     const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
     const averageRating = totalRating / reviews.length;
 
@@ -202,7 +190,7 @@ const getAverageRating = async (req, res) => {
   }
 };
 
-// Check if user has review for a game
+// Controller to check if user has review for a game
 const userHasReview = async (req, res) => {
   const userId = req.id;
   const { gameId } = req.params;

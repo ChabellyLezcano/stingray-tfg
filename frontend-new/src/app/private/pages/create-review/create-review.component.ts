@@ -38,6 +38,7 @@ export class CreateReviewComponent implements OnInit {
     this.gameId = this.route.snapshot.paramMap.get('id')!;
   }
 
+  // Method to create review
   createReview(): void {
     if (this.reviewForm.valid) {
       const formData = this.reviewForm.value;

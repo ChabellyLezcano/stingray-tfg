@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
     this.loadGames();
   }
 
+  // Method to load games
   private loadGames(): void {
     this.isLoading = true;
     this.gameService.getGames().subscribe({
@@ -59,48 +60,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  handleSearch(searchText: string): void {
-    if (!searchText) {
-      this.filteredGames = this.games;
-      this.noResults = false;
-    } else {
-      const searchTextLower = searchText.toLowerCase();
-      this.filteredGames = this.games.filter(
-        (bg) =>
-          bg.title.toLowerCase().includes(searchTextLower) ||
-          (bg.tags &&
-            bg.tags.some((tag: string) =>
-              tag.toLowerCase().includes(searchTextLower),
-            )),
-      );
-      this.noResults = this.filteredGames.length === 0;
-    }
-    this.totalRecords = this.filteredGames.length;
-    this.paginate({ first: 0, rows: this.pageSize });
-  }
-
-  handleFilter(criteria: string): void {
-    if (criteria === 'latest') {
-      this.filteredGames.sort((a, b) => (a._id > b._id ? -1 : 1)); // Assuming _id is in order of creation
-    } else if (criteria === 'alphabetical') {
-      this.filteredGames.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (criteria === 'available') {
-      this.filteredGames = this.games.filter(
-        (game) => game.status === 'Available',
-      );
-    } else if (criteria === 'topRated') {
-      this.filteredGames.sort((a, b) => b.averageRating - a.averageRating);
-    }
-    this.totalRecords = this.filteredGames.length;
-    this.paginate({ first: 0, rows: this.pageSize });
-  }
-
-  paginate(event: any): void {
-    const start = event.first;
-    const end = event.first + event.rows;
-    this.paginatedGames = this.filteredGames.slice(start, end);
-  }
-
+  // Method to delete boardgame
   deleteBoardgame(id: string): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -133,5 +93,50 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+  }
+
+  // Method to handle search
+  handleSearch(searchText: string): void {
+    if (!searchText) {
+      this.filteredGames = this.games;
+      this.noResults = false;
+    } else {
+      const searchTextLower = searchText.toLowerCase();
+      this.filteredGames = this.games.filter(
+        (bg) =>
+          bg.title.toLowerCase().includes(searchTextLower) ||
+          (bg.tags &&
+            bg.tags.some((tag: string) =>
+              tag.toLowerCase().includes(searchTextLower),
+            )),
+      );
+      this.noResults = this.filteredGames.length === 0;
+    }
+    this.totalRecords = this.filteredGames.length;
+    this.paginate({ first: 0, rows: this.pageSize });
+  }
+
+  // Method to filter games
+  handleFilter(criteria: string): void {
+    if (criteria === 'latest') {
+      this.filteredGames.sort((a, b) => (a._id > b._id ? -1 : 1)); // Assuming _id is in order of creation
+    } else if (criteria === 'alphabetical') {
+      this.filteredGames.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (criteria === 'available') {
+      this.filteredGames = this.games.filter(
+        (game) => game.status === 'Available',
+      );
+    } else if (criteria === 'topRated') {
+      this.filteredGames.sort((a, b) => b.averageRating - a.averageRating);
+    }
+    this.totalRecords = this.filteredGames.length;
+    this.paginate({ first: 0, rows: this.pageSize });
+  }
+
+  // Method to handle the pagination
+  paginate(event: any): void {
+    const start = event.first;
+    const end = event.first + event.rows;
+    this.paginatedGames = this.filteredGames.slice(start, end);
   }
 }

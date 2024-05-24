@@ -20,7 +20,7 @@ export class ReviewService {
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los reviews
+  // Get all reviews
   getReviews(id: string): Observable<ReviewResponse> {
     const url = `${this.baseUrl}/review/${id}`;
     const headers = this.getHeaders();
@@ -33,7 +33,7 @@ export class ReviewService {
     );
   }
 
-  // Obtener los detalles de un review por ID
+  // Get the details of the review by id
   getReviewById(id: string): Observable<ReviewResponse> {
     const url = `${this.baseUrl}/review/review-by-id/${id}`;
     const headers = this.getHeaders();
@@ -46,6 +46,7 @@ export class ReviewService {
     );
   }
 
+  // Delete a review
   deleteReview(id: string): Observable<ReviewResponse> {
     const url = `${this.baseUrl}/review/${id}`;
     const headers = this.getHeaders();
@@ -58,7 +59,7 @@ export class ReviewService {
     );
   }
 
-  // Crear un nuevo review
+  // Create a review
   createReview(
     reviewData: FormData,
     gameId: string,
@@ -74,6 +75,7 @@ export class ReviewService {
     );
   }
 
+  // Update a review
   updateReview(id: string, reviewData: FormData): Observable<ReviewResponse> {
     const url = `${this.baseUrl}/review/${id}`;
     const headers = this.getHeaders();
@@ -86,6 +88,7 @@ export class ReviewService {
     );
   }
 
+  // Get average rating
   getAverageRating(gameId: string): Observable<RatingResponse> {
     const url = `${this.baseUrl}/review/average-rating/${gameId}`;
     const headers = this.getHeaders();
@@ -98,6 +101,7 @@ export class ReviewService {
     );
   }
 
+  // Check if user has reviewed a game
   userHasReview(gameId: string): Observable<ReviewResponse> {
     const url = `${this.baseUrl}/review/user-has-review/${gameId}`;
     const headers = this.getHeaders();

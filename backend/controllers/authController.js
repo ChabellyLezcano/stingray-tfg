@@ -8,14 +8,12 @@ const {
 } = require("../helpers/email.js");
 const generateID = require("../helpers/generateId");
 const { randomImage } = require("../helpers/randomImage");
-const formatDateToMongoDB = require("../helpers/formatDate.js");
 
-// Registration
+// Controller to register a new user
 const registerUser = async (req, res) => {
   const { username, email, password, role, sex, birthDate } = req.body;
 
   try {
-    // Check if the user exists with the entered email
     const user = await User.findOne({
       $or: [{ email: email }, { username: username }],
     });
@@ -27,49 +25,40 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Obtain a random image
     const image = randomImage();
 
-    const formattedBirthDate = formatDateToMongoDB(birthDate);
-
-    // Create the new user with the fields sex and birthDate if they are available
     const newUser = new User({
       photo: image,
       username,
       email,
-      password, // Password will be hashed later
+      password,
       role,
-      token: null, // Leave the token as null initially
-      sex, // Add the sex field to the new user
-      birthDate: formattedBirthDate, // Add the birthDate field to the new user
+      token: null,
+      sex,
+      birthDate,
     });
 
-    // Hash password
     const salt = bcrypt.genSaltSync();
     newUser.password = bcrypt.hashSync(password, salt);
 
-    // Generate user token
     const token = await generateID();
     newUser.token = token;
 
-    // Save user
     await newUser.save();
 
-    // Send account confirmation email
     sendEmailConfirmation(newUser.email, newUser.token);
 
-    // Response with user info
     res.status(200).json({
       ok: true,
       _id: newUser._id,
       photo: image,
-      username: newUser.username, // Add the username to the response
+      username: newUser.username,
       email: newUser.email,
       authenticated: newUser.authenticated,
       token,
       role,
-      sex, // Add sex to the response
-      birthDate, // Add birthDate to the response
+      sex,
+      birthDate,
       msg: "The account confirmation email has been sent. Please check your email",
     });
   } catch (error) {
@@ -81,15 +70,13 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Confirm Account
+// Controller to confirm a user's account
 const confirmAccount = async (req, res) => {
-  const { token } = req.params; // Capture the token from the URL or header
+  const { token } = req.params;
 
   try {
-    // Find a user in the database with the captured token from the request
     const user = await User.findOne({ token: token });
 
-    // Check if the user does not exist in the database
     if (!user) {
       return res.status(400).json({
         ok: false,
@@ -97,18 +84,13 @@ const confirmAccount = async (req, res) => {
       });
     }
 
-    // Set authenticated to true if the account is confirmed successfully
     user.authenticated = true;
-
-    // Set the token to null
     user.token = null;
 
-    // Save changes to the database
     await user.save();
 
     await sendWelcomeEmail(user.email, user.username);
 
-    // Send successful response
     res.status(200).json({
       ok: true,
       msg: "Cuenta confirmada exitosamente",
@@ -121,17 +103,15 @@ const confirmAccount = async (req, res) => {
   }
 };
 
-// Login
+// Controller to log in a user
 const loginUser = async (req, res) => {
   const { emailOrUsername, password } = req.body;
 
   try {
-    // Find user in database by email or username
     const user = await User.findOne({
       $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
     });
 
-    // The user doesn't exist in the database
     if (!user) {
       return res.status(400).json({
         ok: false,
@@ -139,7 +119,6 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Confirm account if it's not
     if (!user.authenticated) {
       return res.status(401).json({
         ok: false,
@@ -147,7 +126,6 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Confirm validate password
     const validPassword = bcrypt.compareSync(password, user.password);
 
     if (!validPassword) {
@@ -157,13 +135,9 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Generate the JWT
     const token = await generateJWT(user.id);
-
-    // Update token
     user.token = token;
 
-    // Save user
     await user.save();
 
     return res.status(200).json({
@@ -186,12 +160,10 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Forgot Password
+// Controller to handle forgotten password request
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
-
-    // Check if a user exists with the provided email
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -207,17 +179,13 @@ const forgotPassword = async (req, res) => {
         msg: "Necesitas autenticar tu cuenta antes de cambiar la contraseña",
       });
     }
-    // Generate a token to reset the password
+
     const token = generateID();
 
-    // Save the token in the database
     user.token = token;
     await user.save();
-
-    // Send email to set password
     await sendEmailResetPassword(email, token);
 
-    // Send successful response
     res.status(200).json({
       msg: "Se ha enviado un correo electrónico para restablecer la contraseña.",
       ok: true,
@@ -230,16 +198,13 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-// Reset Password
+// Controller to reset a user's password
 const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
     const { newPassword } = req.body;
-
-    // Find a user in the database with the provided token
     const user = await User.findOne({ token });
 
-    // Check if a user with the token is found
     if (!user) {
       return res.status(401).json({
         ok: false,
@@ -254,17 +219,12 @@ const resetPassword = async (req, res) => {
       });
     }
 
-    // Update the user's password
     const salt = bcrypt.genSaltSync();
     user.password = bcrypt.hashSync(newPassword, salt);
-
-    // Set the token to null
     user.token = null;
 
-    // Save changes to the database
     await user.save();
 
-    // Respond with a success message
     return res.status(200).json({
       ok: true,
       msg: "Contraseña actualizada con éxito",
@@ -279,45 +239,11 @@ const resetPassword = async (req, res) => {
   }
 };
 
-// Check Token
-const checkToken = async (req, res) => {
-  try {
-    const { token } = req.params;
-
-    // Check if the token exists in the database
-    const user = await User.findOne({ token });
-
-    if (user) {
-      // Here you can return the user's information
-      return res.status(200).json({
-        ok: true,
-        user,
-        msg: "Token confirmed",
-      });
-    } else {
-      return res.status(401).json({
-        ok: false,
-        msg: "Token inválido",
-      });
-    }
-  } catch (error) {
-    // In case of an error, return an error
-    console.error(error);
-    return res.status(500).json({
-      ok: false,
-      msg: "Error al validar el token",
-    });
-  }
-};
-
-// Revalidate Token
+// Controller to revalidate a user's session token
 const revalidateToken = async (req, res) => {
   try {
     const userId = req.id;
-
-    // Generate the JWT
     const token = await generateJWT(userId);
-
     const user = await User.findById(userId);
 
     const response = {
@@ -350,6 +276,5 @@ module.exports = {
   loginUser,
   forgotPassword,
   resetPassword,
-  checkToken,
   revalidateToken,
 };

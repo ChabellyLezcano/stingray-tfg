@@ -37,17 +37,20 @@ export class CreateGameComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // Method to handle the selection of main photo
   onSelectMainPhoto(event: any): void {
     this.mainPhotoFile = event.currentFiles[0];
     this.gameForm.patchValue({ mainPhoto: this.mainPhotoFile!.name });
   }
 
+  // Method to handle the selection of photo gallery
   onSelectPhotoGallery(event: any): void {
     this.photoGalleryFiles = event.currentFiles;
     const fileNames = this.photoGalleryFiles.map((file) => file.name).join(',');
     this.gameForm.patchValue({ photoGallery: fileNames });
   }
 
+  // Method to create game
   createGame(): void {
     if (this.gameForm.valid) {
       const newGame = this.gameForm.value;

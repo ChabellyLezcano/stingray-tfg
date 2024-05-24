@@ -12,7 +12,7 @@ import {
   providedIn: 'root',
 })
 export class FavoriteService {
-  private baseUrl: string = environment.baseUrl; // Ajusta la URL de tu API
+  private baseUrl: string = environment.baseUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class FavoriteService {
     return new HttpHeaders().set('token', localStorage.getItem('token') ?? '');
   }
 
-  // Listar juegos favoritos de un usuario
+  // List favorite boardgames
   listFavorites(): Observable<FavoriteResponse> {
     const url = `${this.baseUrl}/favorite`;
     const headers = this.getHeaders();
@@ -33,7 +33,7 @@ export class FavoriteService {
     );
   }
 
-  // Comprobar si un juego está en favoritos
+  // Check if a game is favorite
   isGameFavorite(gameId: string): Observable<IsFavorite> {
     const url = `${this.baseUrl}/favorite/check/${gameId}`;
     const headers = this.getHeaders();
@@ -48,7 +48,7 @@ export class FavoriteService {
     );
   }
 
-  // Añadir juego a favoritos
+  // Add game to favorites
   addGameToFavorites(gameId: string): Observable<FavoriteResponse> {
     const url = `${this.baseUrl}/favorite/${gameId}`;
     const headers = this.getHeaders();
@@ -61,7 +61,7 @@ export class FavoriteService {
     );
   }
 
-  // Eliminar juego de favoritos
+  // Remove a game from favorites
   removeGameFromFavorites(gameId: string): Observable<FavoriteResponse> {
     const url = `${this.baseUrl}/favorite/${gameId}`;
     const headers = this.getHeaders();

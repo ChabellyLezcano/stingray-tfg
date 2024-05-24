@@ -1,13 +1,13 @@
-const { Favorite } = require("../models/Favorite"); // Asegúrate de tener este modelo
-const { Boardgame } = require("../models/Boardgame"); // Modelo para juegos de mesa
+const { Favorite } = require("../models/Favorite");
+const { Boardgame } = require("../models/Boardgame");
 
-// Add game to favorites
+// Controller to add boardgame to favorites
 const addGameToFavorites = async (req, res) => {
   const { gameId } = req.params;
   const userId = req.id;
 
   try {
-    const game = await Boardgame.findById(gameId); // Verifica si el juego existe
+    const game = await Boardgame.findById(gameId);
     if (!game) {
       return res.status(404).json({
         ok: false,
@@ -53,9 +53,10 @@ const addGameToFavorites = async (req, res) => {
   }
 };
 
+// Controller to remove a boardgame from favorites
 const removeGameFromFavorites = async (req, res) => {
-  const { gameId } = req.params; // Asumimos que el ID del juego viene como parámetro de la ruta
-  const userId = req.id; // Asumimos que el ID del usuario se obtiene del request, por ejemplo, a través de un middleware de autenticación
+  const { gameId } = req.params;
+  const userId = req.id;
 
   try {
     const game = await Boardgame.findById(gameId);
@@ -100,9 +101,9 @@ const removeGameFromFavorites = async (req, res) => {
   }
 };
 
-// Listar juegos favoritos de un usuario
+// Controller to list favorite boardgames
 const listFavorites = async (req, res) => {
-  const userId = req.id; // Asumimos que el ID del usuario se obtiene del request, por ejemplo, a través de un middleware de autenticación
+  const userId = req.id;
 
   try {
     const favorite = await Favorite.findOne({ userId }).populate("boardGames");
@@ -127,7 +128,7 @@ const listFavorites = async (req, res) => {
   }
 };
 
-// Comprobar si un juego está en favoritos
+// Check if a game is favorite
 const isGameFavorite = async (req, res) => {
   const { gameId } = req.params;
   const userId = req.id;
