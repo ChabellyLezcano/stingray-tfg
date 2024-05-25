@@ -31,6 +31,28 @@ export class RecommendationsComponent implements OnInit {
       next: (response: RecommendationResponse) => {
         this.isLoading = false;
         this.recommendations = response.recommendations;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.error = 'Error al cargar recomendaciones';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail:
+            'Hubo un problema al cargar recomendaciones. Inténtalo de nuevo más tarde.',
+        });
+        console.error('Error loading recommendations:', error);
+      },
+    });
+  }
+
+  generateRecommendations(): void {
+    this.isLoading = true;
+    this.recommendationService.generateRecommendations().subscribe({
+      next: (response: RecommendationResponse) => {
+        this.isLoading = false;
+        this.recommendations = response.recommendations;
+        this.loadRecommendations();
         this.messageService.add({
           severity: 'success',
           summary: 'Recomendaciones generadas',

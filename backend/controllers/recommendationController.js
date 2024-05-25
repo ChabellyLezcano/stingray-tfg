@@ -7,8 +7,40 @@ const {
 } = require("../helpers/recommendationUtils");
 const { User } = require("../models/User");
 
-// Controller to generate or update recommendations
+// Controller to get recommendations
 const getRecommendations = async (req, res) => {
+  const userId = req.id;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user || user.role !== "User") {
+      return res.status(401).json({
+        ok: false,
+        msg: "No estás autorizado para ver recomendaciones",
+      });
+    }
+
+    let recommendation = await Recommendation.findOne({ userId }).populate({
+      path: "recommendations.boardGameId",
+      model: "Boardgame",
+    });
+
+    if (!recommendation) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No recommendations found for the user",
+      });
+    }
+
+    res.json(recommendation);
+  } catch (error) {
+    console.error("Error retrieving recommendations:", error);
+    res.status(500).send({ error: "Error retrieving recommendations" });
+  }
+};
+
+// Controller to generate or update recommendations
+const generateRecommendations = async (req, res) => {
   const userId = req.id;
 
   try {
@@ -53,19 +85,17 @@ const getRecommendations = async (req, res) => {
 
     await recommendation.save();
 
-    // Populate the boardGame details for each recommendation after saving
-    recommendation = await Recommendation.findOne({ userId }).populate({
-      path: "recommendations.boardGameId",
-      model: "Boardgame",
+    res.json({
+      ok: true,
+      msg: "Recommendations generated successfully",
+      recommendations: recommendation.recommendations,
     });
-
-    res.json(recommendation);
   } catch (error) {
     console.error("Error generating recommendations:", error);
     res
       .status(500)
-      .send({ error: "Error retrieving or updating recommendations" });
+      .send({ error: "Error generating or updating recommendations" });
   }
 };
 
-module.exports = { getRecommendations };
+module.exports = { generateRecommendations, getRecommendations };

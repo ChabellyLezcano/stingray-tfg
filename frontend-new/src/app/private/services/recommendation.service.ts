@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -22,11 +26,23 @@ export class RecommendationService {
     const url = `${this.baseUrl}/recommendation`;
     const headers = this.getHeaders();
 
-    return this.http.get<RecommendationResponse>(url, { headers }).pipe(
-      catchError((error) => {
-        console.error('Error in getGames:', error);
-        return throwError(() => new Error('Error fetching games'));
-      }),
-    );
+    return this.http
+      .get<RecommendationResponse>(url, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  // Generate recommendations
+  generateRecommendations(): Observable<RecommendationResponse> {
+    const url = `${this.baseUrl}/recommendation/generate`;
+    const headers = this.getHeaders();
+
+    return this.http
+      .post<RecommendationResponse>(url, {}, { headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('Error in service:', error);
+    return throwError(() => new Error('Error fetching data from server'));
   }
 }
