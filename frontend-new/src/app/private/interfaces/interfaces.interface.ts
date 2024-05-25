@@ -39,22 +39,9 @@ export interface RecommendationResponse {
 }
 
 export interface Recommendation {
-  boardGameId: BoardGameID;
+  boardGameId: Game;
   affinityScore: number;
   _id: string;
-}
-
-export interface BoardGameID {
-  _id: string;
-  code: string;
-  title: string;
-  description: string;
-  status: string;
-  mainPhoto: string;
-  photoGallery: string[];
-  tags: string[];
-  averageRating: number;
-  __v: number;
 }
 
 export interface ReviewResponse {
@@ -105,22 +92,15 @@ export interface Reservation {
   rejectionMessage?: string;
 }
 
-export interface ProfileResponse {
-  ok: boolean;
-  msg: string;
-  user: Profile;
+export interface RecommendationResponse {
+  _id: string;
+  userId: string;
+  recommendations: Recommendation[];
+  __v: number;
 }
 
-export interface Profile {
+export interface Recommendation {
+  boardGameId: Game;
+  affinityScore: number;
   _id: string;
-  photo: string;
-  username: string;
-  email: string;
-  password: string;
-  role: string;
-  token: string;
-  authenticated: boolean;
-  sex: string;
-  birthDate: Date;
-  __v: number;
 }

@@ -8,7 +8,7 @@ const {
 const { User } = require("../models/User");
 
 // Controller to generate or update recommendations
-const generateRecommendations = async (req, res) => {
+const getRecommendations = async (req, res) => {
   const userId = req.id;
 
   try {
@@ -34,7 +34,7 @@ const generateRecommendations = async (req, res) => {
 
     // Shuffle the 40 games with the highest affinity and select 5 at random
     shuffleArray(recommendedGames);
-    const selectedGames = recommendedGames.slice(0, 5);
+    const selectedGames = recommendedGames.slice(0, 6);
 
     let recommendation = await Recommendation.findOne({ userId });
 
@@ -68,4 +68,4 @@ const generateRecommendations = async (req, res) => {
   }
 };
 
-module.exports = { generateRecommendations };
+module.exports = { getRecommendations };

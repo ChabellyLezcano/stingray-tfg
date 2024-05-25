@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { Recommendation } from '../../interfaces/interfaces.interface';
+import {
+  Recommendation,
+  RecommendationResponse,
+} from '../../interfaces/interfaces.interface';
 import { RecommendationService } from '../../services/recommendation.service';
 
 @Component({
@@ -9,7 +12,7 @@ import { RecommendationService } from '../../services/recommendation.service';
   styleUrls: ['./recommendations.component.css'],
 })
 export class RecommendationsComponent implements OnInit {
-  recommendations: any | null = null;
+  recommendations: Recommendation[] | null = null;
   isLoading: boolean = true;
   error: string | null = null;
 
@@ -24,11 +27,10 @@ export class RecommendationsComponent implements OnInit {
 
   loadRecommendations(): void {
     this.isLoading = true;
-    this.recommendationService.generateRecommendations().subscribe({
-      next: (response) => {
-        console.log(response);
+    this.recommendationService.getRecommendations().subscribe({
+      next: (response: RecommendationResponse) => {
         this.isLoading = false;
-        this.recommendations = response;
+        this.recommendations = response.recommendations;
         this.messageService.add({
           severity: 'success',
           summary: 'Recomendaciones generadas',

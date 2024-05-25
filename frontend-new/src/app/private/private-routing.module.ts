@@ -25,7 +25,7 @@ const routes: Routes = [
   {
     path: 'create-review/:id',
     component: CreateReviewComponent,
-    canActivate: [isAuthenticatedGuard, AdminGuard],
+    canActivate: [isAuthenticatedGuard, UserGuard],
   },
   {
     path: 'dashboard',

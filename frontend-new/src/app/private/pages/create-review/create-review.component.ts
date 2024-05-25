@@ -22,14 +22,8 @@ export class CreateReviewComponent implements OnInit {
     private messageService: MessageService,
   ) {
     this.reviewForm = this.fb.group({
-      title: [
-        'Amantes de los juegos de mesa. Este es el vuestro',
-        Validators.required,
-      ],
-      description: [
-        'Es difícil encontrar juegos que capturan tan bien el espíritu de competencia y diversión. Este lo hace y es absolutamente brillante.',
-        Validators.required,
-      ],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
       rating: ['', [Validators.required, Validators.min(1), Validators.max(5)]],
     });
   }

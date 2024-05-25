@@ -17,8 +17,8 @@ export class RecommendationService {
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los juegos
-  generateRecommendations(): Observable<RecommendationResponse> {
+  // Get recommendations
+  getRecommendations(): Observable<RecommendationResponse> {
     const url = `${this.baseUrl}/recommendation`;
     const headers = this.getHeaders();
 
