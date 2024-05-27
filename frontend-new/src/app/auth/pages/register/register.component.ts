@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm: FormGroup;
 
   constructor(
@@ -31,8 +31,6 @@ export class RegisterComponent implements OnInit {
       sex: ['', [Validators.required, Validators.pattern(/^(M|F|Otro)$/)]],
     });
   }
-
-  ngOnInit(): void {}
 
   // Method to handle the register submission
   register() {
