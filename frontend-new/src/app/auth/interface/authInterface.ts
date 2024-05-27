@@ -1,3 +1,4 @@
+// Auth Response
 export interface AuthResponse {
   ok: boolean;
   _id?: string;
@@ -13,6 +14,7 @@ export interface AuthResponse {
   user?: User;
 }
 
+// User interface
 export interface User {
   _id: string;
   email: string;
