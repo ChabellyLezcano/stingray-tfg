@@ -1,6 +1,6 @@
 const { Review } = require("../models/Review");
 
-// Controller to create a new review
+// Controller to create a review
 const createReview = async (req, res) => {
   const userId = req.id;
   const { gameId } = req.params;
