@@ -35,8 +35,6 @@ export class CreateGameComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   // Method to handle the selection of main photo
   onSelectMainPhoto(event: any): void {
     this.mainPhotoFile = event.currentFiles[0];
