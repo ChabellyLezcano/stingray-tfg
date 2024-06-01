@@ -1,53 +1,138 @@
-<body class="flex min-h-screen flex-col">
+<div class="min-h-screen bg-gray-100">
   <header
-    class="flex items-center justify-between bg-berkeley-blue p-4 text-white"
+    class="flex items-center justify-between bg-white px-6 py-4 shadow-md"
   >
-    <h1 class="text-lg font-bold">JuegosDeMesa</h1>
-    <button
-      class="rounded bg-tangelo px-4 py-2 text-white transition duration-300 hover:bg-selective-yellow"
-      routerLink="/login"
-    >
-      Login
-    </button>
+    <div class="flex items-center gap-2">
+      <img src="/assets/.jpg" alt="Logo" class="h-10" />
+      <span class="text-2xl font-bold text-indigo-600">Bibliogames</span>
+    </div>
+    <div>
+      <button
+        pButton
+        type="button"
+        label="Login"
+        icon="pi pi-sign-in"
+        class="p-button-rounded p-button-outlined mr-4"
+        routerLink="/login"
+      ></button>
+    </div>
   </header>
 
-  <!-- Sección Principal con Imagen y Descripción en Columna -->
-  <section class="mb-10 flex flex-grow flex-col items-center justify-center">
-    <div class="mx-auto w-full max-w-4xl">
-      <h2 class="mb-3 text-center text-4xl font-bold text-picton-blue">
-        Descubre Nuevos Juegos Cada Mes
-      </h2>
-      <p class="mb-6 text-center text-berkeley-blue">
-        Únete a nuestra comunidad y disfruta de los mejores juegos de mesa
-        seleccionados especialmente para ti.
-      </p>
+  <div class="flex flex-col">
+    <main class="container mx-auto mt-10 px-4">
+      <!-- Section 1: Texto a la izquierda, imagen a la derecha -->
+      <section class="flex flex-col items-center gap-14 md:flex-row">
+        <div class="flex flex-col gap-4 text-left md:w-1/2">
+          <h1 class="m-0 text-center text-4xl font-bold text-gray-800">
+            Bienvenidos a Bibliogames
+          </h1>
+          <p class="mb-4 text-lg text-gray-600">
+            Descubre, reserva y disfruta de una amplia variedad de juegos de
+            mesa. Nuestra plataforma está diseñada para ofrecerte la mejor
+            experiencia, facilitando el acceso a tus juegos favoritos y
+            permitiéndote explorar nuevos títulos adaptados a tus gustos
+            personales.
+          </p>
+          <button
+            pButton
+            type="button"
+            label="Get Started"
+            icon="pi pi-arrow-right"
+            class="p-button-rounded mx-auto flex"
+            routerLink="/register"
+          ></button>
+        </div>
+        <div class="md:w-1/2">
+          <img
+            src="/assets/images/landing.jpg"
+            alt="Bibliogames"
+            class="w-full rounded-lg shadow-md"
+          />
+        </div>
+      </section>
 
-      <!-- Cards de características una al lado de otra -->
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div class="rounded bg-apple-green p-4 text-berkeley-blue">
-          <h3 class="font-bold">Diversión Garantizada</h3>
-          <p>
-            Juegos que te harán pasar horas de entretenimiento con familia y
-            amigos.
-          </p>
+      <!-- Section 2 -->
+      <section class="flex flex-col py-10">
+        <h1 class="text-center text-3xl font-bold">
+          Tus beneficios como
+          <span class="italic text-indigo-500">Bibliogamer </span>
+          <span>😎</span>
+        </h1>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div
+            class="transform rounded-lg border-2 border-indigo-300 bg-white bg-opacity-80 p-6 shadow-md transition-transform hover:scale-105 hover:border-indigo-700 hover:shadow-lg"
+          >
+            <div class="flex items-center gap-2">
+              <i class="pi pi-globe text-xl text-indigo-500"></i>
+              <h2 class="text-xl font-bold text-gray-800">
+                Explora Nuevos Juegos
+              </h2>
+            </div>
+            <p class="text-gray-600">
+              Encuentra nuevos y emocionantes juegos de mesa adaptados a tus
+              preferencias.
+            </p>
+          </div>
+          <div
+            class="transform rounded-lg border-2 border-indigo-300 bg-white bg-opacity-80 p-6 shadow-md transition-transform hover:scale-105 hover:border-indigo-700 hover:shadow-lg"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <i class="pi pi-lock text-xl text-indigo-500"></i>
+              <h2 class="text-xl font-bold text-gray-800">
+                Reserva Fácilmente
+              </h2>
+            </div>
+            <p class="text-gray-600">
+              Reserva tus juegos de mesa favoritos de manera sencilla y
+              gratuita.
+            </p>
+          </div>
+          <div
+            class="transform rounded-lg border-2 border-indigo-300 bg-white bg-opacity-80 p-6 shadow-md transition-transform hover:scale-105 hover:border-indigo-700 hover:shadow-lg"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <i class="pi pi-mobile text-xl text-indigo-500"></i>
+              <h2 class="text-xl font-bold text-gray-800">
+                Accede desde Cualquier Lugar
+              </h2>
+            </div>
+            <p class="text-gray-600">
+              Accede a nuestra plataforma desde cualquier dispositivo y en
+              cualquier lugar.
+            </p>
+          </div>
         </div>
-        <div class="rounded bg-selective-yellow p-4 text-berkeley-blue">
-          <h3 class="font-bold">Para Todas las Edades</h3>
-          <p>Encuentra juegos perfectos para cualquier grupo de edad.</p>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="py-10">
+        <h1 class="text-center text-3xl">Una plataforma única</h1>
+        <div>
+          <p-carousel
+            [value]="images"
+            [responsiveOptions]="responsiveOptions"
+            [numVisible]="3"
+            [numScroll]="3"
+            [circular]="true"
+          >
+            <ng-template pTemplate="item" let-image>
+              <div class="p-2">
+                <img
+                  [src]="image"
+                  alt="Image"
+                  class="h-60 w-full rounded-lg object-cover shadow-md"
+                />
+              </div>
+            </ng-template>
+          </p-carousel>
         </div>
-        <div class="rounded bg-picton-blue p-4 text-white">
-          <h3 class="font-bold">Calidad Premium</h3>
-          <p>
-            Juegos fabricados con los mejores materiales para una mayor
-            durabilidad.
-          </p>
-        </div>
-      </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="bg-white py-4 shadow-inner">
+    <div class="container mx-auto text-center text-gray-600">
+      &copy; 2024 Bibliogames. Todos los derechos reservados.
     </div>
-  </section>
-
-  <!-- Footer siempre al final -->
-  <footer class="w-full bg-berkeley-blue p-4 text-center text-white">
-    © 2024 JuegosDeMesa - Todos los derechos reservados.
   </footer>
-</body>
+</div>

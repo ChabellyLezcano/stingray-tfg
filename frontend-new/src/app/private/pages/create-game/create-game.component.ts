@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GameService } from '../../services/game.service';
@@ -10,7 +10,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./create-game.component.css'],
   providers: [MessageService],
 })
-export class CreateGameComponent implements OnInit {
+export class CreateGameComponent {
   gameForm: FormGroup;
   statusOptions: any[] = [
     { label: 'Disponible', value: 'Available' },

@@ -1,0 +1,620 @@
+openapi: 3.0.0
+info:
+  title: 🎲 Bibliogames API
+  description: API para la gestión de Bibliogames
+  version: 1.0.0
+  contact:
+    name: Support
+    email: support@bibliogames.com
+servers:
+  - url: http://localhost:4000/api
+    description: 🌐 Local server
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: johndoe
+                email:
+                  type: string
+                  example: johndoe@example.com
+                password:
+                  type: string
+                  example: Password123
+                sex:
+                  type: string
+                  example: M
+      responses:
+        '200':
+          description: User registered successfully
+        '400':
+          description: Bad request
+
+  /auth/confirm-account/{token}:
+    get:
+      summary: Confirm user account
+      tags: [Auth]
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account confirmed
+        '400':
+          description: Invalid token
+
+  /auth:
+    post:
+      summary: User login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailOrUsername:
+                  type: string
+                  example: johndoe
+                password:
+                  type: string
+                  example: Password123
+      responses:
+        '200':
+          description: Login successful
+        '400':
+          description: Invalid credentials
+
+  /auth/forgot-password:
+    post:
+      summary: Forgot password
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: johndoe@example.com
+      responses:
+        '200':
+          description: Password reset email sent
+        '400':
+          description: Invalid email
+
+  /auth/reset-password/{token}:
+    post:
+      summary: Reset password
+      tags: [Auth]
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPassword:
+                  type: string
+                  example: NewPassword123
+      responses:
+        '200':
+          description: Password reset successfully
+        '400':
+          description: Invalid token or password
+
+  /auth/renew:
+    get:
+      summary: Renew token
+      tags: [Auth]
+      responses:
+        '200':
+          description: Token renewed
+        '400':
+          description: Invalid token
+
+  /boardgames:
+    post:
+      summary: Create a new board game
+      tags: [Boardgames]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                mainPhoto:
+                  type: string
+                  format: binary
+                photoGallery:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                title:
+                  type: string
+                  example: Catan
+                description:
+                  type: string
+                  example: A popular board game
+                tags:
+                  type: string
+                  example: strategy,family
+      responses:
+        '200':
+          description: Board game created successfully
+        '400':
+          description: Bad request
+
+    get:
+      summary: List all board games
+      tags: [Boardgames]
+      responses:
+        '200':
+          description: List of board games
+        '400':
+          description: Bad request
+
+  /boardgames/{id}:
+    put:
+      summary: Update a board game
+      tags: [Boardgames]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                mainPhoto:
+                  type: string
+                  format: binary
+                photoGallery:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                title:
+                  type: string
+                  example: Catan
+                description:
+                  type: string
+                  example: A popular board game
+                tags:
+                  type: string
+                  example: strategy,family
+      responses:
+        '200':
+          description: Board game updated successfully
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a board game
+      tags: [Boardgames]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Board game deleted successfully
+        '400':
+          description: Bad request
+
+    get:
+      summary: View board game details
+      tags: [Boardgames]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Board game details
+        '400':
+          description: Bad request
+
+  /favorites:
+    get:
+      summary: List favorite games
+      tags: [Favorites]
+      responses:
+        '200':
+          description: List of favorite games
+        '400':
+          description: Bad request
+
+  /favorites/check/{gameId}:
+    get:
+      summary: Check if a game is favorite
+      tags: [Favorites]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Game is favorite
+        '400':
+          description: Bad request
+
+  /favorites/{gameId}:
+    post:
+      summary: Add a game to favorites
+      tags: [Favorites]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 60d21b4667d0d8992e610c85
+      responses:
+        '200':
+          description: Game added to favorites
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Remove a game from favorites
+      tags: [Favorites]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 60d21b4667d0d8992e610c85
+      responses:
+        '200':
+          description: Game removed from favorites
+        '400':
+          description: Bad request
+
+  /recommendations:
+    get:
+      summary: Get recommendations
+      tags: [Recommendations]
+      responses:
+        '200':
+          description: List of recommendations
+        '400':
+          description: Bad request
+
+  /recommendations/generate:
+    post:
+      summary: Generate recommendations
+      tags: [Recommendations]
+      responses:
+        '200':
+          description: Recommendations generated
+        '400':
+          description: Bad request
+
+  /reservations/{gameId}:
+    post:
+      summary: Create a reservation
+      tags: [Reservations]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation created
+        '400':
+          description: Bad request
+
+  /reservations/admin/history:
+    get:
+      summary: Get admin reservations history
+      tags: [Reservations]
+      responses:
+        '200':
+          description: List of admin reservations
+        '400':
+          description: Bad request
+
+  /reservations/user/history:
+    get:
+      summary: Get user reservations history
+      tags: [Reservations]
+      responses:
+        '200':
+          description: List of user reservations
+        '400':
+          description: Bad request
+
+  /reservations/{reservationId}/accept:
+    patch:
+      summary: Accept a reservation
+      tags: [Reservations]
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation accepted
+        '400':
+          description: Bad request
+
+  /reservations/{reservationId}/reject:
+    patch:
+      summary: Reject a reservation
+      tags: [Reservations]
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation rejected
+        '400':
+          description: Bad request
+
+  /reservations/{reservationId}/pickup:
+    patch:
+      summary: Mark reservation as picked up
+      tags: [Reservations]
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation marked as picked up
+        '400':
+          description: Bad request
+
+  /reservations/{reservationId}/completed:
+    patch:
+      summary: Mark reservation as completed
+      tags: [Reservations]
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation marked as completed
+        '400':
+          description: Bad request
+
+  /reservations/{reservationId}/cancel:
+    patch:
+      summary: Cancel a reservation
+      tags: [Reservations]
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation cancelled
+        '400':
+          description: Bad request
+
+  /reservations/has-reservation/{gameId}:
+    get:
+      summary: Check if user has reserved a game
+      tags: [Reservations]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User has reservation
+        '400':
+          description: Bad request
+
+  /reviews/{gameId}:
+    post:
+      summary: Create a review
+      tags: [Reviews]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Great game!
+                description:
+                  type: string
+                  example: I had a lot of fun playing this game.
+                rating:
+                  type: integer
+                  example: 5
+      responses:
+        '200':
+          description: Review created
+        '400':
+          description: Bad request
+
+    get:
+      summary: Retrieve all reviews for a board game
+      tags: [Reviews]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of reviews
+        '400':
+          description: Bad request
+
+  /reviews/review-by-id/{reviewId}:
+    get:
+      summary: Retrieve review by ID
+      tags: [Reviews]
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Review details
+        '400':
+          description: Bad request
+
+  /reviews/{reviewId}:
+    put:
+      summary: Update a review
+      tags: [Reviews]
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Updated review title
+                description:
+                  type: string
+                  example: Updated review description
+                rating:
+                  type: integer
+                  example: 4
+      responses:
+        '200':
+          description: Review updated
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Delete a review
+      tags: [Reviews]
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Review deleted
+        '400':
+          description: Bad request
+
+  /reviews/average-rating/{gameId}:
+    get:
+      summary: Retrieve the average rating for a board game
+      tags: [Reviews]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Average rating
+        '400':
+          description: Bad request
+
+  /reviews/user-has-review/{gameId}:
+    get:
+      summary: Check if user has a review for a board game
+      tags: [Reviews]
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User has review
+        '400':
+          description: Bad request
