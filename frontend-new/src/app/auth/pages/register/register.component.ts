@@ -1,10 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -16,6 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  sexOptions: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -25,16 +21,20 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.minLength(5)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      validatePassword: ['', Validators.required],
+      password: ['Password123', [Validators.required, Validators.minLength(8)]],
+      validatePassword: ['Password123', Validators.required],
       birthDate: ['', Validators.required],
-      sex: ['', [Validators.required, Validators.pattern(/^(M|F|Otro)$/)]],
+      sex: ['F', [Validators.required, Validators.pattern(/^(M|F|O)$/)]],
     });
+
+    this.sexOptions = [
+      { label: 'Masculino', value: 'M' },
+      { label: 'Femenino', value: 'F' },
+      { label: 'Otro', value: 'O' },
+    ];
   }
 
-  // Method to handle the register submission
   register() {
-    console.log(this.registerForm.value);
     if (this.registerForm.valid) {
       const { email, username, password, birthDate, sex } =
         this.registerForm.value;

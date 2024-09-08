@@ -15,17 +15,17 @@ const transporter = nodemailer.createTransport({
 const sendEmailConfirmation = async (email, token) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "Confirma tu cuenta - Stingray Boardgames",
+      subject: "Confirma tu cuenta - Raygames",
       html: `
         <p>¡Hola!</p>
-        <p>Gracias por unirte a la comunidad de Stingray Boardgames. Estamos emocionados de tenerte a bordo.</p>
+        <p>Gracias por unirte a la comunidad de Raygames. Estamos emocionados de tenerte a bordo.</p>
         <p>Para comenzar tu viaje con nosotros, por favor confirma tu cuenta haciendo clic en el siguiente enlace:</p>
         <p><a href="${process.env.FRONTEND_URL}/confirm-account/${token}">Confirmar mi cuenta</a></p>
         <p>Si no te registraste en Stingray, simplemente ignora este correo electrónico.</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -42,9 +42,9 @@ const sendEmailConfirmation = async (email, token) => {
 const sendEmailResetPassword = async (email, token) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "Restablece tu contraseña - Stingray Boardgames",
+      subject: "Restablece tu contraseña - Raygames",
       html: `
         <p>¡Hola de nuevo!</p>
         <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en Stingray.</p>
@@ -52,7 +52,7 @@ const sendEmailResetPassword = async (email, token) => {
         <p><a href="${process.env.FRONTEND_URL}/reset-password/${token}">Restablecer mi contraseña</a></p>
         <p>Si no solicitaste el restablecimiento de contraseña, siéntete libre de ignorar este correo.</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -69,15 +69,15 @@ const sendEmailResetPassword = async (email, token) => {
 const sendWelcomeEmail = async (email, username) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "¡Bienvenido a Stingray Boardgames! - Stingray Boardgames",
+      subject: "¡Bienvenido a Raygames! - Raygames",
       html: `
         <p>¡Bienvenido, ${username}!</p>
-        <p>Desde Stingray Boardgames queremos darte las gracias por unirte a nuestra comunidad. Estamos felices de tenerte aquí.</p>
+        <p>Desde Raygames queremos darte las gracias por unirte a nuestra comunidad. Estamos felices de tenerte aquí.</p>
         <p>Esperamos que disfrutes de nuestros servicios y juegos. Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. ¡Estamos aquí para ti!</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -91,9 +91,9 @@ const sendWelcomeEmail = async (email, username) => {
 const sendEmailNewReservation = async (email, reservation, game, username) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "¡Reserva realizada con éxito en Stingray Boardgames!",
+      subject: "¡Reserva realizada con éxito en Raygames!",
       html: `
         <p>¡Hola, ${username}!</p>
         <p>Tu reserva con el código ${
@@ -111,7 +111,7 @@ const sendEmailNewReservation = async (email, reservation, game, username) => {
         <p>¡Intenta estar pendiente a las novedades de tu reserva!</>
         <p>Gracias por confiar en Stingray.</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -133,9 +133,9 @@ const sendEmailCancelReservation = async (
 ) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "Reserva cancelada en Stingray Boardgames",
+      subject: "Reserva cancelada en Raygames",
       html: `
         <p>¡Hola, ${username}!</p>
         <p>Tu reserva con el código ${
@@ -152,7 +152,7 @@ const sendEmailCancelReservation = async (
         <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>
         <p>¡En Stingray, estamos aquí para ti!</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -174,9 +174,9 @@ const sendEmailReservationConfirmation = async (
 ) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "¡Reserva confirmada en Stingray Boardgames!",
+      subject: "¡Reserva confirmada en Raygames!",
       html: `
         <p>¡Hola, ${username}!</p>
         <p>Tu reserva con el código ${
@@ -197,7 +197,7 @@ const sendEmailReservationConfirmation = async (
         <p>Puedes pasarte a recoger el juego a partir del siguiente día hábil</p>
         <p>Recuerda devolver el juego antes de la fecha límite. ¡Esperamos que disfrutes de tu experiencia con Stingray!</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -219,9 +219,9 @@ const sendEmailReservationRejection = async (
 ) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "¡Reserva rechazada en Stingray Boardgames!",
+      subject: "¡Reserva rechazada en Raygames!",
       html: `
         <p>¡Hola, ${username}!</p>
         <p>Lamentablemente, tu reserva con el código ${
@@ -238,7 +238,7 @@ const sendEmailReservationRejection = async (
         </ul>
         <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. ¡Esperamos que sigas disfrutando de Stingray en el futuro!</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -257,9 +257,9 @@ const sendEmailReservationPickedUp = async (
 ) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "¡Juego recogido en Stingray Boardgames!",
+      subject: "¡Juego recogido en Raygames!",
       html: `
         <p>¡Hola, ${username}!</p>
         <p>Tu reserva con el código ${
@@ -277,7 +277,7 @@ const sendEmailReservationPickedUp = async (
         </ul>
         <p>¡Disfruta del juego y recuérdanos para tus futuras reservas! Si tienes alguna pregunta, estamos aquí para ayudarte.</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
@@ -296,9 +296,9 @@ const sendEmailReservationCompleted = async (
 ) => {
   try {
     const mailOptions = {
-      from: '"Stingray Boardgames"',
+      from: '"Raygames"',
       to: email,
-      subject: "¡Juego devuelto en Stingray Boardgames!",
+      subject: "¡Juego devuelto en Raygames!",
       html: `
         <p>¡Hola, ${username}!</p>
         <p>Tu reserva con el código ${
@@ -314,7 +314,7 @@ const sendEmailReservationCompleted = async (
         </ul>
         <p>Esperamos volver a verte pronto para tu próxima reserva. Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>
         <p>Un saludo,</p>
-        <strong>Stingray Boardgames</strong>
+        <strong>Raygames</strong>
       `,
     };
 
