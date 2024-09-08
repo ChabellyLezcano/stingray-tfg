@@ -98,7 +98,7 @@
             </td>
             <td>
               <span
-                class="rounded-md bg-indigo-100 p-2 text-sm font-semibold text-indigo-600"
+                class="rounded-md bg-indigo-100 p-2 text-sm font-semibold text-primary"
                 >{{ reservation.code }}</span
               >
             </td>
@@ -144,9 +144,9 @@
                     'bg-gray-300 text-gray-700':
                       reservation.status === 'Expired'
                   }"
-                  class="rounded-md p-2 text-sm font-bold"
+                  class="rounded-md p-1 text-sm font-bold"
                 >
-                  {{ reservation.status }}
+                  {{ getStatusInSpanish(reservation.status) }}
                 </span>
               </p>
 
@@ -234,7 +234,7 @@
                     </h3>
                     <div>
                       <span
-                        class="inline-block rounded-md bg-indigo-100 p-1 px-2 text-sm font-semibold text-indigo-600"
+                        class="inline-block rounded-md bg-indigo-100 p-1 px-2 text-sm font-semibold text-primary"
                       >
                         {{ reservation.code }}
                       </span>
@@ -260,7 +260,7 @@
                       }"
                       class="rounded-md p-1 text-sm font-bold"
                     >
-                      {{ reservation.status }}
+                      {{ getStatusInSpanish(reservation.status) }}
                     </span>
                   </div>
                   <p
@@ -397,8 +397,8 @@
           styleClass="custom-paginator"
         ></p-paginator>
       </div>
+      <p-toast></p-toast>
     </div>
-
-    <p-toast></p-toast>
   </div>
 </div>
+<app-footer />

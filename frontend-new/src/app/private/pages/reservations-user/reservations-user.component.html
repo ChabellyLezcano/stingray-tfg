@@ -1,6 +1,6 @@
 <app-layout></app-layout>
 
-<div class="container mx-auto flex min-h-screen-minus-62 flex-col py-4">
+<div class="min-h-screen-minus-62 container mx-auto flex flex-col py-4">
   <div class="flex flex-grow flex-col justify-between px-4 lg:px-0">
     <div class="flex items-center justify-between">
       <h2 class="mb-6 text-center text-2xl font-bold uppercase text-slate-700">
@@ -88,9 +88,9 @@
                     reservation.status === 'Cancelled',
                   'bg-gray-300 text-gray-700': reservation.status === 'Expired'
                 }"
-                class="rounded-md p-2 text-sm font-bold"
+                class="rounded-md p-1 text-sm font-bold"
               >
-                {{ reservation.status }}
+                {{ getStatusInSpanish(reservation.status) }}
               </span>
             </p>
           </div>
@@ -136,5 +136,5 @@
     ></p-paginator>
   </div>
 </div>
-
 <p-toast></p-toast>
+<app-footer />

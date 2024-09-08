@@ -1,6 +1,6 @@
 <app-layout></app-layout>
 
-<div class="container mx-auto flex min-h-screen-minus-62 flex-col">
+<div class="min-h-screen-minus-62 container mx-auto flex flex-col">
   <div class="flex flex-grow flex-col justify-between">
     <div class="flex flex-col gap-8">
       <div
@@ -87,7 +87,7 @@
                 </td>
                 <td class="align-start">
                   <span
-                    class="rounded-md bg-indigo-100 p-2 text-sm font-semibold text-indigo-600"
+                    class="rounded-md bg-indigo-100 p-2 text-sm font-semibold text-primary"
                   >
                     {{ boardgame.code }}
                   </span>
@@ -175,4 +175,6 @@
       class="transparent-paginator mt-4"
     ></p-paginator>
   </div>
+  <p-toast></p-toast>
 </div>
+<app-footer />

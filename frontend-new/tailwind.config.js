@@ -15,16 +15,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'berkeley-blue': '#0D2C54',
-        'tangelo': '#F6511D',
-        'selective-yellow': '#FFB400',
-        'picton-blue': '#00A6ED',
-        'apple-green': '#7FB800',
+        primary: '#6366F1',
+        secondary: '#ea580c',
       },
-      minHeight: {
-        'screen-minus-62': 'calc(100vh - 62px)',
-      },
-    }
+    },
   },
   plugins: [],
 }

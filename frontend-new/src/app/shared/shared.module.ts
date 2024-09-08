@@ -6,6 +6,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FilterReservationsComponent } from './components/filter-reservations/filter-reservations.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { FilterReservationsComponent } from './components/filter-reservations/fi
     SearchBarComponent,
     FilterComponent,
     FilterReservationsComponent,
+    FooterComponent,
   ],
   imports: [CommonModule, PrimeNgModule],
   exports: [
@@ -20,6 +22,7 @@ import { FilterReservationsComponent } from './components/filter-reservations/fi
     SearchBarComponent,
     FilterComponent,
     FilterReservationsComponent,
+    FooterComponent,
   ],
 })
 export class SharedModule {}

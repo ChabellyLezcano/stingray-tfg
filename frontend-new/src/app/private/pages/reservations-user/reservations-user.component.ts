@@ -4,6 +4,7 @@ import { ReviewService } from '../../services/review.service';
 import { MessageService } from 'primeng/api';
 import { Reservation } from '../../interfaces/interfaces.interface';
 import { Router } from '@angular/router';
+import { getReservationStatusInSpanish } from 'src/app/utils/status-traslation.util';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -29,6 +30,11 @@ export class ReservationsUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadReservations();
+  }
+
+  getStatusInSpanish(status: string): string {
+    console.log('Estado recibido:', status); // Verificar el valor de estado recibido
+    return getReservationStatusInSpanish(status);
   }
 
   // Method to load reservations

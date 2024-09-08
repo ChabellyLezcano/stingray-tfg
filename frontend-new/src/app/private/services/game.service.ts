@@ -61,6 +61,8 @@ export class GameService {
     const url = `${this.baseUrl}/game`;
     const headers = this.getHeaders();
 
+    console.log(gameData);
+
     return this.http.post<GameResponse>(url, gameData, { headers }).pipe(
       catchError((error) => {
         console.error('Error in createGame:', error);

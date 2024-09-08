@@ -22,7 +22,7 @@
             </h1>
             <span
               *ngIf="user?.role === 'Admin'"
-              class="rounded-md bg-indigo-100 p-2 font-semibold text-indigo-600"
+              class="rounded-md bg-indigo-100 p-2 font-semibold text-primary"
             >
               {{ game.code }}
             </span>
@@ -123,7 +123,7 @@
               ></button>
               <span
                 *ngIf="isReserved"
-                class="rounded-md bg-indigo-100 p-4 font-semibold text-indigo-600"
+                class="rounded-md bg-indigo-100 p-4 font-semibold text-primary"
                 >¡Ya has reservado este juego!</span
               >
             </div>
@@ -173,3 +173,4 @@
     <p-toast></p-toast>
   </div>
 </div>
+<app-footer />
